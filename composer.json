@@ -1,5 +1,5 @@
 {
-  "name": "idavoll/page-module",
+  "name": "imagina/page-module",
   "type": "asgard-module",
   "description": "Page module for AsgardCMS. Page management.",
   "keywords": [
@@ -22,7 +22,10 @@
   "require": {
     "php": "^7.1.3",
     "composer/installers": "~1.0",
-    "idavoll/tag-module": "4.0.x-dev"
+    "imagina/tag-module": "4.0.x-dev"
+  },
+  "conflict": {
+    "idavoll/page-module": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "~7.0",
