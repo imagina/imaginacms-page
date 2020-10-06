@@ -22,7 +22,7 @@ class PageDatabaseSeeder extends Seeder
     {
         Model::unguard();
   
-      $page = $this->page->findByAttributes(["is_home",1]);
+      $page = $this->page->findByAttributes(["is_home" => 1]);
       
       if(!isset($page->id)){
         $data = [
@@ -37,6 +37,13 @@ class PageDatabaseSeeder extends Seeder
 <p>Learn how you can develop modules for AsgardCMS by reading our <a href="https://github.com/AsgardCms/Documentation">documentation</a>.</p>
 ',
             'meta_title' => 'Home page',
+          ],
+          'es' => [
+            'title' => 'Página de Inicio',
+            'slug' => 'inicio',
+            'body' => '<p><strong>Lo lograste!</strong></p>
+<p>has instalado el ImaginaCMS, vé ahora al <a href="/iadmin">área de administración</a>.</p>',
+            'meta_title' => 'Página de Inicio',
           ],
         ];
         $this->page->create($data);
