@@ -19,16 +19,17 @@ class PageApiTransformer extends Resource
             'urls' => [
                 'deleteUrl' => route('api.page.page.destroy', $this->resource->id),
             ],
+            'files' => $this->transformerFiles()
         ];
-  
-  
+
+
       $filter = json_decode($request->filter);
-  
+
       // Return data with available translations
       if (isset($filter->allTranslations) && $filter->allTranslations) {
         // Get langs avaliables
         $languages = \LaravelLocalization::getSupportedLocales();
-    
+
         foreach ($languages as $lang => $value) {
           $data[$lang]['title'] = $this->hasTranslation($lang) ?
             $this->translate("$lang")['title'] : '';
@@ -45,8 +46,8 @@ class PageApiTransformer extends Resource
 
         }
       }
-      
-      
+
+
       return $data;
     }
 }
