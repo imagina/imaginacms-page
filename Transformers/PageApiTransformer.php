@@ -19,7 +19,7 @@ class PageApiTransformer extends Resource
             'urls' => [
                 'deleteUrl' => route('api.page.page.destroy', $this->resource->id),
             ],
-            'files' => $this->transformerFiles()
+            'mediaFiles' => $this->mediaFiles()
         ];
 
 

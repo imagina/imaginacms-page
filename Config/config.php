@@ -71,4 +71,11 @@ return [
         // Read module views from /resources/views/asgard/<module-name>
         'resources' => false,
     ],
+    //Media Fillables
+    'mediaFillable' => [
+      'page' => [
+        'mainimage' => 'single',
+        'secondaryimage' => 'single'
+      ]
+    ]
 ];
