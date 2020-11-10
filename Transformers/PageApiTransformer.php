@@ -2,9 +2,9 @@
 
 namespace Modules\Page\Transformers;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class PageApiTransformer extends Resource
+class PageApiTransformer extends JsonResource
 {
     public function toArray($request)
     {
@@ -21,15 +21,15 @@ class PageApiTransformer extends Resource
             ],
             'mediaFiles' => $this->mediaFiles()
         ];
-
-
+  
+  
       $filter = json_decode($request->filter);
-
+  
       // Return data with available translations
       if (isset($filter->allTranslations) && $filter->allTranslations) {
         // Get langs avaliables
         $languages = \LaravelLocalization::getSupportedLocales();
-
+    
         foreach ($languages as $lang => $value) {
           $data[$lang]['title'] = $this->hasTranslation($lang) ?
             $this->translate("$lang")['title'] : '';
@@ -46,8 +46,8 @@ class PageApiTransformer extends Resource
 
         }
       }
-
-
+      
+      
       return $data;
     }
 }
