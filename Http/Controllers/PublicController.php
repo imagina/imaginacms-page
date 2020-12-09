@@ -76,7 +76,7 @@ class PublicController extends BasePublicController
     {
         $menuItem = app(MenuItemRepository::class)->findByUriInLanguage($slug, locale());
 
-        if ($menuItem) {
+        if ($menuItem && $menuItem->page_id) {
             return $this->page->find($menuItem->page_id);
         }
 
