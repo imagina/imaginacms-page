@@ -80,7 +80,7 @@ class Page extends Model implements TaggableInterface
 
     public function getImageAttribute()
     {
-        $thumbnail = $this->files()->where('zone', 'image')->first();
+        $thumbnail = $this->files()->where('zone', 'mainimage')->first();
 
         if ($thumbnail === null) {
             return '';
