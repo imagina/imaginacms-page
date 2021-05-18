@@ -42,9 +42,11 @@ class Page extends Model implements TaggableInterface
         'og_description',
         'og_image',
         'og_type',
+        'options',
     ];
     protected $casts = [
         'is_home' => 'boolean',
+        'options' => 'array',
     ];
     protected static $entityNamespace = 'asgardcms/page';
 
@@ -87,5 +89,14 @@ class Page extends Model implements TaggableInterface
         }
 
         return $thumbnail;
+    }
+
+    public function getOptionsAttribute($value)
+    {
+        try {
+            return json_decode(json_decode($value));
+        } catch (\Exception $e) {
+            return json_decode($value);
+        }
     }
 }
