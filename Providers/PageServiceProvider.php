@@ -11,6 +11,8 @@ use Modules\Core\Events\LoadingBackendTranslations;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
 use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Page\Console\CreatePagesCommand;
+use Modules\Page\Entities\Block;
+use Modules\Page\Entities\Component;
 use Modules\Page\Entities\Page;
 use Modules\Page\Events\Handlers\RegisterPageSidebar;
 use Modules\Page\Repositories\Cache\CachePageDecorator;
@@ -90,6 +92,26 @@ class PageServiceProvider extends ServiceProvider
             }
 
             return new CachePageDecorator($repository);
+        });
+
+        $this->app->bind(\Modules\Page\Repositories\BlockRepository::class, function () {
+            $repository = new \Modules\Page\Repositories\Eloquent\EloquentBlockRepository(new Block());
+
+            if (! Config::get('app.cache')) {
+                return $repository;
+            }
+
+            return new \Modules\Page\Repositories\Cache\CacheBlockDecorator($repository);
+        });
+
+        $this->app->bind(\Modules\Page\Repositories\ComponentRepository::class, function () {
+            $repository = new \Modules\Page\Repositories\Eloquent\EloquentComponentRepository(new Component());
+
+            if (! Config::get('app.cache')) {
+                return $repository;
+            }
+
+            return new \Modules\Page\Repositories\Cache\CacheComponentDecorator($repository);
         });
     }
 

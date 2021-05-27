@@ -44,9 +44,14 @@ $router->group(['prefix' => '/page', 'middleware' => ['api.token', 'auth.admin']
 
 
 $router->group(['prefix' => 'page/v1'], function (Router $router) {
-  
-  //======  PAGES
-  require('ApiRoutes/pageRoutes.php');
-  
-  
+
+    //======  PAGES
+    require('ApiRoutes/pageRoutes.php');
+
+    //======  BLOCKS
+    require('ApiRoutes/blockRoutes.php');
+
+    //======  BLOCK COMPONENTS
+    require('ApiRoutes/componentRoutes.php');
+
 });
