@@ -39,9 +39,9 @@ class PageApiTransformer extends JsonResource
             isset($this->translate("$lang")['status']) ? $this->translate("$lang")['status'] ? "1" : "0" : '' : '';
           $data[$lang]['body'] = $this->hasTranslation($lang) ?
             $this->translate("$lang")['body'] ?? '' : '';
-          $data[$lang]['meta_title'] = $this->hasTranslation($lang) ?
+          $data[$lang]['metaTitle'] = $this->hasTranslation($lang) ?
             $this->translate("$lang")['meta_title'] ?? '' : '';
-          $data[$lang]['meta_description'] = $this->hasTranslation($lang) ?
+          $data[$lang]['metaDescription'] = $this->hasTranslation($lang) ?
             $this->translate("$lang")['meta_description'] ?? '' : '';
 
         }
