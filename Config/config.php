@@ -77,5 +77,10 @@ return [
         'mainimage' => 'single',
         'secondaryimage' => 'single'
       ]
+    ],
+    'componentParams' => [
+        'isite:item-list'=> [
+
+        ]
     ]
 ];
