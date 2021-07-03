@@ -2,21 +2,21 @@
 
 namespace Modules\Page\Entities;
 
-use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 class Block extends Model
 {
-    use Translatable;
 
     protected $table = 'page__blocks';
-    public $translatedAttributes = [
-        'title',
-        'description',
-    ];
+
     protected $fillable = [
         'sort_order',
+        'width',
+        'type',
+        'component',
         'options',
+        'position',
+        'custom_html',
         'page_id',
     ];
 
@@ -26,10 +26,6 @@ class Block extends Model
 
     function page(){
         return $this->belongsTo(Page::class);
-    }
-
-    function components(){
-        return $this->hasMany(Component::class);
     }
 
     public function getOptionsAttribute($value)

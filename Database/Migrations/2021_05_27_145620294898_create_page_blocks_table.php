@@ -17,7 +17,11 @@ class CreatePageBlocksTable extends Migration
             $table->increments('id');
             $table->integer('sort_order')->unsigned()->nullable()->default(0);
             $table->integer('width')->unsigned()->nullable()->default(12);
+            $table->integer('type')->unsigned()->nullable()->default(1);
+            $table->string('component')->nullable();
             $table->longText('options')->nullable();
+            $table->string('position')->nullable();
+            $table->longText('custom_html')->nullable();
             $table->integer('page_id')->unsigned()->nullable();
             $table->foreign('page_id')->references('id')->on('page__pages')->onDelete('cascade');
             // Your fields

@@ -104,15 +104,6 @@ class PageServiceProvider extends ServiceProvider
             return new \Modules\Page\Repositories\Cache\CacheBlockDecorator($repository);
         });
 
-        $this->app->bind(\Modules\Page\Repositories\ComponentRepository::class, function () {
-            $repository = new \Modules\Page\Repositories\Eloquent\EloquentComponentRepository(new Component());
-
-            if (! Config::get('app.cache')) {
-                return $repository;
-            }
-
-            return new \Modules\Page\Repositories\Cache\CacheComponentDecorator($repository);
-        });
     }
 
     /**

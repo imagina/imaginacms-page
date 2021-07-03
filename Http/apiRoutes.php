@@ -51,7 +51,4 @@ $router->group(['prefix' => 'page/v1'], function (Router $router) {
     //======  BLOCKS
     require('ApiRoutes/blockRoutes.php');
 
-    //======  BLOCK COMPONENTS
-    require('ApiRoutes/componentRoutes.php');
-
 });
