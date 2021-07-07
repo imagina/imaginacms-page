@@ -34,6 +34,7 @@ class PublicController extends BasePublicController
      */
     public function uri($slug)
     {
+
         $page = $this->findPageForSlug($slug);
 
         $this->throw404IfNotFound($page);
