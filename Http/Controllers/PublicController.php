@@ -48,7 +48,8 @@ class PublicController extends BasePublicController
 
         $this->addAlternateUrls($this->getAlternateMetaData($page));
 
-        return view($template, compact('page'));
+        $pageContent = $this->getContentForPage($page);
+        return view($template, compact('page', 'pageContent'));
     }
 
     /**
@@ -63,8 +64,10 @@ class PublicController extends BasePublicController
         $template = $this->getTemplateForPage($page);
 
         $this->addAlternateUrls($this->getAlternateMetaData($page));
+  
+        $pageContent = $this->getContentForPage($page);
 
-        return view($template, compact('page'));
+        return view($template, compact('page', 'pageContent'));
     }
 
     /**
@@ -123,5 +126,28 @@ class PublicController extends BasePublicController
         }
 
         return $alternate;
+    }
+  
+  /**
+   * Get the page content validation
+   *
+   * @param $page
+   * @return string
+   */
+    private function getContentForPage($page){
+  
+      $pageContent = "pages.content.$page->id";
+      $currentLocale = \LaravelLocalization::getCurrentLocale();
+      if(\LaravelLocalization::getDefaultLocale() == $currentLocale)
+        if(view()->exists('pages.content.'.$page->id))
+          $pageContent = "pages.content.$page->id";
+        else
+          $pageContent = "page::frontend.default";
+    else
+        if(Vview()->exists('pages.content.'.$currentLocale.'.'.$page->id))
+          $pageContent = "pages.content.$currentLocale.$page->id";
+        
+      return $pageContent;
+    
     }
 }
