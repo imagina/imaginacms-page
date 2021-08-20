@@ -144,7 +144,7 @@ class PublicController extends BasePublicController
         else
           $pageContent = "page::frontend.default";
     else
-        if(Vview()->exists('pages.content.'.$currentLocale.'.'.$page->id))
+        if(view()->exists('pages.content.'.$currentLocale.'.'.$page->id))
           $pageContent = "pages.content.$currentLocale.$page->id";
         
       return $pageContent;
