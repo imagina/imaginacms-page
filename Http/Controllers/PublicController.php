@@ -10,123 +10,123 @@ use Modules\Page\Repositories\PageRepository;
 
 class PublicController extends BasePublicController
 {
-    /**
-     * @var PageRepository
-     */
-    private $page;
-    /**
-     * @var Application
-     */
-    private $app;
-
-    private $disabledPage = false;
-
-    public function __construct(PageRepository $page, Application $app)
-    {
-        parent::__construct();
-        $this->page = $page;
-        $this->app = $app;
-    }
-
-    /**
-     * @param $slug
-     * @return \Illuminate\View\View
-     */
-    public function uri($slug)
-    {
-
-        $page = $this->findPageForSlug($slug);
-
-        $this->throw404IfNotFound($page);
-
-        $currentTranslatedPage = $page->getTranslation(locale());
-        if ($slug !== $currentTranslatedPage->slug) {
-            return redirect()->to($currentTranslatedPage->locale . '/' . $currentTranslatedPage->slug, 301);
-        }
-
-        $template = $this->getTemplateForPage($page);
-
-        $this->addAlternateUrls($this->getAlternateMetaData($page));
-
-        $pageContent = $this->getContentForPage($page);
-        return view($template, compact('page', 'pageContent'));
-    }
-
-    /**
-     * @return \Illuminate\View\View
-     */
-    public function homepage()
-    {
-        $page = $this->page->findHomepage();
-
-        $this->throw404IfNotFound($page);
-
-        $template = $this->getTemplateForPage($page);
-
-        $this->addAlternateUrls($this->getAlternateMetaData($page));
+  /**
+   * @var PageRepository
+   */
+  private $page;
+  /**
+   * @var Application
+   */
+  private $app;
   
-        $pageContent = $this->getContentForPage($page);
-
-        return view($template, compact('page', 'pageContent'));
+  private $disabledPage = false;
+  
+  public function __construct(PageRepository $page, Application $app)
+  {
+    parent::__construct();
+    $this->page = $page;
+    $this->app = $app;
+  }
+  
+  /**
+   * @param $slug
+   * @return \Illuminate\View\View
+   */
+  public function uri($slug)
+  {
+    
+    $page = $this->findPageForSlug($slug);
+    
+    $this->throw404IfNotFound($page);
+    
+    $currentTranslatedPage = $page->getTranslation(locale());
+    if ($slug !== $currentTranslatedPage->slug) {
+      return redirect()->to($currentTranslatedPage->locale . '/' . $currentTranslatedPage->slug, 301);
     }
-
-    /**
-     * Find a page for the given slug.
-     * The slug can be a 'composed' slug via the Menu
-     * @param string $slug
-     * @return Page
-     */
-    private function findPageForSlug($slug)
-    {
-        $menuItem = app(MenuItemRepository::class)->findByUriInLanguage($slug, locale());
-
-        if ($menuItem && $menuItem->page_id) {
-            return $this->page->find($menuItem->page_id);
-        }
-
-        return $this->page->findBySlug($slug);
+    
+    $template = $this->getTemplateForPage($page);
+    
+    $this->addAlternateUrls($this->getAlternateMetaData($page));
+    
+    $pageContent = $this->getContentForPage($page);
+    return view($template, compact('page', 'pageContent'));
+  }
+  
+  /**
+   * @return \Illuminate\View\View
+   */
+  public function homepage()
+  {
+    $page = $this->page->findHomepage();
+    
+    $this->throw404IfNotFound($page);
+    
+    $template = $this->getTemplateForPage($page);
+    
+    $this->addAlternateUrls($this->getAlternateMetaData($page));
+    
+    $pageContent = $this->getContentForPage($page);
+    
+    return view($template, compact('page', 'pageContent'));
+  }
+  
+  /**
+   * Find a page for the given slug.
+   * The slug can be a 'composed' slug via the Menu
+   * @param string $slug
+   * @return Page
+   */
+  private function findPageForSlug($slug)
+  {
+    $menuItem = app(MenuItemRepository::class)->findByUriInLanguage($slug, locale());
+    
+    if ($menuItem && $menuItem->page_id) {
+      return $this->page->find($menuItem->page_id);
     }
-
-    /**
-     * Return the template for the given page
-     * or the default template if none found
-     * @param $page
-     * @return string
-     */
-    private function getTemplateForPage($page)
-    {
-        return (view()->exists($page->template)) ? $page->template : 'default';
+    
+    return $this->page->findBySlug($slug);
+  }
+  
+  /**
+   * Return the template for the given page
+   * or the default template if none found
+   * @param $page
+   * @return string
+   */
+  private function getTemplateForPage($page)
+  {
+    return (view()->exists($page->template)) ? $page->template : 'default';
+  }
+  
+  /**
+   * Throw a 404 error page if the given page is not found or draft
+   * @param $page
+   */
+  private function throw404IfNotFound($page)
+  {
+    if (null === $page || $page->status === $this->disabledPage) {
+      $this->app->abort('404');
     }
-
-    /**
-     * Throw a 404 error page if the given page is not found or draft
-     * @param $page
-     */
-    private function throw404IfNotFound($page)
-    {
-        if (null === $page || $page->status === $this->disabledPage) {
-            $this->app->abort('404');
-        }
+  }
+  
+  /**
+   * Create a key=>value array for alternate links
+   *
+   * @param $page
+   *
+   * @return array
+   */
+  private function getAlternateMetaData($page)
+  {
+    $translations = $page->getTranslationsArray();
+    
+    $alternate = [];
+    foreach ($translations as $locale => $data) {
+      $alternate[$locale] = $data['slug'];
     }
-
-    /**
-     * Create a key=>value array for alternate links
-     *
-     * @param $page
-     *
-     * @return array
-     */
-    private function getAlternateMetaData($page)
-    {
-        $translations = $page->getTranslationsArray();
-
-        $alternate = [];
-        foreach ($translations as $locale => $data) {
-            $alternate[$locale] = $data['slug'];
-        }
-
-        return $alternate;
-    }
+    
+    return $alternate;
+  }
   
   /**
    * Get the page content validation
@@ -134,20 +134,23 @@ class PublicController extends BasePublicController
    * @param $page
    * @return string
    */
-    private function getContentForPage($page){
-  
-      $pageContent = "pages.content.$page->id";
-      $currentLocale = \LaravelLocalization::getCurrentLocale();
-      if(\LaravelLocalization::getDefaultLocale() == $currentLocale)
-        if(view()->exists('pages.content.'.$page->id))
-          $pageContent = "pages.content.$page->id";
-        else
-          $pageContent = "page::frontend.default";
-    else
-        if(view()->exists('pages.content.'.$currentLocale.'.'.$page->id))
-          $pageContent = "pages.content.$currentLocale.$page->id";
-        
-      return $pageContent;
+  private function getContentForPage($page)
+  {
+    $tpl = "page::frontend.default";
+    $ttpl = "pages.content.default";
+    if (view()->exists($ttpl)) $tpl = $ttpl;
     
+    $ttpl = "pages.content.$page->id";
+    if (view()->exists($ttpl)) $tpl = $ttpl;
+    
+    $currentLocale = \LaravelLocalization::getCurrentLocale();
+    if (\LaravelLocalization::getDefaultLocale() != $currentLocale) {
+      if (view()->exists('pages.content.' . $currentLocale . '.' . $page->id)){
+        $tpl = "pages.content.$currentLocale.$page->id";
+      }
     }
+    
+    return $tpl;
+    
+  }
 }
