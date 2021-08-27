@@ -36,17 +36,22 @@ class PublicController extends BasePublicController
   {
     
     $page = $this->findPageForSlug($slug);
-    
+
     $this->throw404IfNotFound($page);
-    
+
     $currentTranslatedPage = $page->getTranslation(locale());
+
+    if(!isset($currentTranslatedPage->slug)){
+      return redirect()->to('/'.$slug, 301);
+    }
+    
     if ($slug !== $currentTranslatedPage->slug) {
       return redirect()->to($currentTranslatedPage->locale . '/' . $currentTranslatedPage->slug, 301);
     }
     
     $template = $this->getTemplateForPage($page);
     
-    $this->addAlternateUrls($this->getAlternateMetaData($page));
+    $this->addAlternateUrls(alternate($page));
     
     $pageContent = $this->getContentForPage($page);
     return view($template, compact('page', 'pageContent'));
@@ -63,7 +68,7 @@ class PublicController extends BasePublicController
     
     $template = $this->getTemplateForPage($page);
     
-    $this->addAlternateUrls($this->getAlternateMetaData($page));
+    $this->addAlternateUrls(alternate($page));
     
     $pageContent = $this->getContentForPage($page);
     
@@ -118,9 +123,14 @@ class PublicController extends BasePublicController
    */
   private function getAlternateMetaData($page)
   {
+    $supportedLocales = config("laravellocalization.supportedLocales");
+    
+    if(count($supportedLocales) == 1) return [];
+    
     $translations = $page->getTranslationsArray();
     
     $alternate = [];
+    
     foreach ($translations as $locale => $data) {
       $alternate[$locale] = $data['slug'];
     }
