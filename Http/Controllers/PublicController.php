@@ -34,19 +34,19 @@ class PublicController extends BasePublicController
    */
   public function uri($slug)
   {
-    
+
     $page = $this->findPageForSlug($slug);
 
     $this->throw404IfNotFound($page);
 
     $currentTranslatedPage = $page->getTranslation(locale());
-
-    if(!isset($currentTranslatedPage->slug)){
-      return redirect()->to('/'.$slug, 301);
+    
+    if(!isset($currentTranslatedPage->slug) || $page->id == 1){
+      return redirect()->to(\LaravelLocalization::localizeUrl('/'), 301);
     }
     
     if ($slug !== $currentTranslatedPage->slug) {
-      return redirect()->to($currentTranslatedPage->locale . '/' . $currentTranslatedPage->slug, 301);
+      return redirect()->to(\LaravelLocalization::localizeUrl("/$currentTranslatedPage->slug") , 301);
     }
     
     $template = $this->getTemplateForPage($page);
@@ -63,7 +63,7 @@ class PublicController extends BasePublicController
   public function homepage()
   {
     $page = $this->page->findHomepage();
-    
+
     $this->throw404IfNotFound($page);
     
     $template = $this->getTemplateForPage($page);
