@@ -132,7 +132,7 @@ class PageApiController extends BaseApiController
     try {
       //Get data
       $data = $request->input('attributes');
-      
+    
       //Validate Request
       $this->validateRequestApi(new UpdatePageRequest((array)$data));
       

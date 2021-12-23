@@ -8,10 +8,12 @@ use Modules\Core\Traits\NamespacedEntity;
 use Modules\Media\Support\Traits\MediaRelation;
 use Modules\Tag\Contracts\TaggableInterface;
 use Modules\Tag\Traits\TaggableTrait;
+use Modules\Isite\Traits\Typeable;
+use Modules\Core\Icrud\Traits\hasEventsWithBindings;
 
 class Page extends Model implements TaggableInterface
 {
-    use Translatable, TaggableTrait, NamespacedEntity, MediaRelation;
+    use Translatable, TaggableTrait, NamespacedEntity, MediaRelation, hasEventsWithBindings, Typeable;
 
     protected $table = 'page__pages';
     public $translatedAttributes = [
@@ -26,6 +28,7 @@ class Page extends Model implements TaggableInterface
         'og_description',
         'og_image',
         'og_type',
+        'content',
     ];
     protected $fillable = [
         'is_home',

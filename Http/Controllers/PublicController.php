@@ -29,13 +29,12 @@ class PublicController extends BasePublicController
   }
   
   /**
+   * DEPRECATED
    * @param $slug
    * @return \Illuminate\View\View
    */
-  public function uri($slug)
+  public function uri($page,$slug)
   {
-
-    $page = $this->findPageForSlug($slug);
 
     $this->throw404IfNotFound($page);
 
@@ -50,7 +49,7 @@ class PublicController extends BasePublicController
     }
     
     $template = $this->getTemplateForPage($page);
-    
+
     $this->addAlternateUrls(alternate($page));
     
     $pageContent = $this->getContentForPage($page);
@@ -100,7 +99,10 @@ class PublicController extends BasePublicController
    */
   private function getTemplateForPage($page)
   {
-    return (view()->exists($page->template)) ? $page->template : 'default';
+    return (!empty($page->template) && view()->exists($page->template)) ? $page->template :
+      (view()->exists('default') ? 'default' :
+        (view()->exists('page.templates.default') ? 'page.templates.default' :
+          'page::frontend.page.templates.default'));
   }
   
   /**
@@ -146,19 +148,23 @@ class PublicController extends BasePublicController
    */
   private function getContentForPage($page)
   {
-    $tpl = "page::frontend.default";
+    $tpl = "page::frontend.page.content.default";
     $ttpl = "pages.content.default";
     if (view()->exists($ttpl)) $tpl = $ttpl;
+    
+    $layoutPath = $page->typeable->layout_path ?? null;
+
+    if(isset($layoutPath)) $tpl = $layoutPath;
     
     $ttpl = "pages.content.$page->id";
     if (view()->exists($ttpl)) $tpl = $ttpl;
     
     $currentLocale = \LaravelLocalization::getCurrentLocale();
-    if (\LaravelLocalization::getDefaultLocale() != $currentLocale) {
+    
       if (view()->exists('pages.content.' . $currentLocale . '.' . $page->id)){
         $tpl = "pages.content.$currentLocale.$page->id";
       }
-    }
+    
     
     return $tpl;
     
