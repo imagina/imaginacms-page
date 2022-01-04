@@ -6,5 +6,9 @@ use Illuminate\Routing\Router;
 $router->get('/', [
     'uses' => 'PublicController@homepage',
     'as' => 'homepage',
-    'middleware' => config('asgard.page.config.middleware'),
+  'middleware' => [
+    'universal',
+    \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class,
+    \Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain::class
+  ]
 ]);

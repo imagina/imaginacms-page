@@ -10,10 +10,11 @@ use Modules\Tag\Contracts\TaggableInterface;
 use Modules\Tag\Traits\TaggableTrait;
 use Modules\Isite\Traits\Typeable;
 use Modules\Core\Icrud\Traits\hasEventsWithBindings;
+use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 class Page extends Model implements TaggableInterface
 {
-    use Translatable, TaggableTrait, NamespacedEntity, MediaRelation, hasEventsWithBindings, Typeable;
+    use Translatable, TaggableTrait, NamespacedEntity, MediaRelation, hasEventsWithBindings, Typeable, BelongsToTenant;
 
     protected $table = 'page__pages';
     public $translatedAttributes = [
@@ -35,16 +36,8 @@ class Page extends Model implements TaggableInterface
         'template',
         // Translatable fields
         'page_id',
-        'title',
-        'slug',
-        'status',
-        'body',
-        'meta_title',
-        'meta_description',
-        'og_title',
-        'og_description',
-        'og_image',
-        'og_type',
+        'record_type',
+        'internal',
         'options',
     ];
     protected $casts = [

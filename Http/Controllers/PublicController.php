@@ -33,18 +33,18 @@ class PublicController extends BasePublicController
    * @param $slug
    * @return \Illuminate\View\View
    */
-  public function uri($page,$slug)
+  public function uri($page,$slug = "")
   {
 
     $this->throw404IfNotFound($page);
 
     $currentTranslatedPage = $page->getTranslation(locale());
     
-    if(!isset($currentTranslatedPage->slug) || $page->id == 1){
+    if(!isset($currentTranslatedPage->slug) || ($page->id == 1 && !empty($slug))){
       return redirect()->to(\LaravelLocalization::localizeUrl('/'), 301);
     }
     
-    if ($slug !== $currentTranslatedPage->slug) {
+    if ( !empty($slug) && $slug !== $currentTranslatedPage->slug) {
       return redirect()->to(\LaravelLocalization::localizeUrl("/$currentTranslatedPage->slug") , 301);
     }
     

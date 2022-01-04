@@ -12,6 +12,8 @@ class PageApiTransformer extends JsonResource
             'id' =>$this->when($this->id, $this->id),
             'isHome' => $this->when($this->is_home, $this->is_home),
             'template' => $this->when($this->template, $this->template),
+            'recordType' => $this->when($this->record_type, $this->record_type),
+            'internal' => $this->when($this->internal, $this->internal),
             'createdAt' => $this->when($this->created_at, $this->created_at),
             'title' => $this->when($this->title, $this->title),
             'slug' => $this->when($this->slug, $this->slug),
