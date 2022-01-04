@@ -7,7 +7,7 @@ $router->get('/', [
     'uses' => 'PublicController@homepage',
     'as' => 'homepage',
   'middleware' => [
-    'universal',
+   // 'universal',
     \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class,
     \Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain::class
   ]
