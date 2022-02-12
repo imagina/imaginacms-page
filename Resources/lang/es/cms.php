@@ -1,5 +1,9 @@
 <?php
-return[
-  "newPage"  => 'Nueva pagina',
-  "updatePage"  => 'Actualizar pagina',
+
+return [
+  "sidebar" => [
+    "adminPages" => "Paginas"
+  ],
+  "newPage" => "Nueva pagina",
+  "updatePage" => "Actualizar pagina"
 ];

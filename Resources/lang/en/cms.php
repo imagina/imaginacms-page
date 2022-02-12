@@ -1,5 +1,10 @@
 <?php
-return[
-  "newPage"  => 'New Page',
-  "updatePage"  => 'Update Page',
+
+return [
+  "sidebar" => [
+    "adminPages" => "Pages"
+  ],
+  "newPage" => "New Page",
+  "updatePage" => "Update Page"
 ];
+
