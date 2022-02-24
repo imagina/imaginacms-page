@@ -37,6 +37,7 @@ class Page extends Model implements TaggableInterface
         // Translatable fields
         'page_id',
         'record_type',
+        'type',
         'internal',
         'options',
     ];

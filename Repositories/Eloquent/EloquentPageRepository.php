@@ -27,10 +27,10 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
     if (method_exists($this->model, 'translations')) {
       return $this->model->with('translations')->paginate($perPage);
     }
-    
+
     return $this->model->paginate($perPage);
   }
-  
+
   /**
    * Find the page set as homepage
    * @return object
@@ -39,7 +39,7 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
   {
     return $this->model->where('is_home', 1)->first();
   }
-  
+
   /**
    * Count all records
    * @return int
@@ -48,7 +48,7 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
   {
     return $this->model->count();
   }
-  
+
   /**
    * @param mixed $data
    * @return object
@@ -58,27 +58,27 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
     if (Arr::get($data, 'is_home') === '1') {
       $this->removeOtherHomepage();
     }
-    
+
     event($event = new PageIsCreating($data));
-    
+
     //Event creating model
     if (method_exists($this->model, 'creatingCrudModel'))
       $this->model->creatingCrudModel(['data' => $data]);
-    
-    
+
+
     $page = $this->model->create($event->getAttributes());
-    
+
     //Event created model
     if (method_exists($page, 'createdCrudModel'))
       $page->createdCrudModel(['data' => $data]);
-    
+
     event(new PageWasCreated($page, $data));
-    
+
     $page->setTags(Arr::get($data, 'tags', []));
-    
+
     return $page;
   }
-  
+
   /**
    * @param $model
    * @param array $data
@@ -89,27 +89,27 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
     if (Arr::get($data, 'is_home') === '1') {
       $this->removeOtherHomepage($model->id);
     }
-    
-    
+
+
     event($event = new PageIsUpdating($model, $data));
     $model->update($event->getAttributes());
-    
+
     event(new PageWasUpdated($model, $data));
-    
+
     $model->setTags(Arr::get($data, 'tags', []));
-    
+
     return $model;
   }
-  
+
   public function destroy($page)
   {
     $page->untag();
-    
+
     event(new PageWasDeleted($page));
-    
+
     return $page->delete();
   }
-  
+
   /**
    * @param $slug
    * @param $locale
@@ -123,10 +123,10 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
         $q->where('locale', $locale);
       })->with('translations')->first();
     }
-    
+
     return $this->model->where('slug', $slug)->where('locale', $locale)->first();
   }
-  
+
   /**
    * Set the current page set as homepage to 0
    * @param null $pageId
@@ -140,11 +140,11 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
     if ($pageId === $homepage->id) {
       return;
     }
-    
+
     $homepage->is_home = 0;
     $homepage->save();
   }
-  
+
   /**
    * Paginating, ordering and searching through pages for server side index table
    * @param Request $request
@@ -153,7 +153,7 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
   public function serverPaginationFilteringFor(Request $request): LengthAwarePaginator
   {
     $pages = $this->allWithBuilder();
-    
+
     if ($request->get('search') !== null) {
       $term = $request->get('search');
       $pages->whereHas('translations', function ($query) use ($term) {
@@ -162,13 +162,13 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       })
         ->orWhere('id', $term);
     }
-    
+
     if ($request->get('order_by') !== null && $request->get('order') !== 'null') {
       $order = $request->get('order') === 'ascending' ? 'asc' : 'desc';
-      
+
       if (Str::contains($request->get('order_by'), '.')) {
         $fields = explode('.', $request->get('order_by'));
-        
+
         $pages->with('translations')->join('page__page_translations as t', function ($join) {
           $join->on('page__pages.id', '=', 't.page_id');
         })
@@ -178,10 +178,10 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
         $pages->orderBy($request->get('order_by'), $order);
       }
     }
-    
+
     return $pages->paginate($request->get('per_page', 10));
   }
-  
+
   /**
    * @param Page $page
    * @return mixed
@@ -192,10 +192,10 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
     foreach (app(LaravelLocalization::class)->getSupportedLocales() as $locale => $supportedLocale) {
       $data[$locale] = ['status' => 1];
     }
-    
+
     return $this->update($page, $data);
   }
-  
+
   /**
    * @param Page $page
    * @return mixed
@@ -206,10 +206,10 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
     foreach (app(LaravelLocalization::class)->getSupportedLocales() as $locale => $supportedLocale) {
       $data[$locale] = ['status' => 0];
     }
-    
+
     return $this->update($page, $data);
   }
-  
+
   /**
    * @param array $pageIds [int]
    * @return mixed
@@ -220,7 +220,7 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       $this->markAsOnlineInAllLocales($this->find($pageId));
     }
   }
-  
+
   /**
    * @param array $pageIds [int]
    * @return mixed
@@ -231,13 +231,13 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       $this->markAsOfflineInAllLocales($this->find($pageId));
     }
   }
-  
-  
+
+
   public function getItemsBy($params = false)
   {
     /*== initialize query ==*/
     $query = $this->model->query();
-    
+
     /*== RELATIONSHIPS ==*/
     if (in_array('*', $params->include)) {//If Request all relationships
       $query->with([]);
@@ -247,11 +247,11 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
         $includeDefault = array_merge($includeDefault, $params->include);
       $query->with($includeDefault);//Add Relationships to query
     }
-    
+
     /*== FILTERS ==*/
     if (isset($params->filter)) {
       $filter = $params->filter;//Short filter
-      
+
       //Filter by date
       if (isset($filter->date)) {
         $date = $filter->date;//Short filter date
@@ -261,14 +261,14 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
         if (isset($date->to))//to a date
           $query->whereDate($date->field, '<=', $date->to);
       }
-      
+
       //Order by
       if (isset($filter->order)) {
         $orderByField = $filter->order->field ?? 'created_at';//Default field
         $orderWay = $filter->order->way ?? 'desc';//Default way
         $query->orderBy($orderByField, $orderWay);//Add order to query
       }
-      
+
       //add filter by search
       if (isset($filter->search) && $filter->search) {
         //find search in columns
@@ -280,14 +280,19 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
           })
             ->orWhere('id', $term);
         });
-        
+
+      }
+
+      //Order by
+      if (isset($filter->type)) {
+        $query->where('type', $filter->type);//Add order to query
       }
     }
-    
+
     /*== FIELDS ==*/
     if (isset($params->fields) && count($params->fields))
       $query->select($params->fields);
-    
+
     /*== REQUEST ==*/
     if (isset($params->page) && $params->page) {
       return $query->paginate($params->take);
@@ -296,13 +301,13 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       return $query->get();
     }
   }
-  
-  
+
+
   public function getItem($criteria, $params = false)
   {
     //Initialize query
     $query = $this->model->query();
-    
+
     /*== RELATIONSHIPS ==*/
     if (in_array('*', $params->include)) {//If Request all relationships
       $query->with([]);
@@ -312,92 +317,92 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
         $includeDefault = array_merge($includeDefault, $params->include);
       $query->with($includeDefault);//Add Relationships to query
     }
-    
+
     /*== FILTER ==*/
     if (isset($params->filter)) {
       $filter = $params->filter;
-      
+
       if (isset($filter->field))//Filter by specific field
         $field = $filter->field;
     }
-    
+
     /*== FIELDS ==*/
     if (isset($params->fields) && count($params->fields))
       $query->select($params->fields);
-    
+
     /*== REQUEST ==*/
     return $query->where($field ?? 'id', $criteria)->first();
   }
-  
-  
+
+
   public function updateBy($criteria, $data, $params = false)
   {
     /*== initialize query ==*/
     $query = $this->model->query();
-    
+
     //Event updating model
     if (method_exists($this->model, 'updatingCrudModel'))
       $this->model->updatingCrudModel(['data' => $data, 'params' => $params, 'criteria' => $criteria]);
-    
+
     /*== FILTER ==*/
     if (isset($params->filter)) {
       $filter = $params->filter;
-      
+
       //Update by field
       if (isset($filter->field))
         $field = $filter->field;
     }
-    
+
     /*== REQUEST ==*/
     $model = $query->where($field ?? 'id', $criteria)->first();
-    
+
     if (isset($model->id)) {
-      
+
       if (Arr::get($data, 'is_home') === '1') {
         $this->removeOtherHomepage($model->id);
       }
-      
+
       event($event = new PageIsUpdating($model, $data));
       $model->update($event->getAttributes());
-      
+
       //Event updated model
       if (method_exists($model, 'updatedCrudModel'))
         $model->updatedCrudModel(['data' => $data, 'params' => $params, 'criteria' => $criteria]);
-      
+
       event(new PageWasUpdated($model, $data));
-      
+
       $model->setTags(Arr::get($data, 'tags', []));
-      
+
       return $model;
-      
+
     }
     return false;
   }
-  
-  
+
+
   public function deleteBy($criteria, $params = false)
   {
     /*== initialize query ==*/
     $query = $this->model->query();
-    
+
     /*== FILTER ==*/
     if (isset($params->filter)) {
       $filter = $params->filter;
-      
+
       if (isset($filter->field))//Where field
         $field = $filter->field;
     }
-    
+
     /*== REQUEST ==*/
     $model = $query->where($field ?? 'id', $criteria)->first();
-    
+
     if (isset($model->id)) {
       $model->untag();
-      
+
       event(new PageWasDeleted($model));
-      
+
       return $model->delete();
-      
+
     }
     return false;
   }
