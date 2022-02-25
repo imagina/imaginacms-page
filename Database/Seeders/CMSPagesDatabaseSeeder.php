@@ -56,16 +56,7 @@ class CMSPagesDatabaseSeeder extends Seeder
               'is_home' => 0,
               'status' => $page['activated'],
               'type' => 'cms',
-              'options' => [
-                "mode" => $type,
-                "permission" => $page['permission'] ?? null,
-                "name" => $page['name'],
-                "layout" => $page['layout'],
-                "page" => $page['page'],
-                "icon" => $page['icon'],
-                "authenticated" => $page['authenticated'] ?? false,
-                "subHeader" => $page['subHeader'] ?? []
-              ],
+              'options' => $page,
               'en' => [
                 'title' => trans($title, [], "en"),
                 'slug' => $page['path'],
