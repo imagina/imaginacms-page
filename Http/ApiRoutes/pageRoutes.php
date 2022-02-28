@@ -17,6 +17,12 @@ $router->group(['prefix' => 'pages'], function (Router $router) {
     'middleware' => ['optional-auth']
   ]);
 
+  //Route index-cms
+  $router->get('/cms', [
+    'as' => 'api.ipage.page.cms',
+    'uses' => 'PageApiController@indexCMS'
+  ]);
+
   //Route show
   $router->get('/{criteria}', [
     'as' => 'api.ipage.page.get.item',

@@ -23,7 +23,7 @@ class PageApiTransformer extends JsonResource
             'urls' => [
                 'deleteUrl' => route('api.page.page.destroy', $this->resource->id),
             ],
-            'mediaFiles' => $this->mediaFiles()
+            'mediaFiles' => $this->type != 'cms' ? $this->mediaFiles() : []
         ];
 
 

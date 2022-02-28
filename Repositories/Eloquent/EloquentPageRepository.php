@@ -294,7 +294,8 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       $query->select($params->fields);
 
     //Validate index-all permission
-    if (!in_array('page.pages.index-all', $params->permissions)) $query->whereNull('type');
+    if (!isset($params->allowIndexAll) && !in_array('page.pages.index-all', $params->permissions))
+      $query->whereNull('type');
 
     /*== REQUEST ==*/
     if (isset($params->page) && $params->page) {
