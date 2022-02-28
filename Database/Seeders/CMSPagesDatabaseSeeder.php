@@ -38,11 +38,10 @@ class CMSPagesDatabaseSeeder extends Seeder
     foreach ($cmsPages as $moduleName => $pageTypes) {
       foreach ($pageTypes as $type => $pages) {
         foreach ($pages as $name => $page) {
+          //Instance system name
+          $systemName = strtolower("{$moduleName}_cms_{$type}_{$name}");
           //Validate if already exist slug
-          $existPage = $this->pageTranslation
-            ->leftJoin('page__pages', 'page__pages.id', 'page__page_translations.page_id')
-            ->where('page__page_translations.slug', $page['path'])
-            ->first();
+          $existPage = $this->page->where('system_name', $systemName)->first();
 
           if (!$existPage) {
             //Translate page title
@@ -56,6 +55,7 @@ class CMSPagesDatabaseSeeder extends Seeder
               'is_home' => 0,
               'status' => $page['activated'],
               'type' => 'cms',
+              'system_name' => $systemName,
               'options' => $page,
               'en' => [
                 'title' => trans($title, [], "en"),

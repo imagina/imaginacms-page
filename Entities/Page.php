@@ -38,6 +38,7 @@ class Page extends Model implements TaggableInterface
         'page_id',
         'record_type',
         'type',
+        'system_name',
         'internal',
         'options',
     ];
