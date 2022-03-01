@@ -58,6 +58,7 @@ class PageServiceProvider extends ServiceProvider
     $this->publishConfig('page', 'config');
     $this->mergeConfigFrom($this->getModuleConfigFilePath('page', 'permissions'), "asgard.page.permissions");
     $this->mergeConfigFrom($this->getModuleConfigFilePath('page', 'cmsPages'), "asgard.page.cmsPages");
+    $this->mergeConfigFrom($this->getModuleConfigFilePath('page', 'cmsSidebar'), "asgard.page.cmsSidebar");
     $this->publishConfig('page', 'crud-fields');
 
     $this->app[TagManager::class]->registerNamespace(new Page());
