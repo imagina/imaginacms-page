@@ -16,6 +16,7 @@ use Modules\Page\Events\PageWasCreated;
 use Modules\Page\Events\PageWasDeleted;
 use Modules\Page\Events\PageWasUpdated;
 use Modules\Page\Repositories\PageRepository;
+use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 class EloquentPageRepository extends EloquentBaseRepository implements PageRepository
 {
@@ -280,13 +281,25 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
           })
             ->orWhere('id', $term);
         });
-
       }
 
       //Order by
       if (isset($filter->type)) {
         $query->where('type', $filter->type);//Add order to query
       }
+    }
+  
+    $entitiesWithCentralData = json_decode(setting("isite::tenantWithCentralData",null,"[]"));
+    $tenantWithCentralData = in_array("page", $entitiesWithCentralData);
+  
+    if ($tenantWithCentralData && isset(tenant()->id)) {
+      $model = $this->model;
+    
+      $query->withoutTenancy();
+      $query->where(function ($query) use ($model) {
+        $query->where($model->qualifyColumn(BelongsToTenant::$tenantIdColumn), tenant()->getTenantKey())
+          ->orWhereNull($model->qualifyColumn(BelongsToTenant::$tenantIdColumn));
+      });
     }
 
     /*== FIELDS ==*/
