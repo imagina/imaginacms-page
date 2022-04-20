@@ -26,8 +26,11 @@ class PageApiTransformer extends JsonResource
             ],
             'mediaFiles' => $this->type != 'cms' ? $this->mediaFiles() : []
         ];
-
-
+  
+      foreach ($this->tags as $tag) {
+        $data['tags'][] = $tag->name;
+      }
+      
       $filter = json_decode($request->filter);
 
       // Return data with available translations
