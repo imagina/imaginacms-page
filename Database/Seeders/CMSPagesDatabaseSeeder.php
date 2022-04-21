@@ -35,7 +35,7 @@ class CMSPagesDatabaseSeeder extends Seeder
     }
 
     //Delete old cms pages
-    $this->page->where('type', 'cms')->whereDate('created_at', '<=', '2022-04-12')->delete();
+    $this->page->where('type', 'cms')->whereDate('created_at', '<=', '2022-04-21')->delete();
 
     //Insert cms pages
     foreach ($cmsPages as $moduleName => $pageTypes) {
