@@ -274,15 +274,21 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       if (isset($filter->search) && $filter->search) {
         //find search in columns
         $term = $filter->search;
-        $query->where(function ($query) use ($term) {
-          $query->whereHas('translations', function ($query) use ($term) {
+        $query->where(function ($query) use ($term,$filter) {
+          $query->whereHas('translations', function ($query) use ($term,$filter) {
             $query->where('title', 'LIKE', "%{$term}%");
-            $query->where('body', 'LIKE', "%{$term}%");
+            $query->orWhere('body', 'LIKE', "%{$term}%");
             $query->orWhere('slug', 'LIKE', "%{$term}%");
+            $words = explode(' ', trim($filter->search));
+            foreach ($words as $index => $word) {
+              if(strlen($word) >= $filter->minCharactersSearch ?? 3){
+                $query->orWhere('title', 'like', "%" . $word . "%")
+                  ->orWhere('body', 'like', "%" . $word . "%");
+              }
+            }//foreachQ
           })->orWhere(function ($query) use ($term){
             $query->whereTag($term,'name');
-          })
-            ->orWhere('id', $term);
+          })->orWhere('id', $term);
         });
       }
 
