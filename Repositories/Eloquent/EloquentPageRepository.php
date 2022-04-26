@@ -280,12 +280,16 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
             $query->orWhere('body', 'LIKE', "%{$term}%");
             $query->orWhere('slug', 'LIKE', "%{$term}%");
             $words = explode(' ', trim($filter->search));
-            foreach ($words as $index => $word) {
-              if(strlen($word) >= $filter->minCharactersSearch ?? 3){
-                $query->orWhere('title', 'like', "%" . $word . "%")
-                  ->orWhere('body', 'like', "%" . $word . "%");
-              }
-            }//foreachQ
+            
+            //queryng word by word
+            if(count($words)>1)
+              foreach ($words as $index => $word) {
+                if(strlen($word) >= ($filter->minCharactersSearch ?? 3)){
+                  $query->orWhere('title', 'like', "%" . $word . "%")
+                    ->orWhere('body', 'like', "%" . $word . "%");
+                }
+              }//foreach
+            
           })->orWhere(function ($query) use ($term){
             $query->whereTag($term,'name');
           })->orWhere('id', $term);
