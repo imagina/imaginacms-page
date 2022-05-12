@@ -61,7 +61,13 @@ class PublicController extends BasePublicController
    */
   public function homepage()
   {
+   
     $page = $this->page->findHomepage();
+  
+    if(isset(tenant()->id)) {
+     if(request()->url() != tenant()->url);
+      return redirect(tenant()->url);
+    }
 
     $this->throw404IfNotFound($page);
     
@@ -70,6 +76,8 @@ class PublicController extends BasePublicController
     $this->addAlternateUrls(alternate($page));
     
     $pageContent = $this->getContentForPage($page);
+    
+ 
     
     return view($template, compact('page', 'pageContent'));
   }
