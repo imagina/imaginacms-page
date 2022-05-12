@@ -274,24 +274,24 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       if (isset($filter->search) && $filter->search) {
         //find search in columns
         $term = $filter->search;
-        $query->where(function ($query) use ($term,$filter) {
-          $query->whereHas('translations', function ($query) use ($term,$filter) {
+        $query->where(function ($query) use ($term, $filter) {
+          $query->whereHas('translations', function ($query) use ($term, $filter) {
             $query->where('title', 'LIKE', "%{$term}%");
             $query->orWhere('body', 'LIKE', "%{$term}%");
             $query->orWhere('slug', 'LIKE', "%{$term}%");
             $words = explode(' ', trim($filter->search));
-            
+
             //queryng word by word
-            if(count($words)>1)
+            if (count($words) > 1)
               foreach ($words as $index => $word) {
-                if(strlen($word) >= ($filter->minCharactersSearch ?? 3)){
+                if (strlen($word) >= ($filter->minCharactersSearch ?? 3)) {
                   $query->orWhere('title', 'like', "%" . $word . "%")
                     ->orWhere('body', 'like', "%" . $word . "%");
                 }
               }//foreach
-            
-          })->orWhere(function ($query) use ($term){
-            $query->whereTag($term,'name');
+
+          })->orWhere(function ($query) use ($term) {
+            $query->whereTag($term, 'name');
           })->orWhere('id', $term);
         });
       }
@@ -301,13 +301,13 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
         $query->where('type', $filter->type);//Add order to query
       }
     }
-  
-    $entitiesWithCentralData = json_decode(setting("isite::tenantWithCentralData",null,"[]"));
+
+    $entitiesWithCentralData = json_decode(setting("isite::tenantWithCentralData", null, "[]"));
     $tenantWithCentralData = in_array("page", $entitiesWithCentralData);
-  
+
     if ($tenantWithCentralData && isset(tenant()->id)) {
       $model = $this->model;
-    
+
       $query->withoutTenancy();
       $query->where(function ($query) use ($model) {
         $query->where($model->qualifyColumn(BelongsToTenant::$tenantIdColumn), tenant()->getTenantKey())
@@ -320,10 +320,11 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       $query->select($params->fields);
 
     //Validate index-all permission
-    if (!isset($params->allowIndexAll) && (!isset($params->permissions) || !in_array('page.pages.index-all', $params->permissions)))
+    $userPermissions = $params->permissions ?? [];
+    $hasIndexAll = $userPermissions['page.pages.index-all'] ?? false;
+    if (!isset($params->allowIndexAll) && !$hasIndexAll)
       $query->whereNull('type');
 
-  //  dd($query->toSql(), $query->getBindings(), $params);
     /*== REQUEST ==*/
     if (isset($params->page) && $params->page) {
       return $query->paginate($params->take, ['*'], null, $params->page);
