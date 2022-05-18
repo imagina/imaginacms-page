@@ -34,9 +34,6 @@ class CMSPagesDatabaseSeeder extends Seeder
       $cmsPages[$moduleName] = config("asgard." . strtolower($moduleName) . ".cmsPages") ?? [];
     }
 
-    //Delete old cms pages
-    $this->page->where('type', 'cms')->whereDate('created_at', '<=', '2022-04-21')->delete();
-
     //Insert cms pages
     foreach ($cmsPages as $moduleName => $pageTypes) {
       foreach ($pageTypes as $type => $pages) {
@@ -72,6 +69,8 @@ class CMSPagesDatabaseSeeder extends Seeder
 
             //Create page
             $this->page->create($data);
+          } else {
+            $existPage->update(['options' => $page]);
           }
         }
       }
