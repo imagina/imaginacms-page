@@ -263,6 +263,10 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
           $query->whereDate($date->field, '<=', $date->to);
       }
 
+      if (isset($filter->tagId)) {
+        $query->whereTag($filter->tagId, "id");
+      }
+
       //Order by
       if (isset($filter->order)) {
         $orderByField = $filter->order->field ?? 'created_at';//Default field
