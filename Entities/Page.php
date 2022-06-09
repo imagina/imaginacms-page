@@ -78,6 +78,17 @@ class Page extends Model implements TaggableInterface
     return parent::__call($method, $parameters);
   }
   
+  public function getImageAttribute()
+  {
+    $thumbnail = $this->files()->where('zone', 'mainimage')->first();
+    
+    if ($thumbnail === null) {
+      return '';
+    }
+    
+    return $thumbnail;
+  }
+  
   public function getUrlAttribute()
   {
     return \LaravelLocalization::localizeUrl( '/' . $this->slug);
