@@ -13,6 +13,6 @@ use Illuminate\Routing\Router;
 
 $router->get('/', [
     'uses' => 'PublicController@homepage',
-    'as' => 'homepage',
+    'as' => locale().'.homepage',
   'middleware' => $middlewares
 ]);

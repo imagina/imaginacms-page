@@ -63,9 +63,9 @@ class PublicController extends BasePublicController
   {
    
     $page = $this->page->findHomepage();
-  
+
     if(isset(tenant()->id)) {
-     if(request()->url() != tenant()->url);
+     if(request()->url() != tenant()->url)
       return redirect(tenant()->url);
     }
 
@@ -161,8 +161,11 @@ class PublicController extends BasePublicController
     if (view()->exists($ttpl)) $tpl = $ttpl;
     
     $layoutPath = $page->typeable->layout_path ?? null;
-
-    if(isset($layoutPath)) $tpl = $layoutPath;
+  
+    //validate if exist the layout from the typeable relation
+    if (view()->exists($layoutPath)) $tpl = $layoutPath;
+    //revalidate if exist the layout adding the page system name to the end of the path
+    elseif (view()->exists($layoutPath.".$page->system_name")) $tpl = $layoutPath.".$page->system_name";
     
     $ttpl = "pages.content.$page->id";
     if (view()->exists($ttpl)) $tpl = $ttpl;
@@ -172,7 +175,7 @@ class PublicController extends BasePublicController
       if (view()->exists('pages.content.' . $currentLocale . '.' . $page->id)){
         $tpl = "pages.content.$currentLocale.$page->id";
       }
-    
+
     
     return $tpl;
     
