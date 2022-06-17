@@ -16,7 +16,7 @@ class PageChangeUniqueAddingOrganizationInPageTable extends Migration
       Schema::table('page__page_translations', function (Blueprint $table) {
   
         $table->integer('organization_id')->unsigned()->nullable();
-        $table->foreign('organization_id')->references('id')->on('isite__organizations')->onDelete('cascade');
+      
         $table->unique(['slug', 'locale', 'organization_id'])->change();
 
       });
