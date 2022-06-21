@@ -34,6 +34,7 @@ class Page extends Model implements TaggableInterface
   protected $fillable = [
     'is_home',
     'template',
+    'organization_id',
     // Translatable fields
     'page_id',
     'record_type',
@@ -76,17 +77,6 @@ class Page extends Model implements TaggableInterface
     
     #i: No relation found, return the call to parent (Eloquent) to handle it.
     return parent::__call($method, $parameters);
-  }
-  
-  public function getImageAttribute()
-  {
-    $thumbnail = $this->files()->where('zone', 'mainimage')->first();
-    
-    if ($thumbnail === null) {
-      return '';
-    }
-    
-    return $thumbnail;
   }
   
   public function getUrlAttribute()
