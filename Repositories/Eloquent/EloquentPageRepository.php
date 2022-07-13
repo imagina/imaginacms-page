@@ -306,7 +306,7 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       }
     }
 
-    $entitiesWithCentralData = json_decode(setting("isite::tenantWithCentralData", null, "[]"));
+    $entitiesWithCentralData = json_decode(setting("isite::tenantWithCentralData", null, "[]",true));
     $tenantWithCentralData = in_array("page", $entitiesWithCentralData);
 
     if ($tenantWithCentralData && isset(tenant()->id)) {
