@@ -312,7 +312,12 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
     if ($tenantWithCentralData && isset(tenant()->id)) {
       $model = $this->model;
 
-      $query->withoutTenancy();
+      //If an organization is in the Iadmin, just show them their information
+      //For the administrator does not apply because he has no organization
+      if (isset($params->setting) && isset($params->setting->fromAdmin) && $params->setting->fromAdmin==false) {
+        $query->withoutTenancy();
+      }
+
       $query->where(function ($query) use ($model) {
         $query->where($model->qualifyColumn(BelongsToTenant::$tenantIdColumn), tenant()->getTenantKey())
           ->orWhereNull($model->qualifyColumn(BelongsToTenant::$tenantIdColumn));
