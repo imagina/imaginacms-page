@@ -119,7 +119,7 @@ class PublicController extends BasePublicController
    */
   private function throw404IfNotFound($page)
   {
-    if (null === $page || $page->status === $this->disabledPage) {
+    if (null === $page || $page->status === $this->disabledPage || $page->type=="internal") {
       $this->app->abort('404');
     }
   }
