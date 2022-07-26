@@ -53,7 +53,11 @@ class PublicController extends BasePublicController
     $this->addAlternateUrls(alternate($page));
     
     $pageContent = $this->getContentForPage($page);
-    return view($template, compact('page', 'pageContent'));
+
+    // Return organization
+    $organization = tenant() ?? null;
+
+    return view($template, compact('page', 'pageContent','organization'));
   }
   
   /**
@@ -77,9 +81,10 @@ class PublicController extends BasePublicController
     
     $pageContent = $this->getContentForPage($page);
     
- 
-    
-    return view($template, compact('page', 'pageContent'));
+    // Return organization
+    $organization = tenant() ?? null;
+
+    return view($template, compact('page', 'pageContent','organization'));
   }
   
   /**
