@@ -311,10 +311,11 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
 
     if ($tenantWithCentralData && isset(tenant()->id)) {
       $model = $this->model;
-
+      
       //If an organization is in the Iadmin, just show them their information
       //For the administrator does not apply because he has no organization
-      if (isset($params->setting) && isset($params->setting->fromAdmin) && $params->setting->fromAdmin==false) {
+      // filter->type=="cms" - When they reload the iadmin they make a request looking for the cms types
+      if ((isset($params->setting) && isset($params->setting->fromAdmin) && $params->setting->fromAdmin==false) || (isset($filter->type) && $filter->type=="cms") ) {
         $query->withoutTenancy();
       }
 
