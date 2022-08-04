@@ -75,7 +75,7 @@ class PageDatabaseSeeder extends Seeder
       }
 
       //Seed Our Contact/Contacto
-      $contact = PageTranslation::where("slug","contact")->first();
+      $contact = PageTranslation::where("slug","contact")->orwhere('"slug","contacto"')->first();
 
       if(!isset($contact->id)){
         $data = [
