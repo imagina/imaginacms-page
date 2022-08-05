@@ -304,6 +304,12 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       if (isset($filter->type)) {
         $query->where('type', $filter->type);//Add order to query
       }
+
+      // It is important because if the one who makes the change is the administrator, you must change the data of the organization and not those of the admin
+      if (isset($filter->organizationId) && !empty($filter->organizationId)) {
+        $query->where("organization_id", $filter->organizationId);
+      }
+
     }
 
     $entitiesWithCentralData = json_decode(setting("isite::tenantWithCentralData", null, "[]",true));
