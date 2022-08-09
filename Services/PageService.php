@@ -20,31 +20,36 @@ class PageService
     */
     public function getDataLayout($systemName,$path){
         
-        $params = [
-          "filter" => [
-            "field" => "system_name",
-          ],
-          "include" => [],
-          "fields" => [],
-        ];
-        
-        $page = $this->pageRepository->getItem($systemName, json_decode(json_encode($params)));
-
-        
         $tpl = null;
         $layoutSystemName = null;
-        
-        if(!empty($page)){
-            $layoutPath = $page->typeable->layout_path ?? null;
 
-            //Para que tome el index dentro del layout en el Theme
-            if (view()->exists($layoutPath.$path)) {
-              $tpl = $layoutPath.$path;
-              $layoutSystemName = $page->typeable->layout->system_name;
-            }
-            
+        if(!is_null(tenant())){
+           
+            $params = [
+              "filter" => [
+                "field" => "system_name",
+                'organizationId' => tenant()->id
+              ],
+              "include" => [],
+              "fields" => [],
+            ];
+        
+            $page = $this->pageRepository->getItem($systemName, json_decode(json_encode($params)));
+
+            if(!empty($page)){
+                $layoutPath = $page->typeable->layout_path ?? null;
+
+                //Para que tome el index dentro del layout en el Theme
+                if (view()->exists($layoutPath.$path)) {
+                  $tpl = $layoutPath.$path;
+                  $layoutSystemName = $page->typeable->layout->system_name;
+                }
+                
+            } 
+
         }
 
+        
         //result
         $infor = [
             'tpl' => $tpl,
