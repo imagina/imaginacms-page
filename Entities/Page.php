@@ -11,10 +11,11 @@ use Modules\Tag\Traits\TaggableTrait;
 use Modules\Isite\Traits\Typeable;
 use Modules\Core\Icrud\Traits\hasEventsWithBindings;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
+use Modules\Ifillable\Traits\isFillable;
 
 class Page extends Model implements TaggableInterface
 {
-  use Translatable, TaggableTrait, NamespacedEntity, MediaRelation, hasEventsWithBindings, Typeable, BelongsToTenant;
+  use Translatable, TaggableTrait, NamespacedEntity, MediaRelation, hasEventsWithBindings, Typeable, BelongsToTenant, isFillable;
   
   protected $table = 'page__pages';
   public $translatedAttributes = [
@@ -43,9 +44,14 @@ class Page extends Model implements TaggableInterface
     'internal',
     'options',
   ];
+  
   protected $casts = [
     'is_home' => 'boolean',
     'options' => 'array',
+  ];
+  
+  protected $with = [
+    'fields'
   ];
   protected static $entityNamespace = 'asgardcms/page';
   

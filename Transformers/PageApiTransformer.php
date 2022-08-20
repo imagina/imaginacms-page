@@ -3,6 +3,7 @@
 namespace Modules\Page\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Ifillable\Transformers\FieldTransformer;
 
 class PageApiTransformer extends JsonResource
 {
@@ -54,8 +55,16 @@ class PageApiTransformer extends JsonResource
 
         }
       }
+      
+      
+      $fields = $this->fields;
 
-
+      if (!empty($fields) && method_exists($this->resource, 'formatFillableToModel')) {
+  
+        //Merge fillable to main level of response
+        $data = array_merge_recursive($data, $this->formatFillableToModel( FieldTransformer::collection($fields)));
+      }
+      
       return $data;
     }
 }

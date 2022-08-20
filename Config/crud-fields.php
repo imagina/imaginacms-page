@@ -2,6 +2,8 @@
 
 return [
   'pages' => [
+    
+  
     'breadcrumbimage' => [
       'value' => (object)[],
       'name' => 'mediasSingle',
