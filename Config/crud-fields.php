@@ -17,7 +17,7 @@ return [
     ],
     'galleryimage' => [
       'value' => (object)[],
-      'name' => 'medias_multi',
+      'name' => 'mediasMulti',
       'type' => 'media',
       'props' => [
         'label' => 'page::common.labelGallery',
