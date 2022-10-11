@@ -23,6 +23,7 @@ class PageDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
+        $this->call(PageModuleTableSeeder::class);
       //Seed Home Page/Inicio
       $page = $this->page->findByAttributes(["is_home" => 1]);
 
