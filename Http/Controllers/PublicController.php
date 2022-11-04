@@ -65,10 +65,11 @@ class PublicController extends BasePublicController
    */
   public function homepage()
   {
-   
+
     $page = $this->page->findHomepage();
 
     if(isset(tenant()->id)) {
+
      if(request()->url() != tenant()->url)
       return redirect(tenant()->url);
     }
@@ -124,6 +125,7 @@ class PublicController extends BasePublicController
    */
   private function throw404IfNotFound($page)
   {
+    
     if (null === $page || $page->status === $this->disabledPage || $page->type=="internal") {
       $this->app->abort('404');
     }
