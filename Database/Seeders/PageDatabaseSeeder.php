@@ -53,7 +53,7 @@ class PageDatabaseSeeder extends Seeder
       }
 
       //Seed Our History/Nosotros
-      $history = PageTranslation::where("slug","history")->first();
+      $history = PageTranslation::where("slug","history")->orWhere("slug","nosotros")->first();
 
       if(!isset($history->id)){
         $data = [
