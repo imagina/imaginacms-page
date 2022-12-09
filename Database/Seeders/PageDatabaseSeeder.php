@@ -99,5 +99,9 @@ class PageDatabaseSeeder extends Seeder
 
       //Seed cms pages
       $this->call(CMSPagesDatabaseSeeder::class);
+
+      //Seed pages from config modules
+      $this->call(CreatePagesFromModulesTableSeeder::class);
+
     }
 }
