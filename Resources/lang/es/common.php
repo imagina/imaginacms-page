@@ -1,5 +1,8 @@
 <?php
 
 return [
-  "labelGallery" => "Galería"
+  "labelGallery" => "Galería",
+  'layouts' => [
+    'label_pages' => 'Plantilla para Paginas',
+  ]
 ];
