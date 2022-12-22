@@ -174,15 +174,18 @@ class PublicController extends BasePublicController
     //revalidate if exist the layout adding the page system name to the end of the path
     elseif (view()->exists($layoutPath.".$page->system_name")) $tpl = $layoutPath.".$page->system_name";
     
-    $ttpl = "pages.content.$page->id";
-    if (view()->exists($ttpl)) $tpl = $ttpl;
-    
-    $currentLocale = \LaravelLocalization::getCurrentLocale();
-    
+    else{
+      $ttpl = "pages.content.$page->id";
+      if (view()->exists($ttpl)) $tpl = $ttpl;
+  
+      $currentLocale = \LaravelLocalization::getCurrentLocale();
+  
       if (view()->exists('pages.content.' . $currentLocale . '.' . $page->id)){
         $tpl = "pages.content.$currentLocale.$page->id";
       }
-
+  
+    }
+    
     
     return $tpl;
     
