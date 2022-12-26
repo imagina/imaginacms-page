@@ -16,6 +16,17 @@ return [
         'entityId' => null,
       ],
     ],
+    'secondaryimage' => [
+      'value' => (object)[],
+      'name' => 'mediasSingle',
+      'type' => 'media',
+      'props' => [
+        'label' => 'Imagen Secundaria',
+        'zone' => 'secondaryimage',
+        'entity' => "Modules\Page\Entities\Page",
+        'entityId' => null
+      ]
+    ],
     'breadcrumbimage' => [
       'value' => (object)[],
       'name' => 'mediasSingle',
