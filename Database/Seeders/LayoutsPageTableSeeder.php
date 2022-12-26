@@ -21,7 +21,7 @@ class LayoutsPageTableSeeder extends Seeder
       if ($layout != "." && $layout != "..") {
         $numLayoutsContact = $numLayoutsContact + 1;
         Layout::updateOrCreate(
-          ['module_name' => 'Iblog', 'entity_name' => 'Post', 'system_name' => "{$layout}"],
+          ['module_name' => 'Page', 'entity_name' => 'Page', 'system_name' => "{$layout}"],
           [
             'module_name' => 'Page',
             'entity_name' => 'Page',
@@ -48,7 +48,7 @@ class LayoutsPageTableSeeder extends Seeder
       if ($layout != "." && $layout != "..") {
         $numLayoutsOur = $numLayoutsOur + 1;
         Layout::updateOrCreate(
-          ['module_name' => 'Iblog', 'entity_name' => 'Post', 'system_name' => "{$layout}"],
+          ['module_name' => 'Page', 'entity_name' => 'Page', 'system_name' => "{$layout}"],
           [
             'module_name' => 'Page',
             'entity_name' => 'Page',
