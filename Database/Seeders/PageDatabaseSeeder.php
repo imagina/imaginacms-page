@@ -103,5 +103,8 @@ class PageDatabaseSeeder extends Seeder
       //Seed pages from config modules
       $this->call(CreatePagesFromModulesTableSeeder::class);
 
+      //Seed pages from config modules
+      $this->call(LayoutsPageTableSeeder::class);
+
     }
 }
