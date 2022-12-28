@@ -16,7 +16,7 @@
           <div class="col-auto col-sm-12 col-md-12 col-lg-5 data-contact">
             <div class="row">
               <div class="col-12 pb-4">
-                <h5 class="title-contact-secondary">{{trans('page::common.layouts.layoutContact.layout4.titleContactSecondary')}}</h5>
+                <h5 class="title-contact-secondary">{{trans('page::common.layouts.layoutContact.layout5.titleContactSecondary')}}</h5>
               </div>
               <div class="col-12">
                 <div class="contact-section pt-3">
@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-10">
                       <div class="title-contact">
-                        {{trans('page::common.layouts.layoutContact.layout4.titleContactPhone')}}
+                        {{trans('page::common.layouts.layoutContact.layout5.titleContactPhone')}}
                       </div>
                       <x-isite::contact.phones :showIcon="false"/>
                     </div>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-10">
                       <div class="title-contact">
-                        {{trans('page::common.layouts.layoutContact.layout4.titleContactAddress')}}
+                        {{trans('page::common.layouts.layoutContact.layout5.titleContactAddress')}}
                       </div>
                       <x-isite::contact.addresses :showIcon="false"/>
                     </div>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="col-10">
                       <div class="title-contact">
-                        {{trans('page::common.layouts.layoutContact.layout4.titleContactEmail')}}
+                        {{trans('page::common.layouts.layoutContact.layout5.titleContactEmail')}}
                       </div>
                       <x-isite::contact.emails :showIcon="false"/>
                     </div>
@@ -165,10 +165,10 @@
         font-weight: bold;
     }
 
-    #cardContact .content-form .card-body .data-contact .contact-section #componentContactAddresses,
-    #cardContact .content-form .card-body .data-contact .contact-section #componentContactPhones,
+    #cardContact .content-form .card-body .data-contact .contact-section #componentContactAddresses a,
+    #cardContact .content-form .card-body .data-contact .contact-section #componentContactPhones a,
     #cardContact .content-form .card-body .data-contact .contact-section #componentContactEmails a {
-        color: var(--secondary);
+        color: #020202;
     }
 
     #cardContact .content-form .card-body .data-contact .contact-section #componentContactEmails a:before {

@@ -50,7 +50,10 @@ return [
 
       ],
       'layout5' => [
-
+        'titleContactSecondary' => 'Datos en Contacto',
+        'titleContactPhone' => 'Teléfono',
+        'titleContactAddress' => 'Dirección',
+        'titleContactEmail' => 'Email',
       ],
       'layout6' => [
 
