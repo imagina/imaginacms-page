@@ -22,6 +22,7 @@ class PageApiTransformer extends JsonResource
             'slug' => $this->when($this->slug, $this->slug),
             'options' => $this->when($this->options, $this->options),
             'status' => $this->when(isset($this->status), $this->status ? 1 : 0),
+            'layoutId' => $this->layout_id,
             'urls' => [
                 'deleteUrl' => route('api.page.page.destroy', $this->resource->id),
             ],

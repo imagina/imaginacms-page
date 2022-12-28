@@ -52,7 +52,7 @@ class LayoutsPageTableSeeder extends Seeder
           [
             'module_name' => 'Page',
             'entity_name' => 'Page',
-            'path' => "page::frontend.page.layouts.contact.{$layout}.index",
+            'path' => "page::frontend.page.layouts.our.{$layout}.index",
             'record_type' => 'master',
             'status' => '1',
             'system_name' => "{$layout}",
