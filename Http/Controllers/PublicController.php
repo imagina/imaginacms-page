@@ -167,7 +167,11 @@ class PublicController extends BasePublicController
     $ttpl = "pages.content.default";
     if (view()->exists($ttpl)) $tpl = $ttpl;
     
-    $layoutPath = $page->typeable->layout_path ?? null;
+    $layoutPath = null;
+
+    $organization = tenant() ?? null;
+    if(!is_null($organization))
+      $layoutPath = $organization->layout->path;
   
     //validate if exist the layout from the typeable relation
     if (view()->exists($layoutPath)) $tpl = $layoutPath;
