@@ -71,7 +71,7 @@ class CreatePagesFromModulesTableSeeder extends Seeder
             'options' => $data['options'] ?? null
         ];
 
-        \Log::info("Data to Create Page: ".\json_encode($dataToCreate));
+        //\Log::info("Data to Create Page: ".\json_encode($dataToCreate));
 
         $pageCreated = $this->page->create($dataToCreate); 
 
