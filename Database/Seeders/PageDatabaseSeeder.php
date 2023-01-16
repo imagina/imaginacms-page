@@ -31,6 +31,7 @@ class PageDatabaseSeeder extends Seeder
         $data = [
           'template' => 'default',
           'is_home' => 1,
+          'system_name' => 'home',
           'en' => [
             'title' => 'Home page',
             'slug' => 'home',
@@ -59,6 +60,7 @@ class PageDatabaseSeeder extends Seeder
         $data = [
           'template' => 'default',
           'is_home' => 0,
+          'system_name' => 'us',
           'en' => [
             'title' => 'Our History',
             'slug' => 'history',
@@ -81,6 +83,7 @@ class PageDatabaseSeeder extends Seeder
         $data = [
           'template' => 'default',
           'is_home' => 0,
+          'system_name' => 'contact',
           'en' => [
             'title' => 'Contact',
             'slug' => 'contact',
