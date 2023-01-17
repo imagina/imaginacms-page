@@ -29,7 +29,18 @@
         <div class="page-body mb-3">
           {!! $page->body !!}
         </div>
-        <x-iforms::form id="2"/>
+        @php
+          $formRepository = app("Modules\Iforms\Repositories\FormRepository");
+          $params = [
+                  "filter" => [
+                    "field" => "system_name",
+                  ],
+                  "include" => [],
+                  "fields" => [],
+          ];
+          $form = $formRepository->getItem("contact_form", json_decode(json_encode($params)));
+        @endphp
+        <x-iforms::form id="{{$form->id}}"/>
       </div>
       <div class="col-md-8">
         @php
