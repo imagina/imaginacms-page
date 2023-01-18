@@ -168,17 +168,35 @@ class PublicController extends BasePublicController
     if (view()->exists($ttpl)) $tpl = $ttpl;
     
     $layoutPath = null;
-
-    $organization = tenant() ?? null;
-    if(!is_null($organization))
-      $layoutPath = $organization->layout->path;
+  
+    $layoutPath = $page->typeable->layout_path ?? null;
   
     //validate if exist the layout from the typeable relation
     if (view()->exists($layoutPath)) $tpl = $layoutPath;
-    //revalidate if exist the layout adding the page system name to the end of the path
-    elseif (view()->exists($layoutPath.".$page->system_name")) $tpl = $layoutPath.".$page->system_name";
     
-    else{
+    //if isset tenant initialized have full priority
+    elseif(isset(tenant()->id)){
+      $organization = tenant();
+      
+      $layoutPath = $organization->layout->path;
+  
+      //validate if exist the layout from the typeable relation
+      if (view()->exists($layoutPath)) $tpl = $layoutPath;
+      
+      //revalidate if exist the layout adding the page system name to the end of the path
+      elseif (view()->exists($layoutPath.".$page->system_name")) $tpl = $layoutPath.".$page->system_name";
+      
+      //verify if
+      elseif(view()->exists($layoutPath.".$page->id")) $tpl = $layoutPath.".$page->id";
+  
+      else{
+        $currentLocale = \LaravelLocalization::getCurrentLocale();
+        if (view()->exists($layoutPath.".$currentLocale.".".$page->id")){
+          $tpl = $layoutPath.".$currentLocale.".".$page->id";
+        }
+      }
+      
+    }else{
       $ttpl = "pages.content.$page->id";
       if (view()->exists($ttpl)) $tpl = $ttpl;
   
@@ -189,8 +207,10 @@ class PublicController extends BasePublicController
       }
   
     }
+
     
     
+
     return $tpl;
     
   }
