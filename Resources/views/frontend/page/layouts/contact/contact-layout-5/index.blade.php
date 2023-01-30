@@ -16,43 +16,50 @@
           <div class="col-auto col-sm-12 col-md-12 col-lg-5 data-contact">
             <div class="row">
               <div class="col-12 pb-4">
-                <h5 class="title-contact-secondary">{{trans('page::common.layouts.layoutContact.layout5.titleContactSecondary')}}</h5>
+                <h5
+                  class="title-contact-secondary">{{trans('page::common.layouts.layoutContact.layout5.titleContactSecondary')}}</h5>
               </div>
               <div class="col-12">
                 <div class="contact-section pt-3">
-                  <div class="row border-bottom pb-4 mb-4">
-                    <div class="col-12 col-md-1 col-lg-2">
-                      <i class="fa fa-phone"></i>
-                    </div>
-                    <div class="col-10">
-                      <div class="title-contact">
-                        {{trans('page::common.layouts.layoutContact.layout5.titleContactPhone')}}
+                  @if(json_decode(setting('isite::phones')) != [])
+                    <div class="row border-bottom pb-4 mb-4">
+                      <div class="col-12 col-md-1 col-lg-2">
+                        <i class="fa fa-phone"></i>
                       </div>
-                      <x-isite::contact.phones :showIcon="false"/>
-                    </div>
-                  </div>
-                  <div class="row border-bottom pb-4 mb-4">
-                    <div class="col-12 col-md-1 col-lg-2">
-                      <i class="fa fa-map-marker"></i>
-                    </div>
-                    <div class="col-10">
-                      <div class="title-contact">
-                        {{trans('page::common.layouts.layoutContact.layout5.titleContactAddress')}}
+                      <div class="col-10">
+                        <div class="title-contact">
+                          {{trans('page::common.layouts.layoutContact.layout5.titleContactPhone')}}
+                        </div>
+                        <x-isite::contact.phones :showIcon="false"/>
                       </div>
-                      <x-isite::contact.addresses :showIcon="false"/>
                     </div>
-                  </div>
-                  <div class="row border-bottom pb-4 mb-4">
-                    <div class="col-12 col-md-1 col-lg-2">
-                      <i class="fa fa-envelope"></i>
-                    </div>
-                    <div class="col-10">
-                      <div class="title-contact">
-                        {{trans('page::common.layouts.layoutContact.layout5.titleContactEmail')}}
+                  @endif
+                  @if(json_decode(setting('isite::addresses')) != [])
+                    <div class="row border-bottom pb-4 mb-4">
+                      <div class="col-12 col-md-1 col-lg-2">
+                        <i class="fa fa-map-marker"></i>
                       </div>
-                      <x-isite::contact.emails :showIcon="false"/>
+                      <div class="col-10">
+                        <div class="title-contact">
+                          {{trans('page::common.layouts.layoutContact.layout5.titleContactAddress')}}
+                        </div>
+                        <x-isite::contact.addresses :showIcon="false"/>
+                      </div>
                     </div>
-                  </div>
+                  @endif
+                  @if(json_decode(setting('isite::emails')) != [])
+                    <div class="row border-bottom pb-4 mb-4">
+                      <div class="col-12 col-md-1 col-lg-2">
+                        <i class="fa fa-envelope"></i>
+                      </div>
+                      <div class="col-10">
+                        <div class="title-contact">
+                          {{trans('page::common.layouts.layoutContact.layout5.titleContactEmail')}}
+                        </div>
+                        <x-isite::contact.emails :showIcon="false"/>
+                      </div>
+                    </div>
+                  @endif
                 </div>
               </div>
             </div>
@@ -83,9 +90,16 @@
       <x-isite::social/>
     </div>
   </div>
-  <div class="widget-map">
-    <x-isite::Maps/>
-  </div>
+  @php
+    $location = json_decode(setting('isite::locationSite'));
+    $mapLat = (string)$location->lat;
+    $mapLng = (string)$location->lng;
+  @endphp
+  @if($mapLat != (string)4.6469204494764 && $mapLng != (string)-74.078579772573)
+    <div class="widget-map">
+      <x-isite::Maps/>
+    </div>
+  @endif
 </div>
 
 <style>

@@ -44,8 +44,12 @@
       <div class="col-md-8">
         @php
           $location = json_decode(setting('isite::locationSite'));
+          $mapLat = (string)$location->lat;
+          $mapLng = (string)$location->lng;
         @endphp
-        <x-isite::Maps lat="{{$location->lat}}" lng="{{$location->lng}}"/>
+        @if($mapLat != (string)4.6469204494764 && $mapLng != (string)-74.078579772573)
+          <x-isite::Maps/>
+        @endif
         <div class="col-12">
           <div class="row">
             <div class="col-md-6">

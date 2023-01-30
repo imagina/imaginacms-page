@@ -60,27 +60,33 @@
                 </div>
                 <div class="col-12">
                   <div class="contact-section pt-3">
-                    <div class="title-contact mt-2 mb-1">
-                      <i class="fa fa-map-marker"></i>
-                      <div class="d-inline-block font-weight-bold pl-3">
-                        {{trans('page::common.layouts.layoutContact.layout4.titleAddressPageContact')}}
+                    @if(json_decode(setting('isite::addresses')) != [])
+                      <div class="title-contact mt-2 mb-1">
+                        <i class="fa fa-map-marker"></i>
+                        <div class="d-inline-block font-weight-bold pl-3">
+                          {{trans('page::common.layouts.layoutContact.layout4.titleAddressPageContact')}}
+                        </div>
                       </div>
-                    </div>
-                    <x-isite::contact.addresses/>
-                    <div class="title-contact mt-2 mb-1">
-                      <i class="fa fa-phone"></i>
-                      <div class="d-inline-block font-weight-bold pl-3">
-                        {{trans('page::common.layouts.layoutContact.layout4.titlePhonePageContact')}}
+                      <x-isite::contact.addresses/>
+                    @endif
+                    @if(json_decode(setting('isite::phones')) != [])
+                      <div class="title-contact mt-2 mb-1">
+                        <i class="fa fa-phone"></i>
+                        <div class="d-inline-block font-weight-bold pl-3">
+                          {{trans('page::common.layouts.layoutContact.layout4.titlePhonePageContact')}}
+                        </div>
                       </div>
-                    </div>
-                    <x-isite::contact.phones/>
-                    <div class="title-contact mt-2 mb-1">
-                      <i class="fa fa-envelope"></i>
-                      <div class="d-inline-block font-weight-bold pl-3">
-                        {{trans('page::common.layouts.layoutContact.layout4.titleEmailPageContact')}}
+                      <x-isite::contact.phones/>
+                    @endif
+                    @if(json_decode(setting('isite::emails')) != [])
+                      <div class="title-contact mt-2 mb-1">
+                        <i class="fa fa-envelope"></i>
+                        <div class="d-inline-block font-weight-bold pl-3">
+                          {{trans('page::common.layouts.layoutContact.layout4.titleEmailPageContact')}}
+                        </div>
                       </div>
-                    </div>
-                    <x-isite::contact.emails/>
+                      <x-isite::contact.emails/>
+                    @endif
                   </div>
                 </div>
               </div>
@@ -110,9 +116,16 @@
         </h5>
       </div>
     </div>
-    <div class="widget-map">
-      <x-isite::Maps/>
-    </div>
+    @php
+      $location = json_decode(setting('isite::locationSite'));
+      $mapLat = (string)$location->lat;
+      $mapLng = (string)$location->lng;
+    @endphp
+    @if($mapLat != (string)4.6469204494764 && $mapLng != (string)-74.078579772573)
+      <div class="widget-map">
+        <x-isite::Maps/>
+      </div>
+    @endif
   </div>
 </div>
 
