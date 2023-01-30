@@ -1,5 +1,4 @@
 <div class="page page-{{$page->id}}" data-icontenttype="page" data-icontentid="{{$page->id}}">
-  @include('partials.top-banner')
   <div
     class="page-banner banner-breadcrumb-category position-relative">
     <div class="position-absolute h-100 w-100 content-title d-flex align-items-center">
