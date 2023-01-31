@@ -61,7 +61,7 @@
             </div>
             <div class="col-md-6">
               <div class="d-flex justify-content-end py-2">
-                <x-isite::social/>
+                <x-isite::social :withWhatsapp="false"/>
               </div>
             </div>
           </div>

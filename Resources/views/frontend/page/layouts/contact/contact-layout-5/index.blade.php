@@ -87,7 +87,7 @@
 <div class="container-fluid px-0" id="sectionMaps">
   <div class="container border-top">
     <div id="socialNetworkSection" class="social-contact">
-      <x-isite::social/>
+      <x-isite::social :withWhatsapp="false"/>
     </div>
   </div>
   @php

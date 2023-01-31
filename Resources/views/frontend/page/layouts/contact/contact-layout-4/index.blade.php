@@ -96,8 +96,9 @@
                     class="card-title text-bold pt-4">{{trans('page::common.layouts.layoutContact.layout4.titleSocialPageContact')}}</h5>
                 </div>
                 <div class="col-12">
+                  {{dd('epaaa')}}
                   <div id="socialIn">
-                    <x-isite::social/>
+                    <x-isite::social :withWhatsapp="false"/>
                   </div>
                 </div>
               </div>
