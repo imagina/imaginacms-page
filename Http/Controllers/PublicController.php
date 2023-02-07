@@ -9,6 +9,8 @@ use Modules\Page\Entities\Page;
 use Modules\Page\Repositories\PageRepository;
 use Modules\Page\Transformers\PageApiTransformer;
 
+use Illuminate\Http\Request;
+
 class PublicController extends BasePublicController
 {
   /**
@@ -34,11 +36,16 @@ class PublicController extends BasePublicController
    * @param $slug
    * @return \Illuminate\View\View
    */
-  public function uri($page,$slug = "")
+  public function uri($page,$slug = "",Request $request)
   {
 
     $this->throw404IfNotFound($page);
 
+    //Validation with lang from URL
+    $result = validateLocaleFromUrl($request,['entity' => $page]);
+    if(isset($result["reedirect"]))
+      return redirect()->to($result["url"]);
+    
     $currentTranslatedPage = $page->getTranslation(locale());
 
     if(!isset($currentTranslatedPage->slug) || ($page->id == 1 && !empty($slug))){
@@ -67,9 +74,14 @@ class PublicController extends BasePublicController
   /**
    * @return \Illuminate\View\View
    */
-  public function homepage()
+  public function homepage(Request $request)
   {
 
+    //Validation with lang from URL
+    $result = validateLocaleFromUrl($request);
+    if(isset($result["reedirect"]))
+      return redirect()->to($result["url"]);
+    
     $page = $this->page->findHomepage();
 
     if(isset(tenant()->id)) {
