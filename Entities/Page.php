@@ -96,9 +96,15 @@ class Page extends Model implements TaggableInterface
     return $thumbnail;
   }
   
-  public function getUrlAttribute()
+  public function getUrlAttribute($locale=null)
   {
-    return \LaravelLocalization::localizeUrl( '/' . $this->slug);
+    
+    $currentLocale = $locale ?? locale();
+    if(!is_null($locale)){
+       $this->slug = $this->getTranslation($locale)->slug;
+    }
+
+    return \LaravelLocalization::localizeUrl( '/' . $this->slug,$currentLocale);
   }
   
   public function getOptionsAttribute($value)
