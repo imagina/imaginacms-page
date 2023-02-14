@@ -115,4 +115,10 @@ class Page extends Model implements TaggableInterface
       return json_decode($value);
     }
   }
+
+  public function setSystemNameAttribute($value)
+  {
+    $this->attributes['system_name'] = !empty($value) ? $value : \Str::slug($this->title, '-');
+  }
+
 }

@@ -66,8 +66,10 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
     if (method_exists($this->model, 'creatingCrudModel'))
       $this->model->creatingCrudModel(['data' => $data]);
 
+    //force it into the system name setter
+    $data["system_name"] = "";
 
-    $page = $this->model->create($event->getAttributes());
+    $page = $this->model->create($data);
 
     //Event created model
     if (method_exists($page, 'createdCrudModel'))
@@ -411,7 +413,11 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       }
 
       event($event = new PageIsUpdating($model, $data));
-      $model->update($event->getAttributes());
+
+      //force it into the system name setter
+      $data["system_name"] = "";
+
+      $model->update($data);
 
       //Event updated model
       if (method_exists($model, 'updatedCrudModel'))
