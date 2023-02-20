@@ -67,7 +67,7 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       $this->model->creatingCrudModel(['data' => $data]);
 
     //force it into the system name setter
-    $data["system_name"] = "";
+    $data["system_name"] = $data["system_name"] ?? "";
 
     $page = $this->model->create($data);
 
@@ -316,6 +316,7 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
 
     $entitiesWithCentralData = json_decode(setting("isite::tenantWithCentralData", null, "[]",true));
     $tenantWithCentralData = in_array("page", $entitiesWithCentralData);
+  
 
     if ($tenantWithCentralData && isset(tenant()->id)) {
       $model = $this->model;
@@ -415,7 +416,7 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       event($event = new PageIsUpdating($model, $data));
 
       //force it into the system name setter
-      $data["system_name"] = "";
+      $data["system_name"] = $data["system_name"] ?? "";
 
       $model->update($data);
 
