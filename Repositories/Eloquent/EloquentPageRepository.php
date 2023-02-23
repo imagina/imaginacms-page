@@ -416,10 +416,9 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       event($event = new PageIsUpdating($model, $data));
 
       //force it into the system name setter
-      //Problems when page is us,contact, The base system name is different from the title so
-      //the theme page would not load
-      //$data["system_name"] = $data["system_name"] ?? "";
-
+      if(empty($data["system_name"]))
+        $data["system_name"] = $model->system_name;
+      
       $model->update($data);
 
       //Event updated model
