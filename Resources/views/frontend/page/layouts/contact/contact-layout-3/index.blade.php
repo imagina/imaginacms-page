@@ -1,9 +1,8 @@
-<div class="page page-{{$page->id}}" data-icontenttype="page" data-icontentid="{{$page->id}}">
-  <div
-    class="page-banner banner-breadcrumb-category position-relative">
+<div class="page page-{{$page->id}} page-contact page-contact-layout-3" id="pageContactLayout3">
+  <div class="page-banner banner-breadcrumb-category position-relative">
     <div class="position-absolute h-100 w-100 content-title d-flex align-items-center">
       <div class="container">
-        <h1 class="text-white  text-uppercase">
+        <h1 class="text-white text-uppercase title-page">
           {{ $page->title }}
         </h1>
       </div>
@@ -61,7 +60,7 @@
             </div>
             <div class="col-md-6">
               <div class="d-flex justify-content-end py-2">
-                <x-isite::social :withWhatsapp="false"/>
+                <x-isite::social/>
               </div>
             </div>
           </div>

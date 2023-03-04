@@ -1,12 +1,10 @@
-{{-- Page Contact --}}
-<div class="page-{{ $page->id }}" id="contactSection">
-  {{-- Top Banner --}}
+<div class="page page-{{$page->id}} page-contact page-contact-layout-5" id="pageContactLayout5">
   <div id="breadcrumbSection">
     @include('page::frontend.partials.breadcrumb')
   </div>
   <div class="container contact-section" id="cardContact">
     <div class="col-12">
-      <h1 class="title-contact-main text-uppercase pt-2 pt-md-4 pb-2 pb-md-5">
+      <h1 class="title-contact-main text-uppercase pt-2 pt-md-4 pb-2 pb-md-5 title-page">
         {{ $page->title }}
       </h1>
     </div>

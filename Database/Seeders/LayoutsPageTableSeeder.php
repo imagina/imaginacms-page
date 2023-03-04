@@ -66,5 +66,31 @@ class LayoutsPageTableSeeder extends Seeder
         );
       }
     }
+    //Seed layouts for gallery page
+    $galleryTemplates = base_path() . "/Modules/Page/Resources/views/frontend/page/layouts/gallery";
+    $layoutsGallery = scandir($galleryTemplates);
+    $numLayoutsGallery = 0;
+    foreach ($layoutsGallery as $layout) {
+      if ($layout != "." && $layout != "..") {
+        $numLayoutsGallery = $numLayoutsGallery + 1;
+        Layout::updateOrCreate(
+          ['module_name' => 'Page', 'entity_name' => 'Page', 'system_name' => "{$layout}"],
+          [
+            'module_name' => 'Page',
+            'entity_name' => 'Page',
+            'path' => "page::frontend.page.layouts.gallery.{$layout}.index",
+            'record_type' => 'master',
+            'status' => '1',
+            'system_name' => "{$layout}",
+            'es' => [
+              'title' => "Plantilla #{$numLayoutsGallery} Para Pagina Galería"
+            ],
+            'en' => [
+              'title' => "Template #{$numLayoutsGallery} For Page Gallery"
+            ]
+          ]
+        );
+      }
+    }
   }
 }

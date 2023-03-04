@@ -1,10 +1,10 @@
-{{-- Page Contact --}}
-<div class="page-{{ $page->id }}" id="contactSection">
-  {{-- Top Banner --}}
-  <div
-    class="page-banner banner-breadcrumb-category position-relative page-contact">
+<div class="page page-{{$page->id}} page-our page-our-layout-1" id="pageOurLayout1">
+  <div class="page-banner banner-breadcrumb-category position-relative">
     <div class="position-absolute h-100 w-100 content-title">
       <div class="container d-flex flex-column align-items-center w-100 h-100 justify-content-center">
+        <h1 class="text-white text-uppercase title-page">
+          {{$page->title}}
+        </h1>
         @include('page::frontend.partials.breadcrumb')
       </div>
     </div>
@@ -17,7 +17,7 @@
     @endif
   </div>
   <div style="background: #e6e6e6">
-    <div class="container contact-section pt-5 pb-5" id="cardContact">
+    <div class="container our-section pt-5 pb-5" id="cardOur">
       <div class="card">
         @if (isset($page) && count($page->mediaFiles()->gallery) > 0)
           <x-media::gallery :mediaFiles="$page->mediaFiles()"
@@ -32,7 +32,7 @@
       </div>
     </div>
   </div>
-  <div class="content-page">
+  <div class="content-page py-3">
     <div class="container">
       {!! $page->body !!}
     </div>
@@ -40,97 +40,91 @@
 </div>
 
 <style>
-    #contactSection .breadcrumb {
+    #pageOurLayout1 .breadcrumb {
         justify-content: center;
         margin-bottom: 27px !important;
     }
 
-    #contactSection .breadcrumb .breadcrumb-item {
+    #pageOurLayout1 .breadcrumb .breadcrumb-item {
         font-size: 18px;
         color: #fff !important;
         font-weight: 100;
         text-transform: uppercase;
     }
 
-    #contactSection .breadcrumb .breadcrumb-item a {
+    #pageOurLayout1 .breadcrumb .breadcrumb-item a {
         color: #fff !important;
     }
 
     @media (max-width: 991.98px) {
-        #contactSection .content-title h1 {
+        #pageOurLayout1 .content-title h1 {
             font-size: 25px;
         }
 
-        #contactSection .content-title #breadcrumbSection ol.breadcrumb li.breadcrumb-item {
+        #pageOurLayout1 .content-title #breadcrumbSection ol.breadcrumb li.breadcrumb-item {
             color: #fff !important;
             font-size: 14px;
         }
 
-        #contactSection .content-title #breadcrumbSection ol.breadcrumb li.breadcrumb-item:before {
+        #pageOurLayout1 .content-title #breadcrumbSection ol.breadcrumb li.breadcrumb-item:before {
             color: #fff !important;
         }
 
-        #contactSection .content-title #breadcrumbSection ol.breadcrumb li.breadcrumb-item a {
+        #pageOurLayout1 .content-title #breadcrumbSection ol.breadcrumb li.breadcrumb-item a {
             color: #fff !important;
             font-size: 14px;
         }
     }
 
-    #cardContact {
+    #cardOur {
         position: relative;
         top: -33vw;
     }
 
-    #cardContact .card {
+    #cardOur .card {
         border-radius: 20px;
         box-shadow: 1px 2px 10px 4px #020202 1 f;
     }
 
-    #cardContact .card .card-body {
+    #cardOur .card .card-body {
         padding: 4.5vw;
     }
 
     @media (max-width: 991.98px) {
-        #cardContact .card-title {
+        #cardOur .card-title {
             text-align: center;
             font-size: 22px;
         }
 
-        #cardContact .card-title:after {
+        #cardOur .card-title:after {
             margin: auto !important;
         }
 
-        #cardContact .btn {
+        #cardOur .btn {
             width: 80px;
             font-size: 15px !important;
         }
 
-        #cardContact .contact-section {
+        #cardOur .contact-section {
             font-size: 15px;
         }
 
-        #cardContact .fa-phone, #cardContact .fa-map-marker, #cardContact .fa-envelope {
+        #cardOur .fa-phone, #cardContact .fa-map-marker, #cardContact .fa-envelope {
             font-size: 15px;
         }
 
-        #cardContact #componentContactAddresses:before, #cardContact #componentContactPhones:before, #cardContact #componentContactEmails:before {
+        #cardOur #componentContactAddresses:before, #cardContact #componentContactPhones:before, #cardContact #componentContactEmails:before {
             padding-left: 1.8rem;
         }
 
-        #cardContact #socialIn {
+        #cardOur #socialIn {
             text-align: center;
         }
     }
 
     @media (max-width: 767.98px) {
-        #cardContact {
+        #cardOur {
             top: -56vw;
-        }
-    }
-
-    @media (max-width: 767.98px) {
-        #sectionMaps {
-            margin-top: -56vw;
         }
     }
 </style>
