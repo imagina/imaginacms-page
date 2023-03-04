@@ -1,10 +1,8 @@
-<div class="page page-{{$page->id}}" data-icontenttype="page" data-icontentid="{{$page->id}}">
-  @include('partials.top-banner')
-  <div
-    class="page-banner banner-breadcrumb-category position-relative">
+<div class="page page-{{$page->id}} page-contact page-contact-layout-3" id="pageContactLayout3">
+  <div class="page-banner banner-breadcrumb-category position-relative">
     <div class="position-absolute h-100 w-100 content-title d-flex align-items-center">
       <div class="container">
-        <h1 class="text-white  text-uppercase">
+        <h1 class="text-white text-uppercase title-page">
           {{ $page->title }}
         </h1>
       </div>
@@ -45,8 +43,12 @@
       <div class="col-md-8">
         @php
           $location = json_decode(setting('isite::locationSite'));
+          $mapLat = (string)$location->lat;
+          $mapLng = (string)$location->lng;
         @endphp
-        <x-isite::Maps lat="{{$location->lat}}" lng="{{$location->lng}}"/>
+        @if($mapLat != (string)4.6469204494764 || $mapLng != (string)-74.078579772573)
+          <x-isite::Maps/>
+        @endif
         <div class="col-12">
           <div class="row">
             <div class="col-md-6">

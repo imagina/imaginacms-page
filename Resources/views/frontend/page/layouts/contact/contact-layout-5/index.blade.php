@@ -1,12 +1,10 @@
-{{-- Page Contact --}}
-<div class="page-{{ $page->id }}" id="contactSection">
-  {{-- Top Banner --}}
+<div class="page page-{{$page->id}} page-contact page-contact-layout-5" id="pageContactLayout5">
   <div id="breadcrumbSection">
     @include('page::frontend.partials.breadcrumb')
   </div>
   <div class="container contact-section" id="cardContact">
     <div class="col-12">
-      <h1 class="title-contact-main text-uppercase pt-2 pt-md-4 pb-2 pb-md-5">
+      <h1 class="title-contact-main text-uppercase pt-2 pt-md-4 pb-2 pb-md-5 title-page">
         {{ $page->title }}
       </h1>
     </div>
@@ -16,43 +14,50 @@
           <div class="col-auto col-sm-12 col-md-12 col-lg-5 data-contact">
             <div class="row">
               <div class="col-12 pb-4">
-                <h5 class="title-contact-secondary">{{trans('page::common.layouts.layoutContact.layout5.titleContactSecondary')}}</h5>
+                <h5
+                  class="title-contact-secondary">{{trans('page::common.layouts.layoutContact.layout5.titleContactSecondary')}}</h5>
               </div>
               <div class="col-12">
                 <div class="contact-section pt-3">
-                  <div class="row border-bottom pb-4 mb-4">
-                    <div class="col-12 col-md-1 col-lg-2">
-                      <i class="fa fa-phone"></i>
-                    </div>
-                    <div class="col-10">
-                      <div class="title-contact">
-                        {{trans('page::common.layouts.layoutContact.layout5.titleContactPhone')}}
+                  @if(json_decode(setting('isite::phones')) != [])
+                    <div class="row border-bottom pb-4 mb-4">
+                      <div class="col-12 col-md-1 col-lg-2">
+                        <i class="fa fa-phone"></i>
                       </div>
-                      <x-isite::contact.phones :showIcon="false"/>
-                    </div>
-                  </div>
-                  <div class="row border-bottom pb-4 mb-4">
-                    <div class="col-12 col-md-1 col-lg-2">
-                      <i class="fa fa-map-marker"></i>
-                    </div>
-                    <div class="col-10">
-                      <div class="title-contact">
-                        {{trans('page::common.layouts.layoutContact.layout5.titleContactAddress')}}
+                      <div class="col-10">
+                        <div class="title-contact">
+                          {{trans('page::common.layouts.layoutContact.layout5.titleContactPhone')}}
+                        </div>
+                        <x-isite::contact.phones :showIcon="false"/>
                       </div>
-                      <x-isite::contact.addresses :showIcon="false"/>
                     </div>
-                  </div>
-                  <div class="row border-bottom pb-4 mb-4">
-                    <div class="col-12 col-md-1 col-lg-2">
-                      <i class="fa fa-envelope"></i>
-                    </div>
-                    <div class="col-10">
-                      <div class="title-contact">
-                        {{trans('page::common.layouts.layoutContact.layout5.titleContactEmail')}}
+                  @endif
+                  @if(json_decode(setting('isite::addresses')) != [])
+                    <div class="row border-bottom pb-4 mb-4">
+                      <div class="col-12 col-md-1 col-lg-2">
+                        <i class="fa fa-map-marker"></i>
                       </div>
-                      <x-isite::contact.emails :showIcon="false"/>
+                      <div class="col-10">
+                        <div class="title-contact">
+                          {{trans('page::common.layouts.layoutContact.layout5.titleContactAddress')}}
+                        </div>
+                        <x-isite::contact.addresses :showIcon="false"/>
+                      </div>
                     </div>
-                  </div>
+                  @endif
+                  @if(json_decode(setting('isite::emails')) != [])
+                    <div class="row border-bottom pb-4 mb-4">
+                      <div class="col-12 col-md-1 col-lg-2">
+                        <i class="fa fa-envelope"></i>
+                      </div>
+                      <div class="col-10">
+                        <div class="title-contact">
+                          {{trans('page::common.layouts.layoutContact.layout5.titleContactEmail')}}
+                        </div>
+                        <x-isite::contact.emails :showIcon="false"/>
+                      </div>
+                    </div>
+                  @endif
                 </div>
               </div>
             </div>
@@ -80,12 +85,19 @@
 <div class="container-fluid px-0" id="sectionMaps">
   <div class="container border-top">
     <div id="socialNetworkSection" class="social-contact">
-      <x-isite::social/>
+      <x-isite::social :withWhatsapp="false"/>
     </div>
   </div>
-  <div class="widget-map">
-    <x-isite::Maps/>
-  </div>
+  @php
+    $location = json_decode(setting('isite::locationSite'));
+    $mapLat = (string)$location->lat;
+    $mapLng = (string)$location->lng;
+  @endphp
+  @if($mapLat != (string)4.6469204494764 || $mapLng != (string)-74.078579772573)
+    <div class="widget-map">
+      <x-isite::Maps/>
+    </div>
+  @endif
 </div>
 
 <style>

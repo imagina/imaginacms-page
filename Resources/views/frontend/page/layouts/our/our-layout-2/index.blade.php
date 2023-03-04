@@ -1,11 +1,10 @@
-{{-- Page Contact --}}
-<div class="page-{{ $page->id }}" id="contactSection">
-  {{-- Top Banner --}}
-  <div
-    class="page-banner banner-breadcrumb-category position-relative page-contact">
+<div class="page page-{{$page->id}} page-our page-our-layout-2" id="pageOurLayout2">
+  <div class="page-banner banner-breadcrumb-category position-relative">
     <div class="position-absolute h-100 w-100 content-title">
       <div class="container d-flex flex-column align-items-center w-100 h-100 justify-content-center">
-        {{$page->title}}
+        <h1 class="title-page">
+          {{$page->title}}
+        </h1>
       </div>
     </div>
     <div class="content-title-hidden"></div>
@@ -16,7 +15,7 @@
       <div class="pb-5 pt-5" style="background-color: var(--primary)"></div>
     @endif
   </div>
-  <div class="content-page">
+  <div class="content-page py-3">
     <div class="container">
       @include('page::frontend.partials.breadcrumb')
       {!! $page->body !!}
@@ -27,7 +26,3 @@
     </div>
   </div>
 </div>
-
-<style>
-
-</style>

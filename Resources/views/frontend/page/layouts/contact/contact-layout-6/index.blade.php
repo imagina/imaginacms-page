@@ -1,8 +1,14 @@
-<div class="page page-{{$page->id}}" data-icontenttype="page" data-icontentid="{{$page->id}}">
+<div class="page page-{{$page->id}} page-contact page-contact-layout-6" id="pageContactLayout6">
   <div class="page-content-contact mb-5">
     <div class="content pb-2">
       <div class="container">
-        <div class="col-12 py-5 mt-3 ">
+        <div id="breadcrumbSection">
+          @include('page::frontend.partials.breadcrumb')
+        </div>
+        <div class="col-12 py-3">
+          <h1 class="text-uppercase text-center title-page">
+            {{$page->title}}
+          </h1>
           <div class="content-text">
             {!! $page->body !!}
           </div>
@@ -11,9 +17,9 @@
       <div class="content-banner-form">
         <div class="content-bg-image">
           <x-media::single-image imgClasses="bg-banner-form" :mediaFiles="$page->mediaFiles()" :isMedia="true"
-                                 :alt="$page->title" zone="secondaryimage"/>
+                                 :alt="$page->title" zone="breadcrumbimage"/>
         </div>
-        <div class="container">
+        <div class="container py-5">
           <div class="row">
             <div class="col-12 col-md-6 m-auto pb-5">
               @if(isset($page) &&

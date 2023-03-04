@@ -1,10 +1,10 @@
-<div class="page-content page-{{$page->id}}">
+<div class="page page-{{$page->id}} page-our page-our-layout-3" id="pageOurLayout3">
   <div class="container">
     <div class="content-breadcrumb">
       @include('page::frontend.partials.breadcrumb')
     </div>
     <div>
-      <h1 id="title-page" class="text-center mb-4">
+      <h1 class="text-center title-page mb-4">
         {{$page->title}}
       </h1>
       <div class="content-image">
@@ -25,24 +25,3 @@
                       :responsive="[0 => ['items' => 1], 640 => ['items' => 2], 992 => ['items' => 5]]"/>
   </div>
 </div>
-
-<style>
-    .page-content #title-page {
-        font-size: 32px;
-        color: var(--primary);
-    }
-
-    .page-content #descriptionPage p, .page-content #descriptionPage li {
-        font-size: 17px;
-    }
-
-    .page-content #descriptionPage strong {
-        font-size: 24px;
-    }
-
-    .page-content #galleryCarousel.owl-stage-outer img {
-        height: 240px;
-        object-fit: cover;
-    }
-
-</style>

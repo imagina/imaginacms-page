@@ -1,11 +1,8 @@
-{{-- Page Contact --}}
-<div class="page-{{ $page->id }}" id="contactSection">
-  {{-- Top Banner --}}
-  <div
-    class="page-banner banner-breadcrumb-category position-relative page-contact">
+<div class="page page-{{$page->id}} page-contact page-contact-layout-4" id="pageContactLayout4">
+  <div class="page-banner banner-breadcrumb-category position-relative page-contact">
     <div class="position-absolute h-100 w-100 content-title">
       <div class="container d-flex flex-column align-items-center w-100 h-100 justify-content-center">
-        <h1 class="text-white text-center al-center">
+        <h1 class="text-white text-center al-center title-page">
           {{ $page->title }}
         </h1>
         @include('page::frontend.partials.breadcrumb')
@@ -21,16 +18,6 @@
   </div>
   <div style="background: #e6e6e6">
     <div class="container contact-section pt-5 pb-5" id="cardContact">
-      <div class="col-12">
-        <div class="content-title">
-          <div class="container d-flex flex-column align-items-center w-100 h-100 justify-content-center">
-            <h1 class="text-white text-center al-center text-uppercase font-weight-bold">
-              {{ $page->title }}
-            </h1>
-            @include('page::frontend.partials.breadcrumb')
-          </div>
-        </div>
-      </div>
       <div class="card">
         <div class="card-body">
           <div class="row">
@@ -54,33 +41,42 @@
             <hr id="hrVertical" class="d-none d-lg-block">
             <div class="col-auto col-sm-12 col-md-12 col-lg-5 data-contact">
               <div class="row">
+                <div class="page-description col-12">
+                  {!! $page->body !!}
+                </div>
                 <div class="col-12">
                   <h5
                     class="card-title">{{trans('page::common.layouts.layoutContact.layout4.titleInfoPageContact')}}</h5>
                 </div>
                 <div class="col-12">
                   <div class="contact-section pt-3">
-                    <div class="title-contact mt-2 mb-1">
-                      <i class="fa fa-map-marker"></i>
-                      <div class="d-inline-block font-weight-bold pl-3">
-                        {{trans('page::common.layouts.layoutContact.layout4.titleAddressPageContact')}}
+                    @if(json_decode(setting('isite::addresses')) != [])
+                      <div class="title-contact mt-2 mb-1">
+                        <i class="fa fa-map-marker"></i>
+                        <div class="d-inline-block font-weight-bold pl-3">
+                          {{trans('page::common.layouts.layoutContact.layout4.titleAddressPageContact')}}
+                        </div>
                       </div>
-                    </div>
-                    <x-isite::contact.addresses/>
-                    <div class="title-contact mt-2 mb-1">
-                      <i class="fa fa-phone"></i>
-                      <div class="d-inline-block font-weight-bold pl-3">
-                        {{trans('page::common.layouts.layoutContact.layout4.titlePhonePageContact')}}
+                      <x-isite::contact.addresses/>
+                    @endif
+                    @if(json_decode(setting('isite::phones')) != [])
+                      <div class="title-contact mt-2 mb-1">
+                        <i class="fa fa-phone"></i>
+                        <div class="d-inline-block font-weight-bold pl-3">
+                          {{trans('page::common.layouts.layoutContact.layout4.titlePhonePageContact')}}
+                        </div>
                       </div>
-                    </div>
-                    <x-isite::contact.phones/>
-                    <div class="title-contact mt-2 mb-1">
-                      <i class="fa fa-envelope"></i>
-                      <div class="d-inline-block font-weight-bold pl-3">
-                        {{trans('page::common.layouts.layoutContact.layout4.titleEmailPageContact')}}
+                      <x-isite::contact.phones/>
+                    @endif
+                    @if(json_decode(setting('isite::emails')) != [])
+                      <div class="title-contact mt-2 mb-1">
+                        <i class="fa fa-envelope"></i>
+                        <div class="d-inline-block font-weight-bold pl-3">
+                          {{trans('page::common.layouts.layoutContact.layout4.titleEmailPageContact')}}
+                        </div>
                       </div>
-                    </div>
-                    <x-isite::contact.emails/>
+                      <x-isite::contact.emails/>
+                    @endif
                   </div>
                 </div>
               </div>
@@ -101,19 +97,26 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid px-0" id="sectionMaps">
-    <div class="justify-content-center">
-      <div class="text-center">
-        <i class="fa fa-map-marker" aria-hidden="true"></i>
-        <h5 class="title">
-          {{trans('page::common.layouts.layoutContact.layout4.titleMapPageContact')}}
-        </h5>
+  @php
+    $location = json_decode(setting('isite::locationSite'));
+    $mapLat = (string)$location->lat;
+    $mapLng = (string)$location->lng;
+  @endphp
+  @if($mapLat != (string)4.6469204494764 || $mapLng != (string)-74.078579772573)
+    <div class="container-fluid px-0" id="sectionMaps">
+      <div class="justify-content-center">
+        <div class="text-center">
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+          <h5 class="title">
+            {{trans('page::common.layouts.layoutContact.layout4.titleMapPageContact')}}
+          </h5>
+        </div>
+      </div>
+      <div class="widget-map">
+        <x-isite::Maps/>
       </div>
     </div>
-    <div class="widget-map">
-      <x-isite::Maps/>
-    </div>
-  </div>
+  @endif
 </div>
 
 <style>
@@ -155,7 +158,7 @@
 
     #cardContact {
         position: relative;
-        top: -33vw;
+        top: -8vw;
     }
 
     #cardContact .card {
