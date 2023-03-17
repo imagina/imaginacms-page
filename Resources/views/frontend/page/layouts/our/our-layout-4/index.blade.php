@@ -18,12 +18,18 @@
   </div>
   <div class="content-page pt-5">
     <div class="container">
-      @if (isset($page) && empty($page->mainimage) && strpos($page->mediaFiles()->mainimage->extraLargeThumb, 'default.jpg') == false)
-        <x-media::single-image :title="$page->title" :isMedia="true" width="100%" :mediaFiles="$page->mediaFiles()"
-                               zone="mainimage"/>
-      @endif
-      <div class="description-page pt-5">
-        {!! $page->body !!}
+      <div class="row justify-content-center">
+        <div class="content-image-main col-10">
+          @if (isset($page) && empty($page->mainimage) && strpos($page->mediaFiles()->mainimage->extraLargeThumb, 'default.jpg') == false)
+            <x-media::single-image :title="$page->title" :isMedia="true" width="100%" :mediaFiles="$page->mediaFiles()"
+                                   zone="mainimage"/>
+          @endif
+        </div>
+        <div class="content-description col-12">
+          <div class="description-page pt-5">
+            {!! $page->body !!}
+          </div>
+        </div>
       </div>
     </div>
     <div class="gallery-section py-3">
