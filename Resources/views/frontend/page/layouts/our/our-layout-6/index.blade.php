@@ -21,16 +21,21 @@
       </div>
     </div>
     <div class="row justify-content-between">
-      <div class="col-md-6">
-        <x-media::single-image
-          :title="$page->title"
-          :isMedia="true" width="100%"
-          :mediaFiles="$page->mediaFiles()"
-          zone="mainimage"
-          imgClasses="image-rounded"
-        />
-      </div>
-      <div class="col-md-6">
+      @if (isset($page) && empty($page->mainimage) && strpos($page->mediaFiles()->mainimage->extraLargeThumb, 'default.jpg') == false)
+        <div class="col-md-6">
+          <x-media::single-image
+            :title="$page->title"
+            :isMedia="true" width="100%"
+            :mediaFiles="$page->mediaFiles()"
+            zone="mainimage"
+            imgClasses="image-rounded"
+          />
+        </div>
+      @endif
+      <div
+        class="@if (isset($page) && empty($page->mainimage) &&
+                strpos($page->mediaFiles()->mainimage->extraLargeThumb, 'default.jpg') == false)
+          col-md-6 @else col-md-12 @endif">
         {!! $page->body !!}
       </div>
     </div>

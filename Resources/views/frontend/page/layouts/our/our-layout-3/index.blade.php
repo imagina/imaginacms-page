@@ -7,21 +7,27 @@
       <h1 class="text-center title-page mb-4">
         {{$page->title}}
       </h1>
-      <div class="content-image">
-        <x-media::single-image
-          imgClasses="w-100 mb-3"
-          :mediaFiles="$page->mediaFiles()"
-          :isMedia="true"
-          :alt="$page->title"/>
-      </div>
-      <div id="descriptionPage">
+      @if(isset($page) && empty($page->mainimage) &&
+        (strpos($page->mediafiles()->mainimage->extraLargeThumb, 'default.jpg')) == false)
+        <div class="content-image col-md-8 m-auto">
+          <x-media::single-image :mediaFiles="$page->mediaFiles()" imgClasses="image-page" :isMedia="true"
+                                 :alt="$page->title" zone="mainimage"/>
+        </div>
+      @endif
+      <div id="descriptionPage py-3">
         {!!$page->body!!}
       </div>
+      <div class="social-share d-flex justify-content-end align-items-center" style="margin-bottom: 2%; margin-right: 9%;">
+        <div class="mr-2">{{trans('iblog::common.social.share')}}:</div>
+        <div class="sharethis-inline-share-buttons"></div>
+      </div>
     </div>
+  </div>
+  @if(count($page->mediaFiles()->gallery) > 0)
     <hr class="line-footer">
-  </div>
-  <div class="gallery-section py-3">
-    <x-media::gallery :mediaFiles="$page->mediaFiles()"
-                      :responsive="[0 => ['items' => 1], 640 => ['items' => 2], 992 => ['items' => 5]]"/>
-  </div>
+    <div class="gallery-section py-3">
+      <x-media::gallery :mediaFiles="$page->mediaFiles()"
+                        :responsive="[0 => ['items' => 1], 640 => ['items' => 2], 992 => ['items' => 5]]"/>
+    </div>
+  @endif
 </div>

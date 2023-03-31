@@ -20,9 +20,11 @@
       @include('page::frontend.partials.breadcrumb')
       {!! $page->body !!}
     </div>
-    <div class="gallery-section py-3">
-      <x-media::gallery :mediaFiles="$page->mediaFiles()"
-                        :responsive="[0 => ['items' => 1], 640 => ['items' => 2], 992 => ['items' => 5]]"/>
-    </div>
+    @if(count($page->mediaFiles()->gallery) > 0)
+      <div class="gallery-section py-3">
+        <x-media::gallery :mediaFiles="$page->mediaFiles()"
+                          :responsive="[0 => ['items' => 1], 640 => ['items' => 2], 992 => ['items' => 5]]"/>
+      </div>
+    @endif
   </div>
 </div>
