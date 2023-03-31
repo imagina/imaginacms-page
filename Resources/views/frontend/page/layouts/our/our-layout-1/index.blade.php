@@ -9,14 +9,14 @@
       </div>
     </div>
     <div class="content-title-hidden"></div>
-    @if (isset($page) && empty($page->breadcrumb) && strpos($page->mediaFiles()->breadcrumbimage->extraLargeThumb, 'default.jpg') == false)
+    @if (isset($page) && !empty($page->mediafiles()->breadcrumbimage) && strpos($page->mediaFiles()->breadcrumbimage->extraLargeThumb, 'default.jpg') == false)
       <x-media::single-image :title="$page->title" :isMedia="true" width="100%" :mediaFiles="$page->mediaFiles()"
                              zone="breadcrumbimage"/>
     @else
       <div class="pb-5 pt-5" style="background-color: var(--primary)"></div>
     @endif
   </div>
-  @if (isset($page) && count($page->mediaFiles()->gallery) > 0 || isset($page) && empty($page->mainimage) &&
+  @if (isset($page) && count($page->mediaFiles()->gallery) > 0 || !empty($page->mediafiles()->mainimage) &&
           (strpos($page->mediafiles()->mainimage->extraLargeThumb, 'default.jpg')) == false)
     <div style="background: #e6e6e6">
       <div class="container our-section pt-5 pb-5" id="cardOur">

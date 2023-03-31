@@ -7,9 +7,9 @@
       <h1 class="text-center title-page mb-4">
         {{$page->title}}
       </h1>
-      @if(isset($page) && empty($page->mainimage) &&
+      @if(isset($page) && !empty($page->mediafiles()->mainimage) &&
         (strpos($page->mediafiles()->mainimage->extraLargeThumb, 'default.jpg')) == false)
-        <div class="content-image col-md-8 m-auto">
+        <div class="content-image col-md-8 m-auto pb-5">
           <x-media::single-image :mediaFiles="$page->mediaFiles()" imgClasses="image-page" :isMedia="true"
                                  :alt="$page->title" zone="mainimage"/>
         </div>

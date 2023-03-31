@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="content-title-hidden"></div>
-  @if (isset($page) && empty($page->breadcrumb) && strpos($page->mediaFiles()->breadcrumbimage->extraLargeThumb, 'default.jpg') == false)
+  @if (isset($page) && !empty($page->mediafiles()->breadcrumbimage) && strpos($page->mediaFiles()->breadcrumbimage->extraLargeThumb, 'default.jpg') == false)
     <x-media::single-image :title="$page->title" :isMedia="true" width="100%" :mediaFiles="$page->mediaFiles()"
                            zone="breadcrumbimage"
     />
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="row justify-content-between">
-      @if (isset($page) && empty($page->mainimage) && strpos($page->mediaFiles()->mainimage->extraLargeThumb, 'default.jpg') == false)
+      @if (isset($page) && !empty($page->mediafiles()->mainimage) && strpos($page->mediaFiles()->mainimage->extraLargeThumb, 'default.jpg') == false)
         <div class="col-md-6">
           <x-media::single-image
             :title="$page->title"
@@ -33,7 +33,7 @@
         </div>
       @endif
       <div
-        class="@if (isset($page) && empty($page->mainimage) &&
+        class="@if (isset($page) && !empty($page->mediafiles()->mainimage) &&
                 strpos($page->mediaFiles()->mainimage->extraLargeThumb, 'default.jpg') == false)
           col-md-6 @else col-md-12 @endif">
         {!! $page->body !!}
