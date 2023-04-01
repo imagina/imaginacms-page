@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="content-title-hidden"></div>
-    @if (isset($page) && empty($page->breadcrumb) && strpos($page->mediaFiles()->breadcrumbimage->extraLargeThumb, 'default.jpg') == false)
+    @if (isset($page) && !empty($page->mediafiles()->breadcrumbimage) && strpos($page->mediaFiles()->breadcrumbimage->extraLargeThumb, 'default.jpg') == false)
       <x-media::single-image :title="$page->title" :isMedia="true" width="100%" :mediaFiles="$page->mediaFiles()"
                              zone="breadcrumbimage"/>
     @else
@@ -20,9 +20,11 @@
       @include('page::frontend.partials.breadcrumb')
       {!! $page->body !!}
     </div>
-    <div class="gallery-section py-3">
-      <x-media::gallery :mediaFiles="$page->mediaFiles()"
-                        :responsive="[0 => ['items' => 1], 640 => ['items' => 2], 992 => ['items' => 5]]"/>
-    </div>
+    @if(count($page->mediaFiles()->gallery) > 0)
+      <div class="gallery-section py-3">
+        <x-media::gallery :mediaFiles="$page->mediaFiles()"
+                          :responsive="[0 => ['items' => 1], 640 => ['items' => 2], 992 => ['items' => 5]]"/>
+      </div>
+    @endif
   </div>
 </div>
