@@ -2,9 +2,6 @@
   <div class="page-banner banner-breadcrumb-category position-relative">
     <div class="position-absolute h-100 w-100 content-title">
       <div class="container d-flex flex-column align-items-center w-100 h-100 justify-content-center">
-        <h1 class="text-white text-uppercase title-page">
-          {{$page->title}}
-        </h1>
         @include('page::frontend.partials.breadcrumb')
       </div>
     </div>
@@ -18,8 +15,8 @@
   </div>
   @if (isset($page) && count($page->mediaFiles()->gallery) > 0 || !empty($page->mediafiles()->mainimage) &&
           (strpos($page->mediafiles()->mainimage->extraLargeThumb, 'default.jpg')) == false)
-    <div style="background: #e6e6e6">
-      <div class="container our-section pt-5 pb-5" id="cardOur">
+    <div>
+      <div class="container our-section pb-5" id="cardOur">
         <div class="card">
           @if (isset($page) && count($page->mediaFiles()->gallery) > 0)
             <x-media::gallery :mediaFiles="$page->mediaFiles()"
@@ -37,6 +34,9 @@
   @endif
   <div class="content-page py-3">
     <div class="container">
+      <h1 class="text-primary text-center text-uppercase title-page">
+        {{$page->title}}
+      </h1>
       {!! $page->body !!}
     </div>
   </div>
@@ -81,7 +81,7 @@
 
     #cardOur {
         position: relative;
-        top: -33vw;
+        top: -3vw;
     }
 
     #cardOur .card {
