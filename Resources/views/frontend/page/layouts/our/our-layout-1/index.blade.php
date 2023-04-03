@@ -16,7 +16,7 @@
   @if (isset($page) && count($page->mediaFiles()->gallery) > 0 || !empty($page->mediafiles()->mainimage) &&
           (strpos($page->mediafiles()->mainimage->extraLargeThumb, 'default.jpg')) == false)
     <div>
-      <div class="container our-section" id="cardOur">
+      <div class="container col-md-8 m-auto our-section" id="cardOur">
         <div class="card">
           @if (isset($page) && count($page->mediaFiles()->gallery) > 0)
             <x-media::gallery :mediaFiles="$page->mediaFiles()"
