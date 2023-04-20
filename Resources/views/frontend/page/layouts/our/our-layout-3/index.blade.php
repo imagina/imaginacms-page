@@ -14,7 +14,7 @@
                                  :alt="$page->title" zone="mainimage"/>
         </div>
       @endif
-      <div id="descriptionPage py-3">
+      <div id="descriptionPage">
         {!!$page->body!!}
       </div>
       <div class="social-share d-flex justify-content-end align-items-center" style="margin-bottom: 2%; margin-right: 9%;">
