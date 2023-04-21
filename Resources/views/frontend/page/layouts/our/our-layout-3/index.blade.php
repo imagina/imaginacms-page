@@ -17,7 +17,8 @@
       <div id="descriptionPage">
         {!!$page->body!!}
       </div>
-      <div class="social-share d-flex justify-content-end align-items-center" style="margin-bottom: 2%; margin-right: 9%;">
+      <div class="social-share d-flex justify-content-end align-items-center"
+           style="margin-bottom: 2%; margin-right: 9%;">
         <div class="mr-2">{{trans('iblog::common.social.share')}}:</div>
         <div class="sharethis-inline-share-buttons"></div>
       </div>
@@ -31,3 +32,8 @@
     </div>
   @endif
 </div>
+@section("scripts")
+  <script defer type="text/javascript"
+          src="https://platform-api.sharethis.com/js/sharethis.js#property=5fd9384eb64d610011fa8357&product=inline-share-buttons"
+          async="async"></script>
+@stop

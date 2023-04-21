@@ -57,7 +57,7 @@
                           {{trans('page::common.layouts.layoutContact.layout4.titleAddressPageContact')}}
                         </div>
                       </div>
-                      <x-isite::contact.addresses/>
+                      <x-isite::contact.addresses classes="ml-3"/>
                     @endif
                     @if(json_decode(setting('isite::phones')) != [])
                       <div class="title-contact mt-2 mb-1">
@@ -66,7 +66,7 @@
                           {{trans('page::common.layouts.layoutContact.layout4.titlePhonePageContact')}}
                         </div>
                       </div>
-                      <x-isite::contact.phones/>
+                      <x-isite::contact.phones classes="ml-3"/>
                     @endif
                     @if(json_decode(setting('isite::emails')) != [])
                       <div class="title-contact mt-2 mb-1">
@@ -75,7 +75,7 @@
                           {{trans('page::common.layouts.layoutContact.layout4.titleEmailPageContact')}}
                         </div>
                       </div>
-                      <x-isite::contact.emails/>
+                      <x-isite::contact.emails classes="ml-3"/>
                     @endif
                   </div>
                 </div>
@@ -224,6 +224,7 @@
     #cardContact .card .card-body .data-contact .contact-section .fa-phone, #cardContact .card .card-body .data-contact .contact-section .fa-map-marker, #cardContact .card .card-body .data-contact .contact-section .fa-envelope {
         color: var(--primary);
         font-size: 28px;
+        width: 28px;
     }
 
     #cardContact .card .card-body .data-contact .contact-section #componentContactAddresses a, #cardContact .card .card-body .data-contact .contact-section #componentContactPhones a, #cardContact .card .card-body .data-contact .contact-section #componentContactEmails a {
