@@ -13,9 +13,11 @@ use Modules\Core\Icrud\Traits\hasEventsWithBindings;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Ifillable\Traits\isFillable;
 
+use Modules\Core\Support\Traits\AuditTrait;
+
 class Page extends Model implements TaggableInterface
 {
-  use Translatable, TaggableTrait, NamespacedEntity, MediaRelation, hasEventsWithBindings, Typeable, BelongsToTenant, isFillable;
+  use Translatable, TaggableTrait, NamespacedEntity, MediaRelation, hasEventsWithBindings, Typeable, BelongsToTenant, isFillable, AuditTrait;
   
   protected $table = 'page__pages';
   public $translatedAttributes = [
