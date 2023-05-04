@@ -117,6 +117,10 @@
         display: none;
     }
 
+    #cardContact .content-form .card-body .send-msg #CheckFormTermsAndConditions label {
+        display: block;
+    }
+
     #cardContact .content-form .card-body .send-msg .card-title:after {
         content: "";
         display: block;
