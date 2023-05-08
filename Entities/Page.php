@@ -12,14 +12,19 @@ use Modules\Isite\Traits\Typeable;
 use Modules\Core\Icrud\Traits\hasEventsWithBindings;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Ifillable\Traits\isFillable;
-
 use Modules\Core\Support\Traits\AuditTrait;
+use Modules\Isite\Traits\RevisionableTrait;
 
 class Page extends Model implements TaggableInterface
 {
-  use Translatable, TaggableTrait, NamespacedEntity, MediaRelation, hasEventsWithBindings, Typeable, BelongsToTenant, isFillable, AuditTrait;
-  
+  use Translatable, TaggableTrait, NamespacedEntity, MediaRelation, hasEventsWithBindings,
+    Typeable, BelongsToTenant, isFillable, AuditTrait, RevisionableTrait;
+
+  public $transformer = 'Modules\Page\Transformers\PageTransformer';
+  public $entity = 'Modules\Page\Entities\Page';
+  public $repository = 'Modules\Page\Repositories\PageRepository';
   protected $table = 'page__pages';
+
   public $translatedAttributes = [
     'page_id',
     'title',
