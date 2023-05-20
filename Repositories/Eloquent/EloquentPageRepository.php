@@ -238,11 +238,12 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
 
   public function getItemsBy($params = false)
   {
+
     /*== initialize query ==*/
     $query = $this->model->query();
 
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include)) {//If Request all relationships
+    if (isset($params->include) && in_array('*', $params->include)) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = [];//Default relationships
@@ -250,6 +251,7 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
         $includeDefault = array_merge($includeDefault, $params->include);
       $query->with($includeDefault);//Add Relationships to query
     }
+
 
     /*== FILTERS ==*/
     if (isset($params->filter)) {
@@ -310,6 +312,11 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
       // It is important because if the one who makes the change is the administrator, you must change the data of the organization and not those of the admin
       if (isset($filter->organizationId) && !empty($filter->organizationId)) {
         $query->where("organization_id", $filter->organizationId);
+      }
+
+      if (isset($filter->id)) {
+        !is_array($filter->id) ? $filter->id = [$filter->id] : false;
+        $query->where('id', $filter->id);
       }
 
     }

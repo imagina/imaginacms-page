@@ -57,7 +57,7 @@
                           {{trans('page::common.layouts.layoutContact.layout4.titleAddressPageContact')}}
                         </div>
                       </div>
-                      <x-isite::contact.addresses/>
+                      <x-isite::contact.addresses classes="ml-3"/>
                     @endif
                     @if(json_decode(setting('isite::phones')) != [])
                       <div class="title-contact mt-2 mb-1">
@@ -66,7 +66,7 @@
                           {{trans('page::common.layouts.layoutContact.layout4.titlePhonePageContact')}}
                         </div>
                       </div>
-                      <x-isite::contact.phones/>
+                      <x-isite::contact.phones classes="ml-3"/>
                     @endif
                     @if(json_decode(setting('isite::emails')) != [])
                       <div class="title-contact mt-2 mb-1">
@@ -75,7 +75,7 @@
                           {{trans('page::common.layouts.layoutContact.layout4.titleEmailPageContact')}}
                         </div>
                       </div>
-                      <x-isite::contact.emails/>
+                      <x-isite::contact.emails classes="ml-3"/>
                     @endif
                   </div>
                 </div>
@@ -122,18 +122,18 @@
 <style>
     #contactSection .breadcrumb {
         justify-content: center;
-        margin-bottom: 27px !important;
+        margin-bottom: 27px;
     }
 
     #contactSection .breadcrumb .breadcrumb-item {
         font-size: 18px;
-        color: #fff !important;
+        color: #fff;
         font-weight: 100;
         text-transform: uppercase;
     }
 
     #contactSection .breadcrumb .breadcrumb-item a {
-        color: #fff !important;
+        color: #fff;
     }
 
     @media (max-width: 991.98px) {
@@ -142,16 +142,16 @@
         }
 
         #contactSection .content-title #breadcrumbSection ol.breadcrumb li.breadcrumb-item {
-            color: #fff !important;
+            color: #fff;
             font-size: 14px;
         }
 
         #contactSection .content-title #breadcrumbSection ol.breadcrumb li.breadcrumb-item:before {
-            color: #fff !important;
+            color: #fff;
         }
 
         #contactSection .content-title #breadcrumbSection ol.breadcrumb li.breadcrumb-item a {
-            color: #fff !important;
+            color: #fff;
             font-size: 14px;
         }
     }
@@ -188,15 +188,15 @@
     }
 
     #cardContact .card .card-body .send-msg input {
-        border: none !important;
-        border-bottom: 1px solid #c9c9c9 !important;
-        border-radius: 0 !important;
+        border: none;
+        border-bottom: 1px solid #c9c9c9;
+        border-radius: 0;
         padding: 37px 10px;
     }
 
     #cardContact .card .card-body .send-msg .btn {
         color: #fff;
-        font-size: 18px !important;
+        font-size: 18px;
         font-weight: bold;
         background: var(--primary);
         border-color: transparent;
@@ -224,6 +224,7 @@
     #cardContact .card .card-body .data-contact .contact-section .fa-phone, #cardContact .card .card-body .data-contact .contact-section .fa-map-marker, #cardContact .card .card-body .data-contact .contact-section .fa-envelope {
         color: var(--primary);
         font-size: 28px;
+        width: 28px;
     }
 
     #cardContact .card .card-body .data-contact .contact-section #componentContactAddresses a, #cardContact .card .card-body .data-contact .contact-section #componentContactPhones a, #cardContact .card .card-body .data-contact .contact-section #componentContactEmails a {
@@ -261,7 +262,7 @@
     }
 
     #cardContact .card .card-body .data-contact .contact-section #componentContactPhones, #cardContact .card .card-body .data-contact .contact-section #componentContactEmails {
-        padding-bottom: 0.5rem !important;
+        padding-bottom: 0.5rem;
     }
 
     #cardContact .card .card-body .data-contact #socialIn a i {
@@ -288,12 +289,12 @@
         }
 
         #cardContact .card-title:after {
-            margin: auto !important;
+            margin: auto;
         }
 
         #cardContact .btn {
             width: 80px;
-            font-size: 15px !important;
+            font-size: 15px;
         }
 
         #cardContact .contact-section {
@@ -329,7 +330,7 @@
         width: 47px;
         height: 47px;
         border-radius: 50%;
-        border: 2px solid var(--primary) !important;
+        border: 2px solid var(--primary);
         font-size: 24px;
         display: flex;
         justify-content: center;
