@@ -25,7 +25,7 @@ class PageDatabaseSeeder extends Seeder
     Model::unguard();
     ProcessSeeds::dispatch([
       "baseClass" => "\Modules\Page\Database\Seeders",
-      "seeds" => ["PageModuleTableSeeder", "PagesToStartProject", "CreatePagesFromModulesTableSeeder",
+      "seeds" => ["PageModuleTableSeeder", "PagesToStartProjectTableSeeder", "CreatePagesFromModulesTableSeeder",
         "LayoutsPageTableSeeder"]
     ]);
     //Seed cms pages
