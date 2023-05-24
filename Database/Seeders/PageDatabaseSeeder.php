@@ -23,11 +23,10 @@ class PageDatabaseSeeder extends Seeder
   public function run()
   {
     Model::unguard();
-    ProcessSeeds::dispatch([
-      "baseClass" => "\Modules\Page\Database\Seeders",
-      "seeds" => ["PageModuleTableSeeder", "PagesToStartProjectTableSeeder", "CreatePagesFromModulesTableSeeder",
-        "LayoutsPageTableSeeder"]
-    ]);
+    $this->call(PageModuleTableSeeder::class);
+    $this->call(PagesToStartProjectTableSeeder::class);
+    $this->call(CreatePagesFromModulesTableSeeder::class);
+    $this->call(LayoutsPageTableSeeder::class);
     //Seed cms pages
     //$this->call(CMSPagesDatabaseSeeder::class);
   }
