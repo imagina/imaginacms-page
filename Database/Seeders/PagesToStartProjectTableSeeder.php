@@ -6,10 +6,18 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Modules\Page\Entities\PageTranslation;
+use Modules\Page\Repositories\PageRepository;
 
 
 class PagesToStartProjectTableSeeder extends Seeder
 {
+
+  private $page;
+
+  public function __construct(PageRepository $page)
+  {
+    $this->page = $page;
+  }
 
   public function run()
   {
