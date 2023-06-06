@@ -238,11 +238,12 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
 
   public function getItemsBy($params = false)
   {
+
     /*== initialize query ==*/
     $query = $this->model->query();
 
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include)) {//If Request all relationships
+    if (isset($params->include) && in_array('*', $params->include)) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = [];//Default relationships
@@ -250,6 +251,7 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
         $includeDefault = array_merge($includeDefault, $params->include);
       $query->with($includeDefault);//Add Relationships to query
     }
+
 
     /*== FILTERS ==*/
     if (isset($params->filter)) {
@@ -312,6 +314,11 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
         $query->where("organization_id", $filter->organizationId);
       }
 
+      if (isset($filter->id)) {
+        !is_array($filter->id) ? $filter->id = [$filter->id] : false;
+        $query->where('id', $filter->id);
+      }
+
     }
 
     $entitiesWithCentralData = json_decode(setting("isite::tenantWithCentralData", null, "[]",true));
@@ -360,7 +367,7 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
     $query = $this->model->query();
 
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include)) {//If Request all relationships
+    if (in_array('*', $params->include ?? [])) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = [];//Default relationships
