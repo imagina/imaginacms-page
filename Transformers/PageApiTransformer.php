@@ -23,7 +23,6 @@ class PageApiTransformer extends JsonResource
       'slug' => $this->when($this->slug, $this->slug),
       'options' => $this->when($this->options, $this->options),
       'status' => $this->when(isset($this->status), $this->status ? 1 : 0),
-      'layoutId' => $this->layout_id,
       'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
       'urls' => [
         'deleteUrl' => route('api.page.page.destroy', $this->resource->id),
@@ -68,6 +67,10 @@ class PageApiTransformer extends JsonResource
       $data = array_merge_recursive($data, $this->formatFillableToModel(FieldTransformer::collection($fields)));
     }
 
+    //Set layoutId over the fiellable
+    $data["layoutId"] = $this->layoutId;
+
+    //Response
     return $data;
   }
 }
