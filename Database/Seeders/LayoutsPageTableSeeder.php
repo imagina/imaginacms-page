@@ -25,6 +25,7 @@ class LayoutsPageTableSeeder extends Seeder
           [
             'module_name' => 'Page',
             'entity_name' => 'Page',
+            'is_internal' => '1',
             'path' => "page::frontend.page.layouts.contact.{$layout}.index",
             'record_type' => 'master',
             'status' => '1',
@@ -52,6 +53,7 @@ class LayoutsPageTableSeeder extends Seeder
           [
             'module_name' => 'Page',
             'entity_name' => 'Page',
+            'is_internal' => '1',
             'path' => "page::frontend.page.layouts.our.{$layout}.index",
             'record_type' => 'master',
             'status' => '1',
@@ -78,6 +80,7 @@ class LayoutsPageTableSeeder extends Seeder
           [
             'module_name' => 'Page',
             'entity_name' => 'Page',
+            'is_internal' => '1',
             'path' => "page::frontend.page.layouts.gallery.{$layout}.index",
             'record_type' => 'master',
             'status' => '1',
