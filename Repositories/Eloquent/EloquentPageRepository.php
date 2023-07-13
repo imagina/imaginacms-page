@@ -319,6 +319,11 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
         $query->where('id', $filter->id);
       }
 
+      if (isset($filter->systemName) && !empty($filter->systemName)) {
+        is_array($filter->systemName) ? true : $filter->systemName = [$filter->systemName];
+        $query->whereIn("system_name", $filter->systemName);
+      }
+
     }
 
     $entitiesWithCentralData = json_decode(setting("isite::tenantWithCentralData", null, "[]",true));
