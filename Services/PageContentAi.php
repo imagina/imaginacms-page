@@ -10,12 +10,13 @@ class PageContentAi
 {
   public $aiService;
   private $log = "Page: Services|PageContentAi|";
-  private $maxAttempts = 3;
+  private $maxAttempts;
   private $pageRepository;
 
-  function __construct()
+  function __construct($maxAttempts = 3)
   {
     $this->aiService = new AiService();
+    $this->maxAttempts = $maxAttempts;
     $this->pageRepository = app("Modules\Page\Repositories\PageRepository");
   }
 
@@ -88,7 +89,7 @@ class PageContentAi
 
     $attempts = 0;
     do {
-      \Log::info($this->log."getNewData|Attempt:".($attempts+1));
+      \Log::info($this->log."getNewData|Attempt:".($attempts+1)."/Max:".$this->maxAttempts);
       $newData = $this->getPages(1,$page);
       if(is_null($newData)){
         $attempts++;
