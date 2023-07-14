@@ -94,7 +94,10 @@ class PageContentAi
       if(is_null($newData)){
         $attempts++;
       }else{
-        break;
+        if(isset($newData[0]['es']) && isset($newData[0]['en']))
+          break;
+        else
+          $attempts++;
       }
     }while($attempts < $this->maxAttempts);
 
@@ -109,27 +112,22 @@ class PageContentAi
 
     \Log::info($this->log."updatePage|".$page->title);
 
-    //A veces como que no llegaba el index 
-    if(isset($data['es'])){
-      
-      $dataToUpdate = [
-        'es' => [
-          'body' => $data['es']['body']
-        ],
-        'en' => [
-          'body' => $data['en']['body']
-        ]
-      ];
+    $dataToUpdate = [
+      'es' => [
+        'body' => $data['es']['body']
+      ],
+      'en' => [
+        'body' => $data['en']['body']
+      ]
+    ];
 
-      $page->update($dataToUpdate);
+    $page->update($dataToUpdate);
 
       //TODO
       //Proceso para sustituir la imagen
 
-    }
+   
 
   }
-
-
 
 }
