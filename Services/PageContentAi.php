@@ -12,6 +12,7 @@ class PageContentAi
   private $log = "Page: Services|PageContentAi|";
   private $maxAttempts;
   private $pageRepository;
+  private $pagesSystemName = ['us','contact'];
 
   function __construct($maxAttempts = 3)
   {
@@ -69,7 +70,7 @@ class PageContentAi
 
     $params = [
       "filter" => [
-        'systemName' => ['us','contact'] //Only this pages
+        'systemName' => $this->pagesSystemName//Only this pages
       ],
     ];
       
