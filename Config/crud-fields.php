@@ -9,7 +9,7 @@ return [
       'loadOptions' => [
         'apiRoute' => '/isite/v1/layouts',
         'select' => ['label' => 'title', 'id' => 'id'],
-        'requestParams' => ['filter' => ['entity_name' => 'Page', 'module_name' => 'Page']],
+        'requestParams' => ['filter' => ['entity_name' => 'Page', 'module_name' => 'Page', 'isInternal' => 1]],
       ],
       'props' => [
         'label' => 'page::common.layouts.label_pages',
