@@ -37,7 +37,10 @@ class CreatePagesFromModulesTableSeeder extends Seeder
             if(!is_null($pagesBase)){
                 \Log::info("Creating pages to Module: ".$lowercaseModule);
                 foreach ($pagesBase as $key => $page) {
-                    $existPage = $this->page->where('system_name',  $page['system_name'])->first();
+                  
+                    $params = ["filter" => ["field" => 'system_name']];
+                    $existPage = $this->page->getItem($page['system_name'], $params);
+                    
                     if (!$existPage) {
                         $this->createPage($page);
                     }
