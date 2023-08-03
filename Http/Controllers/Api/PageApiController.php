@@ -20,10 +20,12 @@ class PageApiController extends BaseCrudController
    * @var PageRepository
    */
   private $repoEntity;
-
-  public function __construct(PageRepository $page)
+  public $modelRepository;
+  
+  public function __construct(PageRepository $page, PageRepository $modelRepository)
   {
     $this->repoEntity = $page;
+    $this->modelRepository = $modelRepository;
   }
 
   /**
