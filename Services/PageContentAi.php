@@ -12,13 +12,15 @@ class PageContentAi
   private $log = "Page: Services|PageContentAi|";
   private $maxAttempts;
   private $pageRepository;
-  private $pagesSystemName = ['us','contact'];
+  private $pagesSystemName = ['us'];
+  private $fileService;
 
   function __construct($maxAttempts = 3)
   {
     $this->aiService = new AiService();
     $this->maxAttempts = $maxAttempts;
     $this->pageRepository = app("Modules\Page\Repositories\PageRepository");
+    $this->fileService = app("Modules\Media\Services\FileService");
   }
 
   public function getPages($quantity = 2,$page)
@@ -30,7 +32,7 @@ class PageContentAi
     //\Log::info($this->log."getPages|prompt: ".$prompt);
     
     //Instance attributes
-    $prompt .= $this->aiService->getStandardPrompts(["title", "body", "slug"]);
+    $prompt .= $this->aiService->getStandardPrompts(["title", "body", "slug","tags"]);
     //Call IA Service
     $response = $this->aiService->getContent($prompt, $quantity);
     \Log::info($this->log."getPages|END");
@@ -122,12 +124,31 @@ class PageContentAi
       ]
     ];
 
-    $page->update($dataToUpdate);
+    // Image Process
+    if(isset($data['image'])){
+      $file = $this->saveImage($data['image'][0]);
+      $dataToUpdate['medias_single']['mainimage'] = $file->id;
+    }
 
-      //TODO
-      //Proceso para sustituir la imagen
+    //$page->update($dataToUpdate);
+    $this->pageRepository->updateBy($page->id, $dataToUpdate);
 
+  }
+
+  /**
+   * Save image from AI
+   */
+  public function saveImage($image)
+  {
+
+    \Log::info($this->log."saveImage");
    
+    $path = $image->url;
+    $provider = $image->provider;
+
+    $fileCreated = $this->fileService->storeHotLinked($path,$provider);
+
+    return $fileCreated;
 
   }
 
