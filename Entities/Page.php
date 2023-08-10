@@ -4,6 +4,7 @@ namespace Modules\Page\Entities;
 
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Icrud\Entities\CrudModel;
 use Modules\Core\Traits\NamespacedEntity;
 use Modules\Media\Support\Traits\MediaRelation;
 use Modules\Tag\Contracts\TaggableInterface;
@@ -15,14 +16,19 @@ use Modules\Ifillable\Traits\isFillable;
 use Modules\Core\Support\Traits\AuditTrait;
 use Modules\Isite\Traits\RevisionableTrait;
 
-class Page extends Model implements TaggableInterface
+class Page extends CrudModel implements TaggableInterface
 {
-  use Translatable, TaggableTrait, NamespacedEntity, MediaRelation, hasEventsWithBindings,
-    Typeable, BelongsToTenant, isFillable, AuditTrait, RevisionableTrait;
+  use Translatable, TaggableTrait, NamespacedEntity, MediaRelation,
+    Typeable, BelongsToTenant, isFillable;
 
-  public $transformer = 'Modules\Page\Transformers\PageTransformer';
+  public $transformer = 'Modules\Page\Transformers\PageApiTransformer';
   public $entity = 'Modules\Page\Entities\Page';
   public $repository = 'Modules\Page\Repositories\PageRepository';
+  public $requestValidation = [
+    'create' => 'Modules\Page\Http\Requests\CreatePageRequest',
+    'update' => 'Modules\Page\Http\Requests\UpdatePageRequest',
+  ];
+  
   protected $table = 'page__pages';
 
   public $translatedAttributes = [
