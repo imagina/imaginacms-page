@@ -13,14 +13,12 @@ class PageContentAi
   private $maxAttempts;
   private $pageRepository;
   private $pagesSystemName = ['us'];
-  private $fileService;
 
   function __construct()
   {
     $this->aiService = new AiService();
     $this->maxAttempts = (int)setting("isite::n8nMaxAttempts", null, 3);
     $this->pageRepository = app("Modules\Page\Repositories\PageRepository");
-    $this->fileService = app("Modules\Media\Services\FileService");
   }
 
   public function getPages($quantity = 2,$page)
@@ -126,7 +124,7 @@ class PageContentAi
 
     // Image Process
     if(isset($data['image'])){
-      $file = $this->saveImage($data['image'][0]);
+      $file = $this->aiService->saveImage($data['image'][0]);
       $dataToUpdate['medias_single']['mainimage'] = $file->id;
     }
 
@@ -135,21 +133,5 @@ class PageContentAi
 
   }
 
-  /**
-   * Save image from AI
-   */
-  public function saveImage($image)
-  {
-
-    \Log::info($this->log."saveImage");
-   
-    $path = $image->url;
-    $provider = $image->provider;
-
-    $fileCreated = $this->fileService->storeHotLinked($path,$provider);
-
-    return $fileCreated;
-
-  }
 
 }
