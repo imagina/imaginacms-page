@@ -43,7 +43,6 @@ class Page extends CrudModel implements TaggableInterface
     'og_description',
     'og_image',
     'og_type',
-    'content',
   ];
   protected $fillable = [
     'is_home',
