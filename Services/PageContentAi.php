@@ -12,12 +12,12 @@ class PageContentAi
   private $log = "Page: Services|PageContentAi|";
   private $maxAttempts;
   private $pageRepository;
-  private $pagesSystemName = ['us','contact'];
+  private $pagesSystemName = ['us'];
 
-  function __construct($maxAttempts = 3)
+  function __construct()
   {
     $this->aiService = new AiService();
-    $this->maxAttempts = $maxAttempts;
+    $this->maxAttempts = (int)setting("isite::n8nMaxAttempts", null, 3);
     $this->pageRepository = app("Modules\Page\Repositories\PageRepository");
   }
 
@@ -30,7 +30,7 @@ class PageContentAi
     //\Log::info($this->log."getPages|prompt: ".$prompt);
     
     //Instance attributes
-    $prompt .= $this->aiService->getStandardPrompts(["title", "body", "slug"]);
+    $prompt .= $this->aiService->getStandardPrompts(["title", "body", "slug","tags"]);
     //Call IA Service
     $response = $this->aiService->getContent($prompt, $quantity);
     \Log::info($this->log."getPages|END");
@@ -122,13 +122,16 @@ class PageContentAi
       ]
     ];
 
-    $page->update($dataToUpdate);
+    // Image Process
+    if(isset($data['image'])){
+      $file = $this->aiService->saveImage($data['image'][0]);
+      $dataToUpdate['medias_single']['mainimage'] = $file->id;
+    }
 
-      //TODO
-      //Proceso para sustituir la imagen
-
-   
+    //$page->update($dataToUpdate);
+    $this->pageRepository->updateBy($page->id, $dataToUpdate);
 
   }
+
 
 }
