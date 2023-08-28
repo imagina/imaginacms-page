@@ -46,7 +46,7 @@
           $mapLat = (string)$location->lat;
           $mapLng = (string)$location->lng;
         @endphp
-        @if($mapLat != (string)4.6469204494764 || $mapLng != (string)-74.078579772573)
+        @if($mapLat != (string)4.6469204494764 || $mapLng != (string)-74.078579772573 || !empty(setting('isite::iframeMap')))
           <x-isite::Maps/>
         @endif
         <div class="col-12">
