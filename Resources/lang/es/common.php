@@ -33,7 +33,10 @@ return [
 
       ],
       'layout7' => [
-
+        'title1SectionForm' => '¿Tienes inquietudes?',
+        'title2SectionForm' => '¡Escríbenos!',
+        'title1SectionMap' => '¡Permítenos asesorarte!',
+        'title2SectionMap' => 'Encuéntranos aquí:',
       ],
     ],
     'layoutOur' => [
