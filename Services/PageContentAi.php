@@ -46,18 +46,25 @@ class PageContentAi
 
     \Log::info($this->log."startProcesses");
 
+    //Show infor in log
+    //showDataConnection();
+
     //Only pages to update
     $pages = $this->getPagesToUpdate();
 
-    //Get new information to each page
-    foreach ($pages as $key => $page) {
+    if(count($pages)>0){
+      //Get new information to each page
+      foreach ($pages as $key => $page) {
 
-      $newData = $this->getNewData($page);
-      
-      if(!is_null($newData)){
-        $this->updatePage($page,$newData[0]);
+        $newData = $this->getNewData($page);
+        
+        if(!is_null($newData)){
+          $this->updatePage($page,$newData[0]);
+        }
+
       }
-
+    }else{
+      \Log::info($this->log."startProcesses|Not pages to update");
     }
 
   }
