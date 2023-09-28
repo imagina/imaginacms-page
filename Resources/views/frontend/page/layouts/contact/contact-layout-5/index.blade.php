@@ -1,33 +1,13 @@
 <div class="page page-{{$page->id}} page-contact page-contact-layout-5" id="pageContactLayout5">
-  @if (isset($page) && !empty($page->mediafiles()->breadcrumbimage) && strpos($page->mediaFiles()->breadcrumbimage->extraLargeThumb, 'default.jpg') == false)
-    <div class="page-banner banner-breadcrumb-category position-relative pb-4">
-      <div class="position-absolute h-100 w-100 content-title">
-        <div class="container d-flex flex-column align-items-center w-100 h-100 justify-content-center">
-          <h1 class="title-page text-uppercase">
-            {{$page->title}}
-          </h1>
-          <div id="breadcrumbSection">
-            @include('page::frontend.partials.breadcrumb')
-          </div>
-        </div>
-      </div>
-      <div class="content-title-hidden"></div>
-      <x-media::single-image :title="$page->title" :isMedia="true" width="100%" :mediaFiles="$page->mediaFiles()"
-                             zone="breadcrumbimage"/>
-    </div>
-  @else
-    <div id="breadcrumbSection">
-      @include('page::frontend.partials.breadcrumb')
-    </div>
-    <div class="container">
-      <div class="col-12">
-        <h1 class="title-contact-main text-uppercase pt-2 pt-md-4 pb-2 pb-md-5 title-page">
-          {{ $page->title }}
-        </h1>
-      </div>
-    </div>
-  @endif
+  <div id="breadcrumbSection">
+    @include('page::frontend.partials.breadcrumb')
+  </div>
   <div class="container contact-section" id="cardContact">
+    <div class="col-12">
+      <h1 class="title-contact-main text-uppercase pt-2 pt-md-4 pb-2 pb-md-5 title-page">
+        {{ $page->title }}
+      </h1>
+    </div>
     <div class="content-form">
       <div class="card-body">
         <div class="row justify-content-between">
@@ -113,7 +93,7 @@
     $mapLat = (string)$location->lat;
     $mapLng = (string)$location->lng;
   @endphp
-  @if($mapLat != (string)4.6469204494764 || $mapLng != (string)-74.078579772573 || !empty(setting('isite::iframeMap')))
+  @if($mapLat != (string)4.6469204494764 || $mapLng != (string)-74.078579772573)
     <div class="widget-map">
       <x-isite::Maps/>
     </div>
@@ -121,7 +101,7 @@
 </div>
 
 <style>
-    .title-contact-main {
+    #cardContact .title-contact-main {
         font-size: 38px;
         color: var(--secondary);
         font-weight: bold;

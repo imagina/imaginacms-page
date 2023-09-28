@@ -8,6 +8,7 @@ use Modules\Page\Events\PageContentIsRendering;
 class PageTranslation extends Model
 {
     protected $table = 'page__page_translations';
+
     protected $fillable = [
         'page_id',
         'title',
@@ -20,6 +21,7 @@ class PageTranslation extends Model
         'og_description',
         'og_image',
         'og_type',
+        'content',
     ];
 
     protected $casts = [
