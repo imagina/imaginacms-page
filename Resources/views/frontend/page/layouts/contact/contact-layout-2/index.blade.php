@@ -12,16 +12,14 @@
       <x-media::single-image :title="$page->title" :isMedia="true" width="100%" :mediaFiles="$page->mediaFiles()"
                              zone="breadcrumbimage"/>
     @else
-      <img class="img-fluid w-100 h-100" src="{{ Theme::url('img/banner-page.jpg') }}" alt="img-{{$page->title}}">
+      <div class="pb-5 pt-5" style="background-color: var(--primary)"></div>
     @endif
   </div>
   <div class="page-content">
-    <div class="container pt-5 py-3 py-md-5">
+    <div class="container py-3 py-md-5">
       <div class="row">
-        <div class="col-12">
-          <div class="page-body mb-5">
-            {!! $page->body !!}
-          </div>
+        <div class="page-body col-12 py-3 mb-2">
+          {!! $page->body !!}
         </div>
         <div class="col-lg-6 mb-md-5">
           @php
@@ -40,11 +38,15 @@
           </div>
         </div>
         <div class="col-lg-6 mb-md-5">
-          <figure>
-            <x-media::single-image imgClasses="img-fluid w-100" :title="$page->title" :isMedia="true" width="100%"
-                                   :mediaFiles="$page->mediaFiles()"
-                                   zone="mainimage"/>
-          </figure>
+          @if (isset($page) && !empty($page->mainimage) && strpos($page->mediaFiles()->mainimage->extraLargeThumb, 'default.jpg') == false)
+            <figure>
+              <x-media::single-image imgClasses="img-fluid w-100" :title="$page->title" :isMedia="true" width="100%"
+                                     :mediaFiles="$page->mediaFiles()"
+                                     zone="mainimage"/>
+            </figure>
+          @else
+            <x-isite::Maps/>
+          @endif
         </div>
       </div>
     </div>
