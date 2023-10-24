@@ -8,7 +8,7 @@
         @include('page::frontend.partials.breadcrumb')
       </div>
     </div>
-    @if (isset($page) && empty($page->breadcrumb) && strpos($page->mediaFiles()->breadcrumbimage->extraLargeThumb, 'default.jpg') == false)
+    @if (isset($page) && !empty($page->breadcrumb) && strpos($page->mediaFiles()->breadcrumbimage->extraLargeThumb, 'default.jpg') == false)
       <x-media::single-image :title="$page->title" :isMedia="true" width="100%" :mediaFiles="$page->mediaFiles()"
                              zone="breadcrumbimage" imgClasses="img-fluid w-100 h-100"/>
     @else
@@ -40,13 +40,15 @@
           </div>
         </div>
         <div class="col-lg-4 mb-md-5">
-          <figure>
-            @if (isset($page) && empty($page->breadcrumb) && strpos($page->mediaFiles()->breadcrumbimage->extraLargeThumb, 'default.jpg') == false)
+          @if (isset($page) && !empty($page->mainimage) && strpos($page->mediaFiles()->mainimage->extraLargeThumb, 'default.jpg') == false)
+            <figure>
               <x-media::single-image :title="$page->title" :isMedia="true" width="100%"
                                      :mediaFiles="$page->mediaFiles()"
                                      zone="mainimage"/>
-            @endif
-          </figure>
+            </figure>
+          @else
+            <x-isite::Maps/>
+          @endif
         </div>
       </div>
     </div>

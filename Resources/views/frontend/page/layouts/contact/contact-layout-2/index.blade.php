@@ -5,6 +5,7 @@
         <h1 class="text-white text-uppercase title-page">
           {{$page->title}}
         </h1>
+        @include('page::frontend.partials.breadcrumb')
       </div>
     </div>
     @if (isset($page) && empty($page->breadcrumb) && strpos($page->mediaFiles()->breadcrumbimage->extraLargeThumb, 'default.jpg') == false)
@@ -16,12 +17,11 @@
   </div>
   <div class="page-content">
     <div class="container py-3 py-md-5">
-      @include('page::frontend.partials.breadcrumb')
       <div class="row">
+        <div class="page-body col-12 py-3 mb-2">
+          {!! $page->body !!}
+        </div>
         <div class="col-lg-6 mb-md-5">
-          <div class="page-body mb-2">
-            {!! $page->body !!}
-          </div>
           @php
             $formRepository = app("Modules\Iforms\Repositories\FormRepository");
             $params = [
@@ -38,11 +38,15 @@
           </div>
         </div>
         <div class="col-lg-6 mb-md-5">
-          <figure>
-            <x-media::single-image imgClasses="img-fluid w-100" :title="$page->title" :isMedia="true" width="100%"
-                                   :mediaFiles="$page->mediaFiles()"
-                                   zone="mainimage"/>
-          </figure>
+          @if (isset($page) && !empty($page->mainimage) && strpos($page->mediaFiles()->mainimage->extraLargeThumb, 'default.jpg') == false)
+            <figure>
+              <x-media::single-image imgClasses="img-fluid w-100" :title="$page->title" :isMedia="true" width="100%"
+                                     :mediaFiles="$page->mediaFiles()"
+                                     zone="mainimage"/>
+            </figure>
+          @else
+            <x-isite::Maps/>
+          @endif
         </div>
       </div>
     </div>
