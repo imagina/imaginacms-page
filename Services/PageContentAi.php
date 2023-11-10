@@ -120,23 +120,29 @@ class PageContentAi
 
     \Log::info($this->log."updatePage|".$page->title);
 
-    $dataToUpdate = [
-      'es' => [
-        'body' => $data['es']['body']
-      ],
-      'en' => [
-        'body' => $data['en']['body']
-      ]
-    ];
+    if(isset($data['es']['body'])){
 
-    // Image Process
-    if(isset($data['image'])){
-      $file = $this->aiService->saveImage($data['image'][0]);
-      $dataToUpdate['medias_single']['mainimage'] = $file->id;
+      $dataToUpdate = [
+        'es' => [
+          'body' => $data['es']['body']
+        ],
+        'en' => [
+          'body' => $data['en']['body']
+        ]
+      ];
+
+      // Image Process
+      if(isset($data['image'])){
+        $file = $this->aiService->saveImage($data['image'][0]);
+        $dataToUpdate['medias_single']['mainimage'] = $file->id;
+      }
+
+  
+      $this->pageRepository->updateBy($page->id, $dataToUpdate);
+
+    }else{
+      \Log::info($this->log."updatePage|Es-Body Not exist");
     }
-
-    //$page->update($dataToUpdate);
-    $this->pageRepository->updateBy($page->id, $dataToUpdate);
 
   }
 
