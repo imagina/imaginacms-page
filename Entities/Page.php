@@ -15,11 +15,12 @@ use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Ifillable\Traits\isFillable;
 use Modules\Core\Support\Traits\AuditTrait;
 use Modules\Isite\Traits\RevisionableTrait;
+use Modules\Iqreable\Traits\IsQreable;
 
 class Page extends CrudModel implements TaggableInterface
 {
   use Translatable, TaggableTrait, NamespacedEntity, MediaRelation,
-    Typeable, BelongsToTenant, isFillable;
+    Typeable, BelongsToTenant, isFillable, IsQreable;
 
   public $transformer = 'Modules\Page\Transformers\PageApiTransformer';
   public $entity = 'Modules\Page\Entities\Page';
