@@ -26,7 +26,7 @@ class PageContentAi
     \Log::info($this->log."getPages|INIT");
 
     //instance the prompt to generate the posts
-    $prompt = "Contenido extenso para una pagina WEB de:".$page->title.", con los siguientes atributos ";
+    $prompt = "Contenido extenso para una pagina WEB de: ".$page->title.", con los siguientes atributos:";
     //\Log::info($this->log."getPages|prompt: ".$prompt);
     
     //Instance attributes
