@@ -102,7 +102,7 @@ class PageContentAi
       if(is_null($newData)){
         $attempts++;
       }else{
-        if(isset($newData[0]['es']) && isset($newData[0]['en']))
+        if(isset($newData[0]['es']) && isset($newData[0]['en']) && isset($newData[0]['es']['body']) && isset($newData[0]['en']['body']) )
           break;
         else
           $attempts++;
@@ -120,29 +120,22 @@ class PageContentAi
 
     \Log::info($this->log."updatePage|".$page->title);
 
-    if(isset($data['es']['body'])){
-
-      $dataToUpdate = [
+    $dataToUpdate = [
         'es' => [
           'body' => $data['es']['body']
         ],
         'en' => [
           'body' => $data['en']['body']
         ]
-      ];
+    ];
 
       // Image Process
-      if(isset($data['image'])){
+    if(isset($data['image'])){
         $file = $this->aiService->saveImage($data['image'][0]);
         $dataToUpdate['medias_single']['mainimage'] = $file->id;
-      }
-
-  
-      $this->pageRepository->updateBy($page->id, $dataToUpdate);
-
-    }else{
-      \Log::info($this->log."updatePage|Es-Body Not exist");
     }
+
+    $this->pageRepository->updateBy($page->id, $dataToUpdate);
 
   }
 
