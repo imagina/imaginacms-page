@@ -60,6 +60,10 @@ class PageContentAi
         
         if(!is_null($newData)){
           $this->updatePage($page,$newData[0]);
+
+          //Set the process has completed
+          $this->aiService->saveAiCompleted("page");
+          
         }
 
       }
