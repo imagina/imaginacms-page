@@ -4,6 +4,7 @@ return [
   "sidebar" => [
     "adminPages" => "Paginas"
   ],
+  "page" => "Pagina",
   "newPage" => "Nueva pagina",
   "updatePage" => "Actualizar pagina",
   'documentation' => [

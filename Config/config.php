@@ -82,5 +82,19 @@ return [
   ],
   'documentation' => [
     'pages' => "page::cms.documentation.pages",
+  ],
+
+  // Builder
+  'builder' => [
+    'layout' => [
+      [
+        'entity' => ['label' => "page::cms.page", 'value' => "Modules\\Page\\Entities\\Page"],
+        'types' => [
+          ['label' => 'isite::cms.label.home', 'value' => 'home'],
+          ['label' => 'isite::cms.label.us', 'value' => 'us'],
+          ['label' => 'isite::cms.label.contactUs', 'value' => 'contact']
+        ]
+      ]
+    ]
   ]
 ];
