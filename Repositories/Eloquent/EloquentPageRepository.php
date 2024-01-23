@@ -23,6 +23,15 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
 {
   
   /**
+   * Attribute to define default relations
+   * all apply to index and show
+   * index apply in the getItemsBy
+   * show apply in the getItem
+   * @var array
+   */
+  protected $with = ['all' => ['files'] ];
+  
+  /**
    * Find the page set as homepage
    * @return object
    */
