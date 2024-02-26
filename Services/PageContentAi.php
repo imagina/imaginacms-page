@@ -26,7 +26,7 @@ class PageContentAi
     \Log::info($this->log."getPages|INIT");
 
     //instance the prompt to generate the posts
-    $prompt = "Contenido extenso para una pagina WEB de:".$page->title.", con los siguientes atributos ";
+    $prompt = "Contenido extenso para una pagina WEB de: ".$page->title.", con los siguientes atributos:";
     //\Log::info($this->log."getPages|prompt: ".$prompt);
     
     //Instance attributes
@@ -60,6 +60,10 @@ class PageContentAi
         
         if(!is_null($newData)){
           $this->updatePage($page,$newData[0]);
+
+          //Set the process has completed
+          $this->aiService->saveAiCompleted("page");
+          
         }
 
       }
@@ -102,10 +106,20 @@ class PageContentAi
       if(is_null($newData)){
         $attempts++;
       }else{
-        if(isset($newData[0]['es']) && isset($newData[0]['en']))
-          break;
-        else
+        if(isset($newData[0]['es']) && isset($newData[0]['en']) ){
+          $inData = $newData[0];
+
+          if(is_array($inData) && isset($inData['es']['body']) && isset($inData['en']['body'])){
+            break;
+          }else{
+            $attempts++;
+            \Log::info($this->log."getNewData|NewData Error in format");
+          }
+          
+        }else{
           $attempts++;
+          \Log::info($this->log."getNewData|NewData not ES or EN");
+        }
       }
     }while($attempts < $this->maxAttempts);
 
@@ -120,29 +134,22 @@ class PageContentAi
 
     \Log::info($this->log."updatePage|".$page->title);
 
-    if(isset($data['es']['body'])){
-
-      $dataToUpdate = [
+    $dataToUpdate = [
         'es' => [
           'body' => $data['es']['body']
         ],
         'en' => [
           'body' => $data['en']['body']
         ]
-      ];
+    ];
 
       // Image Process
-      if(isset($data['image'])){
+    if(isset($data['image'])){
         $file = $this->aiService->saveImage($data['image'][0]);
         $dataToUpdate['medias_single']['mainimage'] = $file->id;
-      }
-
-  
-      $this->pageRepository->updateBy($page->id, $dataToUpdate);
-
-    }else{
-      \Log::info($this->log."updatePage|Es-Body Not exist");
     }
+
+    $this->pageRepository->updateBy($page->id, $dataToUpdate);
 
   }
 
