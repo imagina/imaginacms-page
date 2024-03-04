@@ -45,7 +45,7 @@ class PublicController extends BasePublicController
     $result = validateLocaleFromUrl($request,['entity' => $page]);
     if(isset($result["reedirect"]))
       return redirect()->to($result["url"]);
-    
+
     $currentTranslatedPage = $page->getTranslation(locale());
 
     if(!isset($currentTranslatedPage->slug) || ($page->id == 1 && !empty($slug))){
@@ -68,7 +68,9 @@ class PublicController extends BasePublicController
     // transform the page data
     $transformedPage = json_decode(json_encode(new PageApiTransformer($page)));
 
-    return view($template, compact('page', 'pageContent','organization', 'transformedPage'));
+    return $page->renderLayout(function() use($template, $page, $pageContent, $organization, $transformedPage) {
+      return view($template, compact('page', 'pageContent','organization', 'transformedPage'));
+    });
   }
 
   /**
@@ -81,7 +83,7 @@ class PublicController extends BasePublicController
     $result = validateLocaleFromUrl($request);
     if(isset($result["reedirect"]))
       return redirect()->to($result["url"]);
-    
+
     $page = $this->page->findHomepage();
 
     if(isset(tenant()->id)) {
@@ -101,7 +103,9 @@ class PublicController extends BasePublicController
     // Return organization
     $organization = tenant() ?? null;
 
-    return view($template, compact('page', 'pageContent','organization'));
+    return $page->renderLayout(function() use($template, $page, $pageContent, $organization) {
+      return view($template, compact('page', 'pageContent','organization'));
+    });
   }
 
   /**

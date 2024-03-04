@@ -6,6 +6,7 @@ use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Icrud\Entities\CrudModel;
 use Modules\Core\Traits\NamespacedEntity;
+use Modules\Ibuilder\Traits\isBuildable;
 use Modules\Media\Support\Traits\MediaRelation;
 use Modules\Tag\Contracts\TaggableInterface;
 use Modules\Tag\Traits\TaggableTrait;
@@ -20,7 +21,7 @@ use Modules\Iqreable\Traits\IsQreable;
 class Page extends CrudModel implements TaggableInterface
 {
   use Translatable, TaggableTrait, NamespacedEntity, MediaRelation,
-    Typeable, BelongsToTenant, isFillable, IsQreable;
+    Typeable, BelongsToTenant, isFillable, IsQreable, isBuildable;
 
   public $transformer = 'Modules\Page\Transformers\PageApiTransformer';
   public $entity = 'Modules\Page\Entities\Page';
