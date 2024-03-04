@@ -101,7 +101,9 @@ class PublicController extends BasePublicController
     // Return organization
     $organization = tenant() ?? null;
 
-    return view($template, compact('page', 'pageContent','organization'));
+    return $page->renderLayout(function() use($template, $page, $pageContent, $organization) {
+      return view($template, compact('page', 'pageContent','organization'));
+    });
   }
 
   /**
