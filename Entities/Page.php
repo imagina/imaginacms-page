@@ -64,7 +64,9 @@ class Page extends CrudModel implements TaggableInterface
   ];
   
   protected $with = [
-    'fields'
+    'fields',
+    'translations',
+    'typeable',
   ];
   protected static $entityNamespace = 'asgardcms/page';
   
@@ -98,16 +100,7 @@ class Page extends CrudModel implements TaggableInterface
     return parent::__call($method, $parameters);
   }
   
-  public function getImageAttribute()
-  {
-    $thumbnail = $this->files()->where('zone', 'mainimage')->first();
-    
-    if ($thumbnail === null) {
-      return '';
-    }
-    
-    return $thumbnail;
-  }
+
   
   public function getUrlAttribute($locale=null)
   {
