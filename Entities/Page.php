@@ -11,7 +11,6 @@ use Modules\Media\Support\Traits\MediaRelation;
 use Modules\Tag\Contracts\TaggableInterface;
 use Modules\Tag\Traits\TaggableTrait;
 use Modules\Isite\Traits\Typeable;
-use Modules\Core\Icrud\Traits\hasEventsWithBindings;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Ifillable\Traits\isFillable;
 use Modules\Core\Support\Traits\AuditTrait;
@@ -30,7 +29,7 @@ class Page extends CrudModel implements TaggableInterface
     'create' => 'Modules\Page\Http\Requests\CreatePageRequest',
     'update' => 'Modules\Page\Http\Requests\UpdatePageRequest',
   ];
-  
+
   protected $table = 'page__pages';
 
   public $translatedAttributes = [
@@ -58,54 +57,54 @@ class Page extends CrudModel implements TaggableInterface
     'internal',
     'options',
   ];
-  
+
   protected $casts = [
     'is_home' => 'boolean',
     'options' => 'array',
   ];
-  
+
   protected $with = [
     'fields',
     'translations',
     'typeable',
   ];
   protected static $entityNamespace = 'asgardcms/page';
-  
+
   public function getCanonicalUrl(): string
   {
     if ($this->is_home === true) {
       return url('/');
     }
-    
+
     return route('page', $this->slug);
   }
-  
+
   public function getEditUrl(): string
   {
     return route('admin.page.page.edit', $this->id);
   }
-  
+
   public function __call($method, $parameters)
   {
     #i: Convert array to dot notation
     $config = implode('.', ['asgard.page.config.relations', $method]);
-    
+
     #i: Relation method resolver
     if (config()->has($config)) {
       $function = config()->get($config);
-      
+
       return $function($this);
     }
-    
+
     #i: No relation found, return the call to parent (Eloquent) to handle it.
     return parent::__call($method, $parameters);
   }
-  
 
-  
+
+
   public function getUrlAttribute($locale=null)
   {
-    
+
     $currentLocale = $locale ?? locale();
     if(!is_null($locale)){
        $this->slug = $this->getTranslation($locale)->slug;
@@ -113,7 +112,7 @@ class Page extends CrudModel implements TaggableInterface
 
     return \LaravelLocalization::localizeUrl( '/' . $this->slug,$currentLocale);
   }
-  
+
   public function getOptionsAttribute($value)
   {
     try {
