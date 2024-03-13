@@ -56,19 +56,19 @@ class PublicController extends BasePublicController
       return redirect()->to(\LaravelLocalization::localizeUrl("/$currentTranslatedPage->slug") , 301);
     }
 
-    $template = $this->getTemplateForPage($page);
+    return $page->renderLayout(function() use($page) {
+      $template = $this->getTemplateForPage($page);
 
-    $this->addAlternateUrls(alternate($page));
+      $this->addAlternateUrls(alternate($page));
 
-    $pageContent = $this->getContentForPage($page);
+      $pageContent = $this->getContentForPage($page);
 
-    // Return organization
-    $organization = tenant() ?? null;
+      // Return organization
+      $organization = tenant() ?? null;
 
-    // transform the page data
-    $transformedPage = json_decode(json_encode(new PageApiTransformer($page)));
+      // transform the page data
+      $transformedPage = json_decode(json_encode(new PageApiTransformer($page)));
 
-    return $page->renderLayout(function() use($template, $page, $pageContent, $organization, $transformedPage) {
       return view($template, compact('page', 'pageContent','organization', 'transformedPage'));
     });
   }
@@ -94,16 +94,16 @@ class PublicController extends BasePublicController
 
     $this->throw404IfNotFound($page);
 
-    $template = $this->getTemplateForPage($page);
+    return $page->renderLayout(function() use($page) {
+      $template = $this->getTemplateForPage($page);
 
-    $this->addAlternateUrls(alternate($page));
+      $this->addAlternateUrls(alternate($page));
 
-    $pageContent = $this->getContentForPage($page);
+      $pageContent = $this->getContentForPage($page);
 
-    // Return organization
-    $organization = tenant() ?? null;
+      // Return organization
+      $organization = tenant() ?? null;
 
-    return $page->renderLayout(function() use($template, $page, $pageContent, $organization) {
       return view($template, compact('page', 'pageContent','organization'));
     });
   }
