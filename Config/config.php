@@ -63,24 +63,38 @@ return [
   | extra view namespace.
   | By default every extra namespace will be set to false.
   */
-    'useViewNamespaces' => [
-        // Read module views from /Themes/<backend-theme-name>/views/modules/<module-name>
-        'backend-theme' => false,
-        // Read module views from /Themes/<frontend-theme-name>/views/modules/<module-name>
-        'frontend-theme' => false,
-        // Read module views from /resources/views/asgard/<module-name>
-        'resources' => false,
-    ],
-    //Media Fillables
-    'mediaFillable' => [
-        'page' => [
-            'mainimage' => 'single',
-            'gallery' => 'multiple',
-            'secondaryimage' => 'single',
-            'breadcrumbimage' => 'single',
-        ],
-    ],
-    'documentation' => [
-        'pages' => 'page::cms.documentation.pages',
-    ],
+  'useViewNamespaces' => [
+    // Read module views from /Themes/<backend-theme-name>/views/modules/<module-name>
+    'backend-theme' => false,
+    // Read module views from /Themes/<frontend-theme-name>/views/modules/<module-name>
+    'frontend-theme' => false,
+    // Read module views from /resources/views/asgard/<module-name>
+    'resources' => false,
+  ],
+  //Media Fillables
+  'mediaFillable' => [
+    'page' => [
+      'mainimage' => 'single',
+      'gallery' => 'multiple',
+      'secondaryimage' => 'single',
+      'breadcrumbimage' => 'single'
+    ]
+  ],
+  'documentation' => [
+    'pages' => "page::cms.documentation.pages",
+  ],
+
+  // Builder
+  'builder' => [
+    'layout' => [
+      [
+        'entity' => ['label' => "page::cms.page", 'value' => "Modules\\Page\\Entities\\Page"],
+        'types' => [
+          ['label' => 'isite::cms.label.home', 'value' => 'home'],
+          ['label' => 'isite::cms.label.us', 'value' => 'us'],
+          ['label' => 'isite::cms.label.contactUs', 'value' => 'contact']
+        ]
+      ]
+    ]
+  ]
 ];

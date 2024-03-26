@@ -60,6 +60,10 @@ class PageContentAi
         
         if(!is_null($newData)){
           $this->updatePage($page,$newData[0]);
+
+          //Set the process has completed
+          $this->aiService->saveAiCompleted("page");
+
         }
 
       }
@@ -102,10 +106,20 @@ class PageContentAi
       if(is_null($newData)){
         $attempts++;
       }else{
-        if(isset($newData[0]['es']) && isset($newData[0]['en']))
-          break;
-        else
+        if(isset($newData[0]['es']) && isset($newData[0]['en']) ){
+          $inData = $newData[0];
+
+          if(is_array($inData) && isset($inData['es']['body']) && isset($inData['en']['body'])){
+            break;
+          }else{
+            $attempts++;
+            \Log::info($this->log."getNewData|NewData Error in format");
+          }
+
+        }else{
           $attempts++;
+          \Log::info($this->log."getNewData|NewData not ES or EN");
+        }
       }
     }while($attempts < $this->maxAttempts);
 
