@@ -29,18 +29,22 @@ class CreatePagesFromModulesTableSeeder extends Seeder
             $lowercaseModule = strtolower($module->get('name'));
             //\Log::info("Module: ".$lowercaseModule);
 
-            $pagesBase = config('asgard.'.$lowercaseModule.'.config.pagesBase');
-            if (! is_null($pagesBase)) {
-                \Log::info('Creating pages to Module: '.$lowercaseModule);
-                foreach ($pagesBase as $key => $page) {
-                    $existPage = $this->page->where('system_name', $page['system_name'])->first();
-                    if (! $existPage) {
-                        $this->createPage($page);
-                    }
-                }
-            }
+      $pagesBase = config("asgard." . $lowercaseModule . ".config.pagesBase");
+
+      if (!is_null($pagesBase)) {
+        \Log::info("Creating pages to Module: " . $lowercaseModule);
+        foreach ($pagesBase as $key => $page) {
+          $params = ["filter" => ["field" => 'system_name']];
+          $existPage = $this->page->getItem($page['system_name'], json_decode(json_encode($params)));
+          if (!$existPage) {
+            $this->createPage($page);
+          }
         }
+      }
+
     }
+
+  }
 
     public function createPage(array $data)
     {

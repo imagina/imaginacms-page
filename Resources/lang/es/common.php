@@ -31,13 +31,16 @@ return [
             ],
             'layout6' => [
 
-            ],
-            'layout7' => [
-
-            ],
-        ],
-        'layoutOur' => [
-            'layout1' => [
+      ],
+      'layout7' => [
+        'title1SectionForm' => '¿Tienes inquietudes?',
+        'title2SectionForm' => '¡Escríbenos!',
+        'title1SectionMap' => '¡Permítenos asesorarte!',
+        'title2SectionMap' => 'Encuéntranos aquí:',
+      ],
+    ],
+    'layoutOur' => [
+      'layout1' => [
 
             ],
             'layout2' => [
