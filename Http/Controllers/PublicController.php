@@ -67,8 +67,12 @@ class PublicController extends BasePublicController
         // transform the page data
         $transformedPage = json_decode(json_encode(new PageApiTransformer($page)));
 
-        return view($template, compact('page', 'pageContent', 'organization', 'transformedPage'));
-    }
+        return $page->renderLayout(function() use($page, $pageContent, $organization, $transformedPage) {
+          $template = $this->getTemplateForPage($page);
+
+          return view($template, compact('page', 'pageContent','organization', 'transformedPage'));
+        }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization, 'transformedPage' => $transformedPage]);
+  }
 
     public function homepage(Request $request): View
     {
@@ -97,8 +101,12 @@ class PublicController extends BasePublicController
         // Return organization
         $organization = tenant() ?? null;
 
-        return view($template, compact('page', 'pageContent', 'organization'));
-    }
+        return $page->renderLayout(function() use($page, $pageContent, $organization) {
+          $template = $this->getTemplateForPage($page);
+
+          return view($template, compact('page', 'pageContent','organization'));
+        }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization]);
+  }
 
     /**
      * Find a page for the given slug.

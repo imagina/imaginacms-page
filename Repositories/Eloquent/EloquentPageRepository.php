@@ -29,7 +29,7 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
    * show apply in the getItem
    * @var array
    */
-  protected $with = ['all' => ['files'] ];
+  protected $with = ['all' => ['fields', 'translations', 'typeable', 'buildable', 'buildable.layout']];
 
   /**
    * Find the page set as homepage
@@ -37,7 +37,7 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
    */
   public function findHomepage()
   {
-    return $this->model->where('is_home', 1)->first();
+    return $this->model->where('is_home', 1)->with($this->with["all"])->first();
   }
 
   /**
