@@ -180,12 +180,10 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
 
             event(new PageWasUpdated($model, $data));
 
-            $model->setTags(Arr::get($data, 'tags', []));
+        return $model;
 
-            return $model;
-        }
-
-        return false;
+      }
+      return false;
     }
 
     public function deleteBy($criteria, $params = false)

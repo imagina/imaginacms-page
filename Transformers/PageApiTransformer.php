@@ -25,10 +25,6 @@ class PageApiTransformer extends CrudResource
       'url' => $this->url
     ];
 
-    foreach ($this->tags as $tag) {
-      $data['tags'][] = $tag->name;
-    }
-
     //Set layoutId over the fiellable
     $data["layoutId"] = $this->layoutId;
 
