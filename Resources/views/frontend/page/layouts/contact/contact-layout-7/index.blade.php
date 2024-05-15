@@ -15,7 +15,7 @@
       <x-media::single-image :title="$page->title" :isMedia="true" width="100%" :mediaFiles="$page->mediaFiles()"
                              zone="breadcrumbimage"/>
     @else
-      <div class="pb-5 pt-5" style="background-color: var(--primary)"></div>
+      <div class="pb-5 pt-5 bg-primary"></div>
     @endif
   </div>
   <div class="content-page">
