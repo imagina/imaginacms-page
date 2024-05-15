@@ -56,21 +56,21 @@ class PublicController extends BasePublicController
       return redirect()->to(\LaravelLocalization::localizeUrl("/$currentTranslatedPage->slug") , 301);
     }
 
-    return $page->renderLayout(function() use($page) {
+    $this->addAlternateUrls(alternate($page));
+
+    $pageContent = $this->getContentForPage($page);
+
+    // Return organization
+    $organization = tenant() ?? null;
+
+    // transform the page data
+    $transformedPage = json_decode(json_encode(new PageApiTransformer($page)));
+
+    return $page->renderLayout(function() use($page, $pageContent, $organization, $transformedPage) {
       $template = $this->getTemplateForPage($page);
 
-      $this->addAlternateUrls(alternate($page));
-
-      $pageContent = $this->getContentForPage($page);
-
-      // Return organization
-      $organization = tenant() ?? null;
-
-      // transform the page data
-      $transformedPage = json_decode(json_encode(new PageApiTransformer($page)));
-
       return view($template, compact('page', 'pageContent','organization', 'transformedPage'));
-    });
+    }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization, 'transformedPage' => $transformedPage]);
   }
 
   /**
@@ -94,18 +94,18 @@ class PublicController extends BasePublicController
 
     $this->throw404IfNotFound($page);
 
-    return $page->renderLayout(function() use($page) {
+    $this->addAlternateUrls(alternate($page));
+
+    $pageContent = $this->getContentForPage($page);
+
+    // Return organization
+    $organization = tenant() ?? null;
+
+    return $page->renderLayout(function() use($page, $pageContent, $organization) {
       $template = $this->getTemplateForPage($page);
 
-      $this->addAlternateUrls(alternate($page));
-
-      $pageContent = $this->getContentForPage($page);
-
-      // Return organization
-      $organization = tenant() ?? null;
-
       return view($template, compact('page', 'pageContent','organization'));
-    });
+    }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization]);
   }
 
   /**

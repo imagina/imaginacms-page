@@ -63,11 +63,7 @@ class Page extends CrudModel implements TaggableInterface
     'options' => 'array',
   ];
 
-  protected $with = [
-    'fields',
-    'translations',
-    'typeable',
-  ];
+  protected $with = [];
   protected static $entityNamespace = 'asgardcms/page';
 
   public function getCanonicalUrl(): string
