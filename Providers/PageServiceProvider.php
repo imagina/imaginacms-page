@@ -2,6 +2,7 @@
 
 namespace Modules\Page\Providers;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Events\BuildingSidebar;
@@ -21,6 +22,7 @@ use Modules\Tag\Repositories\TagManager;
 class PageServiceProvider extends ServiceProvider
 {
     use CanPublishConfiguration, CanGetSidebarClassForModule;
+
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -30,8 +32,6 @@ class PageServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -43,7 +43,7 @@ class PageServiceProvider extends ServiceProvider
         );
 
         $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
-            $event->load('pages', array_dot(trans('page::pages')));
+            $event->load('pages', Arr::dot(trans('page::pages')));
         });
 
         app('router')->bind('page', function ($id) {
@@ -54,11 +54,13 @@ class PageServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishConfig('page', 'config');
-        $this->publishConfig('page', 'permissions');
+        $this->mergeConfigFrom($this->getModuleConfigFilePath('page', 'permissions'), 'asgard.page.permissions');
+        $this->mergeConfigFrom($this->getModuleConfigFilePath('page', 'cmsPages'), 'asgard.page.cmsPages');
+        $this->mergeConfigFrom($this->getModuleConfigFilePath('page', 'cmsSidebar'), 'asgard.page.cmsSidebar');
         $this->publishConfig('page', 'crud-fields');
 
         $this->app[TagManager::class]->registerNamespace(new Page());
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        //$this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
         $this->handleAssets();
 
@@ -67,12 +69,10 @@ class PageServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
-     *
-     * @return array
      */
     public function provides()
     {
-        return array();
+        return [];
     }
 
     private function registerBindings()
