@@ -22,7 +22,7 @@
   "require": {
     "php": "^8.1",
     "composer/installers": "~1.0",
-    "imagina/tag-module": "v10.x-dev"
+    "imagina/tag-module": "^10.0"
   },
   "conflict": {
     "idavoll/page-module": "*"
