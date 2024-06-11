@@ -8,6 +8,7 @@ class PageContentIsRendering
      * @var string The body of the page to render
      */
     private $body;
+
     private $original;
 
     public function __construct($body)
@@ -16,17 +17,11 @@ class PageContentIsRendering
         $this->original = $body;
     }
 
-    /**
-     * @return string
-     */
     public function getBody()
     {
         return $this->body;
     }
 
-    /**
-     * @param string $body
-     */
     public function setBody($body)
     {
         $this->body = $body;

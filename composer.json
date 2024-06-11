@@ -20,16 +20,16 @@
     "source": "https://github.com/AsgardCms/Page"
   },
   "require": {
-    "php": "^7.1.3",
+    "php": "^8.1",
     "composer/installers": "~1.0",
-    "imagina/tag-module": "4.0.x-dev"
+    "imagina/tag-module": "^10.0"
   },
   "conflict": {
     "idavoll/page-module": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "~7.0",
-    "orchestra/testbench": "3.6.*"
+    "orchestra/testbench": "^8.5",
+    "phpunit/phpunit": "^10"
   },
   "autoload-dev": {
     "psr-4": {
@@ -39,7 +39,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "4.0.x-dev"
+      "dev-master": "4.0.x-dev",
+      "dev-v10.x": "10.0.x-dev"
     }
   },
   "minimum-stability": "dev",
