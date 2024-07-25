@@ -25,6 +25,7 @@ class PageDatabaseSeeder extends Seeder
         $this->call(PagesToStartProjectTableSeeder::class);
         $this->call(CreatePagesFromModulesTableSeeder::class);
         $this->call(LayoutsPageTableSeeder::class);
+        $this->call(DeleteCMSPagesDatabaseSeeder::class);
         //Seed cms pages
         //$this->call(CMSPagesDatabaseSeeder::class);
     }
