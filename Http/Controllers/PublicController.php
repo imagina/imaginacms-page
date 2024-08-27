@@ -65,11 +65,14 @@ class PublicController extends BasePublicController
         // transform the page data
         $transformedPage = json_decode(json_encode(new PageApiTransformer($page)));
 
+      $viewIbuilderMetaTags = 'page::frontend.partials.metas';
+
     return $page->renderLayout(function() use($page, $pageContent, $organization, $transformedPage) {
       $template = $this->getTemplateForPage($page);
 
       return view($template, compact('page', 'pageContent','organization', 'transformedPage'));
-    }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization, 'transformedPage' => $transformedPage]);
+    }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization, 'transformedPage' => $transformedPage,
+      "viewIbuilderMetaTags"=> $viewIbuilderMetaTags]);
   }
 
     public function homepage(Request $request): View
@@ -97,11 +100,14 @@ class PublicController extends BasePublicController
         // Return organization
         $organization = tenant() ?? null;
 
+      $viewIbuilderMetaTags = 'page::frontend.partials.metas';
+
     return $page->renderLayout(function() use($page, $pageContent, $organization) {
       $template = $this->getTemplateForPage($page);
 
       return view($template, compact('page', 'pageContent','organization'));
-    }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization]);
+    }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization,
+        'viewIbuilderMetaTags'=> $viewIbuilderMetaTags]);
   }
 
     /**
