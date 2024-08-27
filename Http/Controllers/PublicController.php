@@ -70,7 +70,8 @@ class PublicController extends BasePublicController
       $template = $this->getTemplateForPage($page);
 
       return view($template, compact('page', 'pageContent','organization', 'transformedPage'));
-    }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization, 'transformedPage' => $transformedPage]);
+    }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization, 'transformedPage' => $transformedPage,
+        "IbuilderLayoutMetaTags"=> 'page::frontend.partials.metas']);
   }
 
   /**
@@ -105,7 +106,8 @@ class PublicController extends BasePublicController
       $template = $this->getTemplateForPage($page);
 
       return view($template, compact('page', 'pageContent','organization'));
-    }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization]);
+    }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization,
+        'IbuilderLayoutMetaTags'=> 'page::frontend.partials.metas']);
   }
 
   /**
