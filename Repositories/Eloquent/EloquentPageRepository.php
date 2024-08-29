@@ -21,7 +21,7 @@ use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 class EloquentPageRepository extends EloquentCrudRepository implements PageRepository
 {
-  
+
   /**
    * Attribute to define default relations
    * all apply to index and show
@@ -29,17 +29,17 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
    * show apply in the getItem
    * @var array
    */
-  protected $with = ['all' => ['files'] ];
-  
+  protected $with = ['all' => ['fields', 'translations', 'typeable', 'buildable', 'buildable.layout']];
+
   /**
    * Find the page set as homepage
    * @return object
    */
   public function findHomepage()
   {
-    return $this->model->where('is_home', 1)->first();
+    return $this->model->where('is_home', 1)->with($this->with["all"])->first();
   }
-  
+
   /**
    * Filter query
    *
@@ -49,18 +49,18 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
    */
   public function filterQuery($query, $filter, $params)
   {
-  
+
     if (isset($filter->tagId)) {
       $query->whereTag($filter->tagId, "id");
     }
-  
+
     //Order by
     if (isset($filter->order)) {
       $orderByField = $filter->order->field ?? 'created_at';//Default field
       $orderWay = $filter->order->way ?? 'desc';//Default way
       $query->orderBy($orderByField, $orderWay);//Add order to query
     }
-  
+
     //add filter by search
     if (isset($filter->search) && $filter->search) {
       //find search in columns
@@ -71,7 +71,7 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
           $query->orWhere('body', 'LIKE', "%{$term}%");
           $query->orWhere('slug', 'LIKE', "%{$term}%");
           $words = explode(' ', trim($filter->search));
-        
+
           //queryng word by word
           if (count($words) > 1)
             foreach ($words as $index => $word) {
@@ -80,27 +80,27 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
                   ->orWhere('body', 'like', "%" . $word . "%");
               }
             }//foreach
-        
+
         })->orWhere(function ($query) use ($term) {
           $query->whereTag($term, 'name');
         })->orWhere('id', $term);
       });
     }
-  
+
     $entitiesWithCentralData = json_decode(setting("isite::tenantWithCentralData", null, "[]",true));
     $tenantWithCentralData = in_array("page", $entitiesWithCentralData);
-  
-  
+
+
     if ($tenantWithCentralData && isset(tenant()->id)) {
       $model = $this->model;
-    
+
       //If an organization is in the Iadmin, just show them their information
       //For the administrator does not apply because he has no organization
       // filter->type=="cms" - When they reload the iadmin they make a request looking for the cms types
       if ((isset($params->setting) && isset($params->setting->fromAdmin) && $params->setting->fromAdmin==false) || (isset($filter->type) && $filter->type=="cms") ) {
         $query->withoutTenancy();
       }
-    
+
       $query->where(function ($query) use ($model) {
         $query->where($model->qualifyColumn(BelongsToTenant::$tenantIdColumn), tenant()->getTenantKey())
           ->orWhereNull($model->qualifyColumn(BelongsToTenant::$tenantIdColumn));
@@ -108,8 +108,8 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
     }
     return $query;
   }
-  
-  
+
+
   /**
    * Method to sync Model Relations
    *
@@ -120,7 +120,7 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
   {
     //Get model relations data from attribute of model
     $modelRelationsData = ($model->modelRelations ?? []);
-  
+
     /**
      * Note: Add relation name to replaceSyncModelRelations attribute to replace it
      *
@@ -130,7 +130,7 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
      * }
      *
      */
-  
+
     //Response
     return $model;
   }
@@ -138,80 +138,78 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
 
     public function updateBy($criteria, $data, $params = false)
     {
-  
+
       $query = $this->model->query();
-  
+
       //Event updating model
       if (method_exists($this->model, 'updatingCrudModel'))
         $this->model->updatingCrudModel(['data' => $data, 'params' => $params, 'criteria' => $criteria]);
-  
-  
+
+
       if (isset($params->filter)) {
         $filter = $params->filter;
-  
+
         //Update by field
         if (isset($filter->field))
           $field = $filter->field;
       }
-  
-    
+
+
       $model = $query->where($field ?? 'id', $criteria)->first();
-  
+
       if (isset($model->id)) {
-  
+
         if (Arr::get($data, 'is_home') === '1') {
           $this->removeOtherHomepage($model->id);
         }
-  
+
         event($event = new PageIsUpdating($model, $data));
-  
+
         //force it into the system name setter
         if(empty($data["system_name"]))
           $data["system_name"] = $model->system_name;
-        
+
         $model->update($data);
-  
+
         //Event updated model
         if (method_exists($model, 'updatedCrudModel'))
           $model->updatedCrudModel(['data' => $data, 'params' => $params, 'criteria' => $criteria]);
-  
+
         event(new PageWasUpdated($model, $data));
-  
-        $model->setTags(Arr::get($data, 'tags', []));
-  
+
         return $model;
-  
+
       }
       return false;
     }
-  
-  
+
+
     public function deleteBy($criteria, $params = false)
     {
-    
+
       $query = $this->model->query();
-  
-    
+
+
       if (isset($params->filter)) {
         $filter = $params->filter;
-  
+
         if (isset($filter->field))//Where field
           $field = $filter->field;
       }
-  
-   
+
+
       $model = $query->where($field ?? 'id', $criteria)->first();
-  
+
       if (isset($model->id)) {
         $model->untag();
-  
+
         event(new PageWasDeleted($model));
-  
+
         return $model->delete();
-  
+
       }
       return false;
     }
-    
-    
+
+
 }

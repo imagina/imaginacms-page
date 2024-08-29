@@ -8,7 +8,7 @@
 <meta property="og:title" content="{{$page->og_title??$page->meta_title  ?? $page->title}} | @setting('core::site-name') "/>
 <meta property="og:type" content="{{$page->og_image??'website'}}"/>
 <meta property="og:url" content="{{canonical_url()}}"/>
-<meta property="og:image" content="{{url($page->og_image??$page->image->path??'')}}"/>
+<meta property="og:image" content="{{url($page->og_image??$page->image->path?? $page->mediaFiles()->mainimage->path ??'')}}"/>
 <meta property="og:description" content="{{$page->og_description??$page->meta_description ??strip_tags($page->body) }}"/>
 <meta property="og:site_name" content="{{Setting::get('core::site-name') }}"/>
 <meta property="og:locale" content="{{config('asgard.iblog.config.oglocale')}}">

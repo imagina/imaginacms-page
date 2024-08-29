@@ -4,9 +4,7 @@ namespace Modules\Page\Database\Seeders;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
-use Modules\Page\Entities\PageTranslation;
 use Modules\Page\Repositories\PageRepository;
-use Modules\Isite\Jobs\ProcessSeeds;
 
 class PageDatabaseSeeder extends Seeder
 {
@@ -27,6 +25,7 @@ class PageDatabaseSeeder extends Seeder
     $this->call(PagesToStartProjectTableSeeder::class);
     $this->call(CreatePagesFromModulesTableSeeder::class);
     $this->call(LayoutsPageTableSeeder::class);
+    $this->call(DeleteCMSPagesDatabaseSeeder::class);
     //Seed cms pages
     //$this->call(CMSPagesDatabaseSeeder::class);
   }

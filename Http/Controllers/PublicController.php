@@ -45,7 +45,7 @@ class PublicController extends BasePublicController
     $result = validateLocaleFromUrl($request,['entity' => $page]);
     if(isset($result["reedirect"]))
       return redirect()->to($result["url"]);
-    
+
     $currentTranslatedPage = $page->getTranslation(locale());
 
     if(!isset($currentTranslatedPage->slug) || ($page->id == 1 && !empty($slug))){
@@ -55,8 +55,6 @@ class PublicController extends BasePublicController
     if ( !empty($slug) && $slug !== $currentTranslatedPage->slug) {
       return redirect()->to(\LaravelLocalization::localizeUrl("/$currentTranslatedPage->slug") , 301);
     }
-
-    $template = $this->getTemplateForPage($page);
 
     $this->addAlternateUrls(alternate($page));
 
@@ -68,7 +66,12 @@ class PublicController extends BasePublicController
     // transform the page data
     $transformedPage = json_decode(json_encode(new PageApiTransformer($page)));
 
-    return view($template, compact('page', 'pageContent','organization', 'transformedPage'));
+    return $page->renderLayout(function() use($page, $pageContent, $organization, $transformedPage) {
+      $template = $this->getTemplateForPage($page);
+
+      return view($template, compact('page', 'pageContent','organization', 'transformedPage'));
+    }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization, 'transformedPage' => $transformedPage,
+        "IbuilderLayoutMetaTags"=> 'page::frontend.partials.metas']);
   }
 
   /**
@@ -81,7 +84,7 @@ class PublicController extends BasePublicController
     $result = validateLocaleFromUrl($request);
     if(isset($result["reedirect"]))
       return redirect()->to($result["url"]);
-    
+
     $page = $this->page->findHomepage();
 
     if(isset(tenant()->id)) {
@@ -92,8 +95,6 @@ class PublicController extends BasePublicController
 
     $this->throw404IfNotFound($page);
 
-    $template = $this->getTemplateForPage($page);
-
     $this->addAlternateUrls(alternate($page));
 
     $pageContent = $this->getContentForPage($page);
@@ -101,7 +102,12 @@ class PublicController extends BasePublicController
     // Return organization
     $organization = tenant() ?? null;
 
-    return view($template, compact('page', 'pageContent','organization'));
+    return $page->renderLayout(function() use($page, $pageContent, $organization) {
+      $template = $this->getTemplateForPage($page);
+
+      return view($template, compact('page', 'pageContent','organization'));
+    }, ['page' => $page, 'pageContent' => $pageContent, 'organization' => $organization,
+        'IbuilderLayoutMetaTags'=> 'page::frontend.partials.metas']);
   }
 
   /**
