@@ -123,4 +123,13 @@ class Page extends CrudModel implements TaggableInterface
     $this->attributes['system_name'] = !empty($value) ? $value : \Str::slug($this->title, '-');
   }
 
+    public function getCacheClearableData()
+    {
+        return [
+            'urls' => [
+                $this->url
+            ]
+        ];
+    }
+
 }
