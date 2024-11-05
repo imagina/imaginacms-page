@@ -1,3 +1,4 @@
+<title>{{$page->meta_title ?? $page->title }} | @setting('core::site-name')</title>
 <meta name="title" content="{{$page->meta_title ?? $page->title }} | @setting('core::site-name') "/>
 <meta name="description" content="{{$page->meta_description ?? strip_tags($page->body) }}"/>
 <!-- Schema.org para Google+ -->
