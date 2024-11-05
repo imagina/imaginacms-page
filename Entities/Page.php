@@ -128,10 +128,13 @@ class Page extends CrudModel implements TaggableInterface
 
     public function getCacheClearableData()
     {
-        return [
-            'urls' => [
-                $this->url
-            ]
-        ];
+      $baseUrls = [];
+
+      if (!$this->wasRecentlyCreated) {
+        $baseUrls[] = $this->url;
+      }
+      $urls = ['urls' => $baseUrls];
+
+      return $urls;
     }
 }
