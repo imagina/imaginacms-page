@@ -186,8 +186,8 @@ class PublicController extends BasePublicController
             $tpl = $layoutPath;
         }
 
-        //if isset tenant initialized have full priority
-        elseif (isset(tenant()->id)) {
+        //if isset tenant initialized have full priority | Only singleDatabase because in new version Tenant V10, The layouts are managed with the ibuilder
+        elseif (isset(tenant()->id) && config("tenancy.mode")=="singleDatabase") {
             $organization = tenant();
 
             $layoutPath = $organization->layout->path;

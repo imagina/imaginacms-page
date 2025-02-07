@@ -87,8 +87,11 @@ class EloquentPageRepository extends EloquentCrudRepository implements PageRepos
       });
     }
 
-    $entitiesWithCentralData = json_decode(setting("isite::tenantWithCentralData", null, "[]",true));
+    $entitiesWithCentralData = json_decode(setting("itenant::tenantWithCentralData", null, "[]",true));
     $tenantWithCentralData = in_array("page", $entitiesWithCentralData);
+
+    //$tenantWithCentralData = true;
+
 
 
     if ($tenantWithCentralData && isset(tenant()->id)) {
