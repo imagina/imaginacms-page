@@ -22,7 +22,8 @@ class PageApiTransformer extends CrudResource
       'urls' => [
         'deleteUrl' => route('api.page.page.destroy', $this->resource->id),
       ],
-      'url' => $this->url
+      'url' => $this->url,
+      'tags' => $this->getNameTags(),
     ];
 
     //Set layoutId over the fiellable
