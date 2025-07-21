@@ -98,43 +98,56 @@ class Page extends CrudModel implements TaggableInterface
   }
 
 
-
-  public function getUrlAttribute($locale=null)
+  public function getUrlAttribute($locale = null)
   {
-
     $currentLocale = $locale ?? locale();
-    if(!is_null($locale)){
-       $this->slug = $this->getTranslation($locale)->slug;
+
+    $slug = $this->getTranslation($currentLocale)?->slug ?? $this->slug ?? '';
+
+    if (empty($slug)) return "";
+
+    return \LaravelLocalization::localizeUrl('/' . $slug, $currentLocale);
+  }
+
+  public function getOptionsAttribute($value)
+  {
+    $response = json_decode($value);
+
+    if (is_string($response)) {
+      $response = json_decode($response);
     }
 
-        return \LaravelLocalization::localizeUrl('/'.$this->slug, $currentLocale);
-    }
-
-    public function getOptionsAttribute($value)
-    {
-      $response = json_decode($value);
-
-      if(is_string($response)) {
-        $response = json_decode($response);
-      }
-
-      return $response;
-    }
+    return $response;
+  }
 
   public function setSystemNameAttribute($value)
   {
     $this->attributes['system_name'] = !empty($value) ? $value : \Str::slug($this->title, '-');
   }
 
-    public function getCacheClearableData()
-    {
-      $baseUrls = [];
+  public function getCacheClearableData()
+  {
+    $baseUrls = [];
 
-      if (!$this->wasRecentlyCreated) {
-        $baseUrls[] = $this->url;
-      }
-      $urls = ['urls' => $baseUrls];
-
-      return $urls;
+    if (!$this->wasRecentlyCreated) {
+      $baseUrls = array_merge($baseUrls, $this->getAllLocalizedUrls());
     }
+    $urls = ['urls' => $baseUrls];
+
+    return $urls;
+  }
+
+  public function getAllLocalizedUrls(): array
+  {
+    $urls = [];
+
+    foreach (array_keys(\LaravelLocalization::getSupportedLocales()) as $localeCode) {
+      $url = $this->getUrlAttribute($localeCode);
+      if ($url) {
+        $urls[] = $url;
+      }
+    }
+
+    return $urls;
+  }
 }
